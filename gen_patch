@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+# Download original source code
+if [ ! -f mysql-cluster-7.1.15a.tar.gz ]
+then
+	wget -O mysql-cluster-7.1.15a.tar.gz http://dev.mysql.com/get/Downloads/MySQL-Cluster-7.1/mysql-cluster-gpl-7.1.15a.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
+fi
+
+# Extract archive, add debian files
+rm -rf mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
+mkdir mysql-cluster-7.1.15a.orig
+tar -C mysql-cluster-7.1.15a.orig --strip-components=1 -zxvf mysql-cluster-7.1.15a.tar.gz
+cp -arv mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
+cp -arv debian mysql-cluster-7.1.15a
+
+# Generate diff
+set -e
+diff -urNad mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a | gzip -9 > mysql-cluster-7.1_7.1.15a-0.1.patch.gz
+set +e
+
+# Cleanup
+rm -rf mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
+

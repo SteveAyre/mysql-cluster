@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+# Build options to speed up build for development
+# TODO Comment this out when testing/building final package!
+export DEB_BUILD_OPTIONS=nocheck
+
+# Download original source code
+if [ ! -f mysql-cluster-7.1.15a.tar.gz ]
+then
+	wget -O mysql-cluster-7.1.15a.tar.gz http://dev.mysql.com/get/Downloads/MySQL-Cluster-7.1/mysql-cluster-gpl-7.1.15a.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
+fi
+
+# Extract archive, add debian files
+rm -rf mysql-cluster-7.1.15a
+tar -C mysql-cluster-7.1.15a --strip-components=1 -zxvf mysql-cluster-7.1.15a.tar.gz
+cp -ar debian mysql-cluster-7.1.15a
+
+# Compile packages
+cd mysql-cluster-7.1.15a
+dpkg-buildpackage -b
+cd ..
+
