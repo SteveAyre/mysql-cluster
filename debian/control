@@ -1,0 +1,199 @@
+Source: mysql-cluster-7.1
+Section: misc
+Priority: optional
+Maintainer: Steven Ayre <steveayre@gmail.com>
+Uploaders: Steven Ayre <steveayre@gmail.com>
+Build-Depends: libtool (>= 1.4.2-7), procps | hurd,  debhelper (>= 7.0.15), file (>= 3.28), libncurses5-dev (>= 5.0-6), perl (>= 5.6.0), libwrap0-dev (>= 7.6-8.3), zlib1g-dev (>= 1:1.1.3-5), libreadline-dev, psmisc, po-debconf, chrpath, automake1.9, doxygen, texlive-latex-base, ghostscript, dpatch, gawk, bison, lsb-release, hardening-wrapper
+Standards-Version: 3.9.1
+Homepage: http://dev.mysql.com/
+
+Package: libmysqlclusterclient16
+Section: libs
+Architecture: any
+Depends: mysql-common (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: libmysqlclient16
+Description: MySQL Cluster database client library
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the client library.
+ .
+ This is the cluster version of libmysqlclient16, but binary compatibility was
+ broken so this packages the cluster version as libmysqlclusterclient16.
+
+Package: libmysqlclusterclient-dev
+Architecture: any
+Section: libdevel
+Depends: libmysqlclusterclient16 (= ${binary:Version}), zlib1g-dev, ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libmysqlclient16-dev, libmysqlclient15-dev, libmysqlclient14-dev, libmysqlclient12-dev, libmysqlclient10-dev
+Description: MySQL Cluster database development files
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes development libraries and header files.
+ .
+ This is the cluster version of libmysqlclient16, but binary compatibility was
+ broken so this packages the cluster version as libmysqlclusterclient16.
+
+Package: libndbclient4
+Section: libs
+Architecture: any
+Depends: mysql-common (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
+Suggests: libmysqlclient16, libmysqlclusterclient16
+Description: MySQL Cluster database client library
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the NDB client library.
+
+Package: libndbclient-dev
+Architecture: any
+Section: libdevel
+Depends: libndbclient4 (= ${binary:Version}), zlib1g-dev, ${shlibs:Depends}, ${misc:Depends}
+Description: MySQL Cluster database development files
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes development libraries and header files.
+
+Package: mysql-cluster-client-7.1
+Architecture: any
+Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-common (>= ${source:Version}), libmysqlclient16 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Provides: virtual-mysql-cluster-client, mysql-cluster-client
+Suggests: mysql-client
+Description: MySQL Cluster database client binaries
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the NDB client binaries.
+
+Package: mysql-cluster-client
+Section: database
+Architecture: all
+Depends: mysql-cluster-cluster-7.1, ${misc:Depends}
+Description: MySQL Cluster database client (metapackage depending on the latest version)
+ This is an empty package that depends on the current "best" version of
+ mysql-cluster-client (currently mysql-cluster-client-7.1), as determined by the MySQL
+ maintainers. Install this package if in doubt about which MySQL
+ version you need. That will install the version recommended by the
+ package maintainers.
+ .
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+
+Package: mysql-cluster-server-sql-core-7.1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: mysql-server-5.1, mysql-server-5.0
+Provides: mysql-cluster-server-core
+Description: MySQL Cluster database server sql node binaries
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the server binaries for the SQL node, but doesn't
+ contain all the infrastructure needed to setup system databases.
+
+#Package: mysql-cluster-server-sql-7.1
+#Architecture: any
+#Suggests: tinyca
+#Recommends: mailx, libhtml-template-perl
+#Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
+#Depends: mysql-client-5.1 (>= ${source:Version}), libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-server-core-5.1 (= ${binary:Version})
+#Conflicts: mysql-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1
+#Provides: mysql-server, mysql-cluster-server, virtual-mysql-server
+#Replaces: mysql-server (<< ${source:Version}), mysql-server-5.0, libmysqlclient-dev (<= 5.1.41-1)
+#Description: MySQL Cluster database server sql node binaries and system database setup
+# MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+# server. SQL (Structured Query Language) is the most popular database query
+# language in the world. The main goals of MySQL are speed, robustness and
+# ease of use.
+# .
+# This package contains all the infrastructure needed to setup system
+# databases.
+
+Package: mysql-cluster-server-sql
+Section: database
+Architecture: all
+Depends: mysql-cluster-server-sql-7.1, ${misc:Depends}
+Description: MySQL Cluster database server sql node (metapackage depending on the latest version)
+ This is an empty package that depends on the current "best" version of
+ mysql-cluster-server-sql (currently mysql-server-sql-7.1), as determined
+ by the MySQL maintainers. Install this package if in doubt about which MySQL
+ version you need. That will install the version recommended by the
+ package maintainers.
+ .
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+
+Package: mysql-cluster-server-mgmt-7.1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Provides: mysql-cluster-server-mgmt
+Description: MySQL Cluster database server management node binaries
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the server binaries for the management node.
+
+Package: mysql-cluster-server-mgmt
+Section: database
+Architecture: all
+Depends: mysql-cluster-server-mgmt-7.1, ${misc:Depends}
+Description: MySQL Cluster database server management node (metapackage depending on the latest version)
+ This is an empty package that depends on the current "best" version of
+ mysql-cluster-server-mgmt (currently mysql-cluster-server-mgmt-5.1), as determined
+ by the MySQL maintainers. Install this package if in doubt about which MySQL
+ version you need. That will install the version recommended by the
+ package maintainers.
+ .
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+
+Package: mysql-cluster-server-data-7.1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Provides: mysql-cluster-server-data
+Description: MySQL Cluster database server data node binaries
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the server binaries for the data node.
+
+Package: mysql-cluster-server-data
+Section: database
+Architecture: all
+Depends: mysql-cluster-server-data-7.1, ${misc:Depends}
+Description: MySQL Cluster database server data node (metapackage depending on the latest version)
+ This is an empty package that depends on the current "best" version of
+ mysql-cluster-server-data (currently mysql-cluster-server-data-7.1), as determined
+ by the MySQL maintainers. Install this package if in doubt about which MySQL
+ version you need. That will install the version recommended by the
+ package maintainers.
+ .
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+

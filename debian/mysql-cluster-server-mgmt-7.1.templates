@@ -1,0 +1,6 @@
+Template: mysql-cluster-server-mgmt-7.1/start_on_boot
+Type: boolean
+Default: true
+_Description: Start the MySQL NDB mgmt node server on boot?
+ The MySQL NDB mgmt node can be launched automatically at boot time or manually
+ with the '/etc/init.d/mysql-ndb-mgm start' command.

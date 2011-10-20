@@ -1,0 +1,46 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# Description: libmysqld examples Makefile needs libmysql.a path updating to use builddir not srcdir
+
+@DPATCH@
+diff -urNad mysql-cluster-gpl-7.1.15a.orig/libmysqld/examples/Makefile.am mysql-cluster-gpl-7.1.15a/libmysqld/examples/Makefile.am
+--- mysql-cluster-gpl-7.1.15a.orig/libmysqld/examples/Makefile.am	2011-10-10 19:02:44.000000000 +0100
++++ mysql-cluster-gpl-7.1.15a/libmysqld/examples/Makefile.am	2011-10-10 19:03:50.000000000 +0100
+@@ -38,7 +38,7 @@
+ 		-I$(top_srcdir) -I$(top_srcdir)/client -I$(top_srcdir)/regex \
+ 		$(openssl_includes)
+ LIBS =		@LIBS@ @WRAPLIBS@ @CLIENT_LIBS@ $(yassl_libs)
+-LDADD =		@CLIENT_EXTRA_LDFLAGS@ $(top_srcdir)/libmysqld/libmysqld.a \
++LDADD =		@CLIENT_EXTRA_LDFLAGS@ $(top_builddir)/libmysqld/libmysqld.a \
+ 		@LIBDL@ $(CXXLDFLAGS) \
+                 @NDB_SCI_LIBS@
+ 
+diff -urNad mysql-cluster-gpl-7.1.15a.orig/libmysqld/examples/Makefile.in mysql-cluster-gpl-7.1.15a/libmysqld/examples/Makefile.in
+--- mysql-cluster-gpl-7.1.15a.orig/libmysqld/examples/Makefile.in	2011-10-10 19:02:44.000000000 +0100
++++ mysql-cluster-gpl-7.1.15a/libmysqld/examples/Makefile.in	2011-10-10 19:04:07.000000000 +0100
+@@ -80,7 +80,7 @@
+ 	completion_hash.$(OBJEXT)
+ mysql_OBJECTS = $(nodist_mysql_OBJECTS)
+ am__DEPENDENCIES_1 =
+-am__DEPENDENCIES_2 = $(top_srcdir)/libmysqld/libmysqld.a \
++am__DEPENDENCIES_2 = $(top_builddir)/libmysqld/libmysqld.a \
+ 	$(am__DEPENDENCIES_1)
+ mysql_DEPENDENCIES = $(am__DEPENDENCIES_2)
+ nodist_mysql_client_test_embedded_OBJECTS =  \
+@@ -89,7 +89,7 @@
+ 	$(nodist_mysql_client_test_embedded_OBJECTS)
+ mysql_client_test_embedded_LDADD = $(LDADD)
+ mysql_client_test_embedded_DEPENDENCIES =  \
+-	$(top_srcdir)/libmysqld/libmysqld.a $(am__DEPENDENCIES_1)
++	$(top_builddir)/libmysqld/libmysqld.a $(am__DEPENDENCIES_1)
+ nodist_mysqltest_embedded_OBJECTS = mysqltest.$(OBJEXT)
+ mysqltest_embedded_OBJECTS = $(nodist_mysqltest_embedded_OBJECTS)
+ mysqltest_embedded_DEPENDENCIES = $(am__DEPENDENCIES_2) \
+@@ -445,7 +445,7 @@
+ 		-I$(top_srcdir) -I$(top_srcdir)/client -I$(top_srcdir)/regex \
+ 		$(openssl_includes)
+ 
+-LDADD = @CLIENT_EXTRA_LDFLAGS@ $(top_srcdir)/libmysqld/libmysqld.a \
++LDADD = @CLIENT_EXTRA_LDFLAGS@ $(top_builddir)/libmysqld/libmysqld.a \
+ 		@LIBDL@ $(CXXLDFLAGS) \
+                 @NDB_SCI_LIBS@
+ 

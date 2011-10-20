@@ -1,0 +1,18 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# Description: ndb_version mismatch occurs on versions with an 'a' suffix
+
+@DPATCH@
+diff -urNad mysql-cluster-gpl-7.1.15a.orig/mysql-test/suite/ndb/t/ndb_mgm.test mysql-cluster-gpl-7.1.15a/mysql-test/suite/ndb/t/ndb_mgm.test
+--- mysql-cluster-gpl-7.1.15a.orig/mysql-test/suite/ndb/t/ndb_mgm.test	2011-10-10 19:02:57.000000000 +0100
++++ mysql-cluster-gpl-7.1.15a/mysql-test/suite/ndb/t/ndb_mgm.test	2011-10-11 21:39:09.000000000 +0100
+@@ -24,8 +24,8 @@
+ # extract ndb-X.X.X(if the server version string does not include NDB version
+ # we should add a 'ndb_version' variable installed by ha_ndbcluster)
+ let $ndb_version=
+-  `select SUBSTRING_INDEX(REPLACE('$MYSQL_SERVER_VERSION',
+-                                  '$mysql_version-', ''), '-', 2)`;
++  `select REPLACE(SUBSTRING_INDEX(REPLACE('$MYSQL_SERVER_VERSION',
++                                  '$mysql_version-', ''), '-', 2), 'a', '')`;
+ #echo ndb_version: $ndb_version;
+ 
+ let $mysql_version = mysql-$mysql_version;

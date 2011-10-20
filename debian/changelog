@@ -1,0 +1,5 @@
+mysql-cluster-7.1 (7.1.15a-0.1) stable; urgency=low
+
+  * Initial Release.
+
+ -- Steven Ayre <steveayre@gmail.com>  Wed, 05 Oct 2011 20:15:00 +0100
