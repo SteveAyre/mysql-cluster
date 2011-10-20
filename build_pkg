@@ -12,6 +12,7 @@ fi
 
 # Extract archive, add debian files
 rm -rf mysql-cluster-7.1.15a
+mkdir mysql-cluster-7.1.15a
 tar -C mysql-cluster-7.1.15a --strip-components=1 -zxvf mysql-cluster-7.1.15a.tar.gz
 cp -ar debian mysql-cluster-7.1.15a
 
