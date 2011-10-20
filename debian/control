@@ -107,23 +107,23 @@ Description: MySQL Cluster database server sql node binaries
  This package includes the server binaries for the SQL node, but doesn't
  contain all the infrastructure needed to setup system databases.
 
-#Package: mysql-cluster-server-sql-7.1
-#Architecture: any
-#Suggests: tinyca
-#Recommends: mailx, libhtml-template-perl
-#Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
-#Depends: mysql-client-5.1 (>= ${source:Version}), libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-server-core-5.1 (= ${binary:Version})
-#Conflicts: mysql-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1
-#Provides: mysql-server, mysql-cluster-server, virtual-mysql-server
-#Replaces: mysql-server (<< ${source:Version}), mysql-server-5.0, libmysqlclient-dev (<= 5.1.41-1)
-#Description: MySQL Cluster database server sql node binaries and system database setup
-# MySQL is a fast, stable and true multi-user, multi-threaded SQL database
-# server. SQL (Structured Query Language) is the most popular database query
-# language in the world. The main goals of MySQL are speed, robustness and
-# ease of use.
-# .
-# This package contains all the infrastructure needed to setup system
-# databases.
+Package: mysql-cluster-server-sql-7.1
+Architecture: any
+Suggests: tinyca
+Recommends: mailx, libhtml-template-perl
+Pre-Depends: mysql-common, adduser (>= 3.40), debconf
+Depends: mysql-cluster-client-7.1 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sql-core-5.1 (= ${binary:Version})
+Conflicts: mysql-cluster-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1
+Provides: mysql-cluster-server, virtual-mysql-cluster-server, mysql-server, virtual-mysql-server, 
+Replaces: mysql-cluster-server (<< ${source:Version})
+Description: MySQL Cluster database server sql node binaries and system database setup
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package contains all the infrastructure needed to setup system
+ databases.
 
 Package: mysql-cluster-server-sql
 Section: database
@@ -143,7 +143,7 @@ Description: MySQL Cluster database server sql node (metapackage depending on th
 
 Package: mysql-cluster-server-mgmt-7.1
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-cluster-client-7.1 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Provides: mysql-cluster-server-mgmt
 Description: MySQL Cluster database server management node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -171,7 +171,7 @@ Description: MySQL Cluster database server management node (metapackage dependin
 
 Package: mysql-cluster-server-data-7.1
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-cluster-client-7.1 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Provides: mysql-cluster-server-data
 Description: MySQL Cluster database server data node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
