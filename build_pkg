@@ -10,6 +10,9 @@ then
 	wget -O mysql-cluster-7.1.15a.tar.gz http://dev.mysql.com/get/Downloads/MySQL-Cluster-7.1/mysql-cluster-gpl-7.1.15a.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
 fi
 
+# Remove any old copies of packages
+rm -f *.deb
+
 # Extract archive, add debian files
 rm -rf mysql-cluster-7.1.15a
 mkdir mysql-cluster-7.1.15a
@@ -20,4 +23,7 @@ cp -ar debian mysql-cluster-7.1.15a
 cd mysql-cluster-7.1.15a
 dpkg-buildpackage -b
 cd ..
+
+# Lintian checks
+lintian *.deb
 
