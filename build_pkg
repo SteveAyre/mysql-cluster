@@ -11,7 +11,7 @@ then
 fi
 
 # Remove any old copies of packages
-rm -f *.deb
+rm -f *.deb *.changes *.log
 
 # Extract archive, add debian files
 rm -rf mysql-cluster-7.1.15a
@@ -21,9 +21,9 @@ cp -ar debian mysql-cluster-7.1.15a
 
 # Compile packages
 cd mysql-cluster-7.1.15a
-dpkg-buildpackage -b
+dpkg-buildpackage -b 2>&1 | tee build.log
 cd ..
 
 # Lintian checks
-lintian *.deb
+lintian -c --allow-root *.deb 2>&1 | tee lintian.log
 
