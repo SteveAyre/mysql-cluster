@@ -23,7 +23,7 @@ Description: MySQL Cluster database client library
  This package includes the client library.
  .
  This is the cluster version of libmysqlclient16, but binary compatibility was
- broken so this packages the cluster version as libmysqlclusterclient16.
+ broken so this distributes the cluster version as libmysqlclusterclient16.
 
 Package: libmysqlclusterclient-dev
 Architecture: any
@@ -39,7 +39,7 @@ Description: MySQL Cluster database development files
  This package includes development libraries and header files.
  .
  This is the cluster version of libmysqlclient16, but binary compatibility was
- broken so this packages the cluster version as libmysqlclusterclient16.
+ broken so this distributes the cluster version as libmysqlclusterclient16.
 
 Package: libndbclient4
 Section: libs
@@ -85,8 +85,8 @@ Architecture: all
 Depends: mysql-cluster-cluster-7.1, ${misc:Depends}
 Description: MySQL Cluster database client (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-client (currently mysql-cluster-client-7.1), as determined by the MySQL
- maintainers. Install this package if in doubt about which MySQL
+ mysql-cluster-client (currently mysql-cluster-client-7.1), as determined by the
+ MySQL maintainers. Install this package if in doubt about which MySQL
  version you need. That will install the version recommended by the
  package maintainers.
  .
@@ -131,7 +131,7 @@ Package: mysql-cluster-server-sql
 Section: database
 Architecture: all
 Depends: mysql-cluster-server-sql-7.1, ${misc:Depends}
-Description: MySQL Cluster database server sql node (metapackage depending on the latest version)
+Description: MySQL Cluster database sql node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
  mysql-cluster-server-sql (currently mysql-server-sql-7.1), as determined
  by the MySQL maintainers. Install this package if in doubt about which MySQL
@@ -159,11 +159,11 @@ Package: mysql-cluster-server-mgmt
 Section: database
 Architecture: all
 Depends: mysql-cluster-server-mgmt-7.1, ${misc:Depends}
-Description: MySQL Cluster database server management node (metapackage depending on the latest version)
+Description: MySQL Cluster server mgmt node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-server-mgmt (currently mysql-cluster-server-mgmt-5.1), as determined
- by the MySQL maintainers. Install this package if in doubt about which MySQL
- version you need. That will install the version recommended by the
+ mysql-cluster-server-mgmt (currently mysql-cluster-server-mgmt-5.1), as
+ determined by the MySQL maintainers. Install this package if in doubt about
+ which MySQL version you need. That will install the version recommended by the
  package maintainers.
  .
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -187,11 +187,11 @@ Package: mysql-cluster-server-data
 Section: database
 Architecture: all
 Depends: mysql-cluster-server-data-7.1, ${misc:Depends}
-Description: MySQL Cluster database server data node (metapackage depending on the latest version)
+Description: MySQL Cluster server data node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-server-data (currently mysql-cluster-server-data-7.1), as determined
- by the MySQL maintainers. Install this package if in doubt about which MySQL
- version you need. That will install the version recommended by the
+ mysql-cluster-server-data (currently mysql-cluster-server-data-7.1), as
+ determined by the MySQL maintainers. Install this package if in doubt about
+ which MySQL version you need. That will install the version recommended by the
  package maintainers.
  .
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
