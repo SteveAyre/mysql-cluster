@@ -213,7 +213,7 @@ install install-pic: build
 
 	# make install (trailing slash needed for innobase)
 	cd $(builddir) && $(MAKE) install DESTDIR=$(TMP)/
-		
+	
 	# After installing, remove rpath to make lintian happy.
 	set +e; \
 	find ./debian/tmp/ -type f -print0 \
@@ -264,16 +264,16 @@ install install-pic: build
 
 	# mysql-cluster-server-sql
 	install -m 0755 $(BUILDDIR)/scripts/mysqld_safe $(TMP)/usr/bin/mysqld_safe
-##	mkdir -p $(TMP)/usr/share/doc/mysql-server-5.1/examples
-##	mv $(TMP)/usr/share/mysql/*cnf 	    $(TMP)/usr/share/doc/mysql-server-5.1/examples/
-##	rm -vf $(TMP)/usr/share/mysql/mi_test_all* \
-##	       $(TMP)/usr/share/mysql/mysql-log-rotate \
-##	       $(TMP)/usr/share/mysql/mysql.server \
-##	       $(TMP)/usr/share/mysql/binary-configure
-##	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-server-5.1/mysqld.sym.gz
-##	install -m 0755 debian/additions/echo_stderr $(TMP)/usr/share/mysql/
-##	install -m 0755 debian/additions/debian-start $(TMP)/etc/mysql/
-##	install -m 0755 debian/additions/debian-start.inc.sh $(TMP)/usr/share/mysql/
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.1/examples
+	mv $(TMP)/usr/share/mysql/*cnf 	    $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.1/examples/
+	rm -vf $(TMP)/usr/share/mysql/mi_test_all* \
+	       $(TMP)/usr/share/mysql/mysql-log-rotate \
+	       $(TMP)/usr/share/mysql/mysql.server \
+	       $(TMP)/usr/share/mysql/binary-configure
+	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.1/mysqld.sym.gz
+	install -m 0755 debian/additions/echo_stderr $(TMP)/usr/share/mysql/
+	install -m 0755 debian/additions/debian-start $(TMP)/etc/mysql/
+	install -m 0755 debian/additions/debian-start.inc.sh $(TMP)/usr/share/mysql/
 ##	# lintian overrides
 ##	mkdir -p $(TMP)/usr/share/lintian/overrides/
 ##	cp debian/mysql-common.lintian-overrides     $(TMP)/usr/share/lintian/overrides/mysql-common
@@ -284,8 +284,8 @@ install install-pic: build
 ##	d=$(TMP)/usr/share/mysql-common/internal-use-only/; \
 ##	mkdir -p $$d; \
 ##	cp debian/mysql-server-5.1.mysql.init $$d/_etc_init.d_mysql; \
-##	cp debian/mysql-server-5.1.mysql-server.logrotate $$d/_etc_logrotate.d_mysql-server; \
-##	cp debian/additions/debian-start $$d/_etc_mysql_debian-start;
+##	cp debian/mysql-server-5.1.mysql-cluster-server-sql.logrotate $$d/_etc_logrotate.d_mysql-cluster-server-sql; \
+	cp debian/additions/debian-start $$d/_etc_mysql_debian-start;
 
 	dh_movefiles
 	
@@ -338,10 +338,10 @@ binary-arch: build install
 	dh_compress -a
 	dh_fixperms -a
 	#dh_makeshlibs -a
-	dh_makeshlibs -plibmysqlclient16 -V'libmysqlclient16 (>= 5.1.21-1)'
+	dh_makeshlibs -plibmysqlclusterclient16 -V'libmysqlclusterclient16 (>= 7.1.15a-0.1)'
 	dh_installdeb -a
 	dh_perl -a
-	dh_shlibdeps -a -l debian/libmysqlclient16/usr/lib -L libmysqlclient16
+	dh_shlibdeps -a -l debian/libmysqlclusterclient16/usr/lib -L libmysqlclusterclient16
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
