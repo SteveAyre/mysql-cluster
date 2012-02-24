@@ -71,11 +71,6 @@ ifneq ($(ARCH_OS),hurd)
 	if [ ! -d /proc/self ]; then echo "/proc IS NEEDED" 1>&2; exit 1; fi 
 endif
 
-	# TODO fix these build problems: some files don't get copied to builddir
-	#mkdir -p builddir/storage/ndb/src/kernel/vm
-	#cp storage/ndb/src/kernel/vm/mt-asm.h builddir/storage/ndb/src/kernel/vm
-	# TODO --end--
-
 	( test -d $(builddir) || mkdir $(builddir) ) && cd $(builddir) && \
 	sh -c  'PATH=$${MYSQL_BUILD_PATH:-"/bin:/usr/bin"} \
 	    	CC=$${MYSQL_BUILD_CC:-gcc} \
