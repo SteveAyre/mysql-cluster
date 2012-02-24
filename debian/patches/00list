@@ -1,6 +1,4 @@
-01_MAKEFILES_libmysqld_examples_Makefile.in.dpatch
-20_tests_ndb_version_fix.dpatch
-20_tests_disable_mysqlhotcopy.dpatch
-20_tests_disable_ndb_tests.dpatch
-20_tests_ndb_version_fix.dpatch
-30_libmysqlclusterclient.dpatch
+01_CMAKE_ndb_sharedlib_version.dpatch
+02_libndbclient_soversion.dpatch
+38_scripts__mysqld_safe.sh__signals.patch
+62_disable_tests.patch

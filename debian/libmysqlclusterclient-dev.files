@@ -1,8 +1,0 @@
-usr/bin/mysql_config
-usr/include/mysql/*.h
-usr/lib/libmysqlclusterclient.a
-usr/lib/libmysqlclusterclient.la
-usr/lib/libmysqlclusterclient_r.a
-usr/lib/libmysqlclusterclient_r.la
-usr/share/aclocal/mysql.m4
-usr/share/man/man1/mysql_config.1
