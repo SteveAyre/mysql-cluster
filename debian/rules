@@ -38,8 +38,6 @@ ifneq ($(findstring fulltest,$(DEB_BUILD_OPTIONS)),)
     MAKE_TEST_TARGET=test-bt
 endif
 
-USE_ASSEMBLER=--enable-assembler 
-
 ifneq (,$(filter $(ARCH), amd64 i386))
     TESTSUITE_FAIL_CMD=exit 1
 else
@@ -95,7 +93,6 @@ endif
 		-DDISABLE_SHARED=Off \
 		\
 		-DTHREAD_SAFE_CLIENT=On \
-	        $(USE_ASSEMBLER) \
 		-DENABLED_LOCAL_INFILE=On \
 		$(FORCE_FPIC) \
 		-DWITH_FAST_MUTEXES=On \
