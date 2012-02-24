@@ -78,19 +78,15 @@ endif
 	    	CXX=$${MYSQL_BUILD_CXX:-g++} \
 	    	CXXFLAGS=$${MYSQL_BUILD_CXXFLAGS:-"-O3 -DBIG_JOINS=1 -felide-constructors -fno-exceptions -fno-rtti ${FORCE_FPIC_CFLAGS} -fno-strict-aliasing"} \
 	    cmake \
-		--build=${DEB_BUILD_GNU_TYPE} \
-	        --host=${DEB_HOST_GNU_TYPE} \
-	        \
 	        -DINSTALL_LAYOUT=RPM \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 		-DINSTALL_SBINDIR=/usr/sbin \
 	        -DINSTALL_LIBDIR=lib \
 	        -DINSTALL_PLUGINDIR=lib/mysql/plugin \
-		--datadir=/usr/share \
 		-DMYSQL_DATADIR=/var/lib/mysql \
 		-DINSTALL_INCLUDEDIR=/usr/include/mysql \
-		--infodir=/usr/share/info \
-		--mandir=/usr/share/man \
+		-DINSTALL_INFODIR=/usr/share/info \
+		-DINSTALL_MANDIR=/usr/share/info \
 		\
 		-DMYSQL_SERVER_SUFFIX="-$(DEBVERSION)" \
 	        -DWITH_COMMENT="($(DISTRIBUTION))" \
