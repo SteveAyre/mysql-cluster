@@ -1,23 +1,30 @@
 #!/bin/sh -e
 
+VERSION_MAJOR=7.2
+VERSION=7.2.4
+TARBALL=.mysql-cluster-${VERSION}.tar.gz
+URL=http://dev.mysql.com/get/Downloads/MySQL-Cluster-${VERSION_MAJOR}/mysql-cluster-gpl-${VERSION}.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
+DIR=mysql-cluster-${VERSION}
+ORIG_DIR=${DIR}.orig
+
 # Download original source code
-if [ ! -f mysql-cluster-7.1.15a.tar.gz ]
+if [ ! -f ${TARBALL} ]
 then
-	wget -O mysql-cluster-7.1.15a.tar.gz http://dev.mysql.com/get/Downloads/MySQL-Cluster-7.1/mysql-cluster-gpl-7.1.15a.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
+	wget -O ${TARBALL} ${URL}
 fi
 
 # Extract archive, add debian files
-rm -rf mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
-mkdir mysql-cluster-7.1.15a.orig
-tar -C mysql-cluster-7.1.15a.orig --strip-components=1 -zxvf mysql-cluster-7.1.15a.tar.gz
-cp -arv mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
-cp -arv debian mysql-cluster-7.1.15a
+rm -rf ${ORIG_DIR} ${DIR}
+mkdir ${ORIG_DIR}
+tar -C ${ORIG_DIR} --strip-components=1 -zxf ${TARBALL}
+cp -arv ${ORIG_DIR} ${DIR}
+cp -arv debian ${DIR}
 
 # Generate diff
 set -e
-diff -urNad mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a | gzip -9 > mysql-cluster-7.1_7.1.15a-0.1.patch.gz
+diff -urNad ${ORIG_DIR} ${DIR} | gzip -9 > mysql-cluster-${VERSION_MAJOR}_${VERSION}-0.1.patch.gz
 set +e
 
 # Cleanup
-rm -rf mysql-cluster-7.1.15a.orig mysql-cluster-7.1.15a
+rm -rf ${ORIG_DIR} ${DIR}
 
