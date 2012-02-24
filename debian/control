@@ -3,7 +3,7 @@ Section: misc
 Priority: optional
 Maintainer: Steven Ayre <steveayre@gmail.com>
 Uploaders: Steven Ayre <steveayre@gmail.com>
-Build-Depends: libtool (>= 1.4.2-7), procps | hurd,  debhelper (>= 7.0.15), file (>= 3.28), libncurses5-dev (>= 5.0-6), perl (>= 5.6.0), libwrap0-dev (>= 7.6-8.3), zlib1g-dev (>= 1:1.1.3-5), libreadline-dev, psmisc, po-debconf, chrpath, doxygen, texlive-latex-base, ghostscript, dpatch, cmake, gawk, bison, lsb-release, hardening-wrapper
+Build-Depends: procps | hurd,  debhelper (>= 7.0.15), dpatch, cmake, bison, file (>= 3.28), libncurses5-dev (>= 5.0-6), perl (>= 5.6.0), libwrap0-dev (>= 7.6-8.3), zlib1g-dev (>= 1:1.1.3-5), psmisc, chrpath, doxygen, texlive-latex-base, ghostscript, gawk, lsb-release, hardening-wrapper
 Standards-Version: 3.9.1
 Homepage: http://dev.mysql.com/
 Vcs-Browser: https://github.com/SteveAyre/mysql-cluster-7.2
