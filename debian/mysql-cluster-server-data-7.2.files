@@ -1,0 +1,5 @@
+usr/sbin/ndbd
+usr/sbin/ndbmtd
+usr/share/doc/mysql-cluster-server-data-7.2/
+usr/share/man/man8/ndbd.8
+usr/share/man/man8/ndbmtd.8

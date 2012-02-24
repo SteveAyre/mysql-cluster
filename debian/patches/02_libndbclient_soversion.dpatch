@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# Description: libndbclient.so.6.0.0 has the wrong soname version (triggering package-name-doesnt-match-sonames)
+
+@DPATCH@
+diff -urNad mysql-cluster-7.2.4.orig/storage/ndb/src/CMakeLists.txt mysql-cluster-7.2.4/storage/ndb/src/CMakeLists.txt
+--- mysql-cluster-7.2.4.orig/storage/ndb/src/CMakeLists.txt	2012-01-30 17:47:59.000000000 +0000
++++ mysql-cluster-7.2.4/storage/ndb/src/CMakeLists.txt	2012-02-22 18:51:36.000000000 +0000
+@@ -67,11 +67,7 @@
+ #
+ # Version
+ #
+-INCLUDE("${NDB_SOURCE_DIR}/cmake/ndb_get_config_value.cmake")
+-NDB_GET_CONFIG_VALUE(NDB_SHARED_LIB_VERSION_MAJOR major)
+-NDB_GET_CONFIG_VALUE(NDB_SHARED_LIB_VERSION_MINOR minor)
+-NDB_GET_CONFIG_VALUE(NDB_SHARED_LIB_VERSION_BUILD build)
+-SET(NDB_SHARED_LIB_VERSION "${major}.${minor}.${build}")
++SET(NDB_SHARED_LIB_VERSION "6")
+ 
+ #
+ # libndbclient.so

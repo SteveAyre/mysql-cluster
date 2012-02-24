@@ -1,0 +1,73 @@
+Template: mysql-cluster-server-sql-7.2/really_downgrade
+Type: boolean
+Default: false
+_Description: Really proceed with downgrade?
+ A file named /var/lib/mysql/debian-*.flag exists on this system.
+ .
+ Such a file is an indication that a mysql-cluster-server-sql package with a higher
+ version has been installed previously.
+ .
+ There is no guarantee that the version you're currently installing
+ will be able to use the current databases.
+
+Template: mysql-cluster-server-sql-7.2/nis_warning
+Type: note
+_Description: Important note for NIS/YP users
+ Using MySQL under NIS/YP requires a mysql user account to be added on
+ the local system with:
+ .
+  adduser --system --group --home /var/lib/mysql mysql
+ .
+ You should also check the permissions and ownership of the
+ /var/lib/mysql directory:
+ .
+  /var/lib/mysql: drwxr-xr-x   mysql    mysql
+
+Template: mysql-cluster-server-sql-7.2/postrm_remove_databases
+Type: boolean
+Default: false
+_Description: Remove all MySQL databases?
+ The /var/lib/mysql directory which contains the MySQL databases is about
+ to be removed.
+ .
+ If you're removing the MySQL package in order to later install a more
+ recent version or if a different mysql-cluster-server-sql package is already
+ using it, the data should be kept.
+
+Template: mysql-cluster-server-sql-7.2/start_on_boot
+Type: boolean
+Default: true
+_Description: Start the MySQL server on boot?
+ The MySQL server can be launched automatically at boot time or manually
+ with the '/etc/init.d/mysql start' command.
+
+Template: mysql-cluster-server-sql/root_password
+Type: password
+_Description: New password for the MySQL "root" user:
+ While not mandatory, it is highly recommended that you set a password
+ for the MySQL administrative "root" user.
+ .
+ If this field is left blank, the password will not be changed.
+
+Template: mysql-cluster-server-sql/root_password_again
+Type: password
+_Description: Repeat password for the MySQL "root" user:
+
+Template: mysql-cluster-server-sql/error_setting_password
+Type: error
+_Description: Unable to set password for the MySQL "root" user
+ An error occurred while setting the password for the MySQL
+ administrative user. This may have happened because the account
+ already has a password, or because of a communication problem with
+ the MySQL server.
+ .
+ You should check the account's password after the package installation.
+ .
+ Please read the /usr/share/doc/mysql-cluster-server-sql-7.2/README.Debian file
+ for more information.
+
+Template: mysql-cluster-server-sql/password_mismatch
+Type: error
+_Description: Password input error
+ The two passwords you entered were not the same. Please try again.
+
