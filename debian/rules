@@ -5,6 +5,8 @@ export DEB_BUILD_HARDENING=1
 
 PACKAGE=mysql-cluster-7.2
 
+include /usr/share/dpatch/dpatch.make
+
 TMP=$(CURDIR)/debian/tmp/
 
 ARCH = $(shell dpkg-architecture -qDEB_BUILD_ARCH)
