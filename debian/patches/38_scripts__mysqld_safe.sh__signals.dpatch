@@ -1,19 +1,18 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-# Description: Executes /etc/init.d/mysql on signals - see http://bugs.mysql.com/bug.php?id=31361
-
-@DPATCH@
---- mysql-5.5-sid.orig/scripts/mysqld_safe.sh	2011-06-03 00:18:11.404604000 -0700
-+++ mysql-5.5-sid/scripts/mysqld_safe.sh	2011-06-03 00:53:07.785651661 -0700
-@@ -29,8 +29,6 @@
+diff -urNad mysql-cluster-gpl-7.2.4.orig/scripts/mysqld_safe.sh mysql-cluster-gpl-7.2.4/scripts/mysqld_safe.sh
+--- mysql-cluster-gpl-7.2.4.orig/scripts/mysqld_safe.sh	2012-02-27 12:49:47.651525268 +0000
++++ mysql-cluster-gpl-7.2.4/scripts/mysqld_safe.sh	2012-02-27 12:50:31.531526764 +0000
+@@ -29,9 +29,8 @@
  syslog_tag_mysqld=mysqld
  syslog_tag_mysqld_safe=mysqld_safe
  
 -trap '' 1 2 3 15			# we shouldn't let anyone kill us
--
- umask 007
+ # >> MCP_BUG33984
+-trap '' 13                              # not even SIGPIPE
++trap '' 13                              # we shouldn't let SIGPIPE kill us, other signals are handled properly later
+ # << MCP_BUG33984
  
- defaults=
-@@ -132,7 +130,7 @@
+ umask 007
+@@ -135,7 +134,7 @@
        # sed buffers output (only GNU sed supports a -u (unbuffered) option)
        # which means that messages may not get sent to syslog until the
        # mysqld process quits.
@@ -22,17 +21,17 @@
        ;;
      *)
        echo "Internal program error (non-fatal):" \
-@@ -708,6 +706,13 @@
+@@ -713,6 +712,13 @@
+   fi
  fi
  
- #
++# 
 +# From now on, we catch signals to do a proper shutdown of mysqld
 +# when signalled to do so.
 +#
 +trap '/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf refresh & wait' 1 # HUP
 +trap '/usr/bin/mysqladmin --defaults-extra-file=/etc/mysql/debian.cnf shutdown' 2 3 15 # INT QUIT and TERM
 +
-+#
+ #
  # Uncomment the following lines if you want all tables to be automatically
  # checked and repaired during startup. You should add sensible key_buffer
- # and sort_buffer values to my.cnf to improve check performance or require
