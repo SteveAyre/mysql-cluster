@@ -33,7 +33,7 @@ dpkg-buildpackage -b 2>&1 | tee build.log
 cd ..
 
 # Lintian checks
-lintian -c *.deb 2>&1 | tee lintian.log
+#lintian -c *.deb 2>&1 | tee lintian.log
 
 # Cleanup and done
 echo Done
