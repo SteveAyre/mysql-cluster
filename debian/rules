@@ -86,7 +86,7 @@ endif
 		-DMYSQL_DATADIR=/var/lib/mysql \
 		-DINSTALL_INCLUDEDIR=/usr/include/mysql \
 		-DINSTALL_INFODIR=/usr/share/info \
-		-DINSTALL_MANDIR=/usr/share/info \
+		-DINSTALL_MANDIR=/usr/share/man \
 		\
 		-DMYSQL_SERVER_SUFFIX="-$(DEBVERSION)" \
 	        -DWITH_COMMENT="($(DISTRIBUTION))" \
