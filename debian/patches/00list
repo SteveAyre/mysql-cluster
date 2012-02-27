@@ -1,4 +1,3 @@
 01_CMAKE_ndb_sharedlib_version.dpatch
 02_libndbclient_soversion.dpatch
-38_scripts__mysqld_safe.sh__signals.patch
-62_disable_tests.patch
+99_warnings.dpatch

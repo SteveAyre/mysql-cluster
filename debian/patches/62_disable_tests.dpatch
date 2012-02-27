@@ -1,5 +1,7 @@
-Index: mysql-5.5.17/mysql-test/t/disabled.def
-===================================================================
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# Description: Disable some failing tests
+
+@DPATCH@
 --- mysql-5.5.17.orig/mysql-test/t/disabled.def	2011-10-12 05:10:24.000000000 -0700
 +++ mysql-5.5.17/mysql-test/t/disabled.def	2011-11-08 12:05:58.830579964 -0800
 @@ -17,3 +17,5 @@

@@ -1,9 +1,7 @@
-From: 38_scripts__mysqld_safe.sh__signals.dpatch by  <ch@debian.org>
-Subject: Executes /etc/init.d/mysql on signals
-Bug: http://bugs.mysql.com/bug.php?id=31361
+#! /bin/sh /usr/share/dpatch/dpatch-run
+# Description: Executes /etc/init.d/mysql on signals - see http://bugs.mysql.com/bug.php?id=31361
 
-Index: mysql-5.5-sid/scripts/mysqld_safe.sh
-===================================================================
+@DPATCH@
 --- mysql-5.5-sid.orig/scripts/mysqld_safe.sh	2011-06-03 00:18:11.404604000 -0700
 +++ mysql-5.5-sid/scripts/mysqld_safe.sh	2011-06-03 00:53:07.785651661 -0700
 @@ -29,8 +29,6 @@
