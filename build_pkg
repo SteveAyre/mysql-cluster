@@ -10,7 +10,7 @@ DIR=mysql-cluster-${VERSION}
 # TODO Don't use these when building/testing final package
 export MYSQL_BUILD_CC="ccache gcc"
 export MYSQL_BUILD_CXX="ccache g++"
-export DEB_BUILD_OPTIONS=nocheck
+# export DEB_BUILD_OPTIONS=nocheck
 
 # Download original source code
 if [ ! -f ${TARBALL} ]
