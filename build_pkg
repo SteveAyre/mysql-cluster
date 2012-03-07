@@ -11,6 +11,7 @@ DIR=mysql-cluster-${VERSION}
 export MYSQL_BUILD_CC="ccache gcc"
 export MYSQL_BUILD_CXX="ccache g++"
 # export DEB_BUILD_OPTIONS=nocheck
+export DEB_BUILD_OPTIONS=fulltest
 
 # Download original source code
 if [ ! -f ${TARBALL} ]
