@@ -16,6 +16,16 @@ set -e
 set -u
 ${DEBIAN_SCRIPT_DEBUG:+ set -v -x}
 
+# Defaults
+START_DAEMON=false
+
+# Reads config file (will override defaults above)
+[ -r /etc/default/mysql-ndb-mgm ] && . /etc/default/mysql-ndb-mgm
+
+# Variables
+SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
+if [ "$MULTI_THREADED" = "yes" ]; then
+	DAEMON=/usr/sbin/ndbd
 # Variables
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
 DAEMON=/usr/sbin/ndb_mgmd
@@ -42,20 +52,23 @@ test -r $CONF || exit 0
 case "${1:-''}" in
   'start')
 	# Start daemon
-	log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
-	# --pid-file does not work as the daemon forks itself with $PID=$PID+1
-	if start-stop-daemon \
+        # Creating a PID file does not work as the master process forks
+        # a child with different PID and then terminates itself.
+	if is_true $START_DAEMON; then
+	  log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
+	  if start-stop-daemon \
 		--start \
 		--exec $DAEMON \
 		--user mysql \
 		-- \
 		-f $CONF
-	then
-	  log_end_msg 0
-	else
-	  log_end_msg 1
-	  log_warning_msg "Please take a look at the syslog."
-	  exit 1
+	  then
+	    log_end_msg 0
+	  else
+	    log_end_msg 1
+	    log_warning_msg "Please take a look at the syslog."
+	    exit 1
+	  fi			  
 	fi			  
 	;;
 

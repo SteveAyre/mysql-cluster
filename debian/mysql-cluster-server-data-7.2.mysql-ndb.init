@@ -17,14 +17,15 @@ set -u
 ${DEBIAN_SCRIPT_DEBUG:+ set -v -x}
 
 # Defaults
-MULTI_THREADED=no
+START_DAEMON=false
+MULTI_THREADED=false
 
 # Reads config file (will override defaults above)
 [ -r /etc/default/mysql-ndb ] && . /etc/default/mysql-ndb
 
 # Variables
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
-if [ "$MULTI_THREADED" = "yes" ]; then
+if is_true $MULTI_THREADED; then
 	DAEMON=/usr/sbin/ndbd
 else
 	DAEMON=/usr/sbin/ndbmtd
@@ -52,20 +53,22 @@ if $DAEMON --help | grep -q '^ndb-connectstring.*No default value'; then exit 0;
 case "${1:-''}" in
   'start')
 	# Start daemon
-        # Creatign a PID file does not work as the master process forks
+        # Creating a PID file does not work as the master process forks
         # a child with different PID and then terminates itself.
-	log_daemon_msg "Starting MySQL NDB Data Node" "ndbd"
-	if start-stop-daemon \
+        if is_true $START_DAEMON; then
+	  log_daemon_msg "Starting MySQL NDB Data Node" "ndbd"
+	  if start-stop-daemon \
 		--start \
-		--exec $DAEMON \
+	 	--exec $DAEMON \
 		--user mysql
-	then
-	  log_end_msg 0
-	else
-	  log_end_msg 1
-	  log_warning_msg "Please take a look at the syslog."
-	  exit 1
-	fi			  
+	  then
+	    log_end_msg 0
+	  else
+	    log_end_msg 1
+	    log_warning_msg "Please take a look at the syslog."
+	    exit 1
+	  fi
+	fi
 	;;
 
   'start-initial')
