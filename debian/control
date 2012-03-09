@@ -14,7 +14,7 @@ Vcs-Git: git://github.com/SteveAyre/mysql-cluster-7.2.git
 Package: libmysqlclient18-cluster
 Section: libs
 Architecture: any
-Depends: mysql-common (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-common-cluster (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libmysqlclient18
 Provides: libmysqlclient18
 Description: MySQL Cluster database client library
@@ -70,7 +70,7 @@ Description: MySQL Cluster embedded database development files
 Package: libndbclient6
 Section: libs
 Architecture: any
-Depends: mysql-common (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-common-cluster (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Suggests: libmysqlclient18
 Description: MySQL Cluster database client library
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -92,25 +92,25 @@ Description: MySQL Cluster database development files
  .
  This package includes development libraries and header files.
 
-# mysql-client gets supplied by the source package mysql-5.1 or mysql-5.5
-#Package: mysql-common
-#Architecture: all
-#Depends: ${shlibs:Depends}, ${misc:Depends}
-#Conflicts: mysql-common-4.1
-#Provides: mysql-common-4.1
-#Replaces: mysql-common-4.1
-#Description: MySQL database common files, e.g. /etc/mysql/my.cnf
-# MySQL is a fast, stable and true multi-user, multi-threaded SQL database
-# server. SQL (Structured Query Language) is the most popular database query
-# language in the world. The main goals of MySQL are speed, robustness and
-# ease of use.
-# .
-# This package includes files needed by all versions of the client library,
-# e.g. /etc/mysql/my.cnf.
+# mysql-common-cluster provides the mysql-common but with a version that keeps the cluster packages happy
+Package: mysql-common-cluster
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: mysql-common-4.1
+Provides: mysql-common, mysql-common-4.1
+Replaces: mysql-common-4.1
+Description: MySQL database common files, e.g. /etc/mysql/my.cnf
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes files needed by all versions of the client library,
+ e.g. /etc/mysql/my.cnf.
 
 Package: mysql-cluster-client-7.2
 Architecture: any
-Depends: debianutils (>=1.6), mysql-common (>= ${source:Version}), libmysqlclient18 (>= ${source:Version}), libndbclient6 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: debianutils (>=1.6), mysql-common-cluster (>= ${source:Version}), libmysqlclient18 (>= ${source:Version}), libndbclient6 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: virtual-mysql-cluster-client, mysql-cluster-client
 Suggests: mysql-client
 Description: MySQL Cluster database client binaries
@@ -155,7 +155,7 @@ Package: mysql-cluster-server-sql-7.2
 Architecture: any
 Suggests: tinyca
 Recommends: mailx, libhtml-template-perl
-Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
+Pre-Depends: mysql-common-cluster (>= ${source:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sql-core-7.2 (= ${binary:Version})
 Conflicts: mysql-cluster-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1, mysql-server-5.5
 Provides: mysql-cluster-server, virtual-mysql-cluster-server, mysql-server, virtual-mysql-server, 
@@ -187,7 +187,7 @@ Description: MySQL Cluster database sql node (metapackage depending on the lates
 
 Package: mysql-cluster-server-mgmt-7.2
 Architecture: any
-Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
+Pre-Depends: mysql-common-cluster (>= ${source:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Provides: mysql-cluster-server-mgmt
 Description: MySQL Cluster database server management node binaries
@@ -201,7 +201,7 @@ Description: MySQL Cluster database server management node binaries
 Package: mysql-cluster-server-mgmt
 Section: database
 Architecture: all
-Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
+Pre-Depends: mysql-common-cluster (>= ${source:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-server-mgmt-7.2, ${misc:Depends}
 Description: MySQL Cluster server mgmt node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
@@ -217,7 +217,7 @@ Description: MySQL Cluster server mgmt node (metapackage depending on the latest
 
 Package: mysql-cluster-server-data-7.2
 Architecture: any
-Pre-Depends: mysql-common (>= ${source:Version}), adduser (>= 3.40), debconf
+Pre-Depends: mysql-common-cluster (>= ${source:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
 Provides: mysql-cluster-server-data
 Description: MySQL Cluster database server data node binaries
@@ -272,7 +272,7 @@ Description: MySQL Cluster source
 # NDB-specific client programs are split into the separate package mysql-cluster-client
 Package: mysql-client-cluster-7.2
 Architecture: any
-Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-common (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-common-cluster (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: virtual-mysql-client, mysql-client, mysql-client-4.1
 Conflicts: mysql-client (<< ${source:Version}), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
 Replaces: mysql-client (<< ${source:Version}), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
