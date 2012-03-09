@@ -295,7 +295,7 @@ install install-pic: build
 	#cp debian/mysql-server-5.1.mysql-cluster-server-sql.logrotate $$d/_etc_logrotate.d_mysql-cluster-server-sql; \
 	#cp debian/additions/debian-start $$d/_etc_mysql_debian-start;
 
-	install -D -m 0644 $(EXPORTED_SOURCE_TARBALL) $(TMP)/usr/src/mysqlcluster/`basename $(EXPORTED_SOURCE_TARBALL)`
+	install -D -m 0644 $(EXPORTED_SOURCE_TARBALL) $(TMP)/usr/src/mysql-cluster/`basename $(EXPORTED_SOURCE_TARBALL)`
 
 	dh_movefiles
 	
