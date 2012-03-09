@@ -46,12 +46,13 @@ stop_server() {
 
 ################################ main() ##########################
 
-this_version=5.1
+# Although this is cluster 7.2 it's actually based on mysql 5.5
+this_version=5.5
 
 # Abort if skip-bdb option is enabled, required for 5.0 -> 5.1 upgrades.
 #TODO
 
-# Safe the user from stupidities.
+# Save the user from stupidities.
 show_downgrade_warning=0
 for i in `ls $DATADIR/debian-*.flag 2>/dev/null`; do
   found_version=`echo $i | sed 's/.*debian-\([0-9\.]\+\).flag/\1/'`
@@ -89,7 +90,7 @@ fi
 
 #
 # Now we have to ensure the following state:
-# /etc/passwd: mysql:x:100:101:MySQL Server:/var/lib/mysql:/bin/false
+# /etc/passwd: mysql:x:100:101:MySQL Server:/nonexistent:/bin/false
 # /etc/group:  mysql:x:101:
 # 
 # Sadly there could any state be present on the system so we have to
@@ -110,7 +111,8 @@ if ! getent passwd mysql >/dev/null; then
 	  --system \
           --disabled-login \
 	  --ingroup mysql \
-	  --home $DATADIR \
+	  --no-create-home \
+	  --home /nonexistent \
 	  --gecos "MySQL Server" \
 	  --shell /bin/false \
 	  mysql  >/dev/null
@@ -129,7 +131,7 @@ for dir in DATADIR LOGDIR; do
     fi
 done
 
-# creating mysql home directory
+# creating mysql data directory
 if [ ! -d $DATADIR -a ! -L $DATADIR ]; then
  	mkdir $DATADIR
 fi

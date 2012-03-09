@@ -8,23 +8,21 @@ fi
 if [ -n "$DEBIAN_SCRIPT_DEBUG" ]; then set -v -x; DEBIAN_SCRIPT_TRACE=1; fi
 ${DEBIAN_SCRIPT_TRACE:+ echo "#42#DEBUG# RUNNING $0 $*" 1>&2 }
 
-MYADMIN="/usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf"
-
-# Try to stop the server in a sane way. If it does not success let the admin
+# Try to stop the server in a sane way. If it does not succeed let the admin
 # do it himself. No database directories should be removed while the server
 # is running!
 stop_server() {
   set +e
   if [ -x /usr/sbin/invoke-rc.d ]; then
-    invoke-rc.d mysql stop
+    invoke-rc.d mysql-ndb-mgm stop
   else
-    /etc/init.d/mysql stop
+    /etc/init.d/mysql-ndb-mgm stop
   fi
   errno=$?
   set -e
 
   if [ "$?" != 0 ]; then
-    echo "Trying to stop the MySQL server resulted in exitcode $?." 1>&2
+    echo "Trying to stop the MySQL NDB management node server resulted in exitcode $?." 1>&2
     echo "Stop it yourself and try again!" 1>&2
     exit 1
   fi
@@ -47,24 +45,12 @@ esac
 # - Do NOT purge logs or data if another mysql-server* package is installed (#307473)
 # - Do NOT remove the mysql user as it's shared by the sql/mgmt/data nodes (plus policy may be moving towards leaving them on the system #621833)
 #   
-if [ "$1" = "purge" -a ! \( -x /usr/sbin/mysqld -o -L /usr/sbin/mysqld \) ]; then
-  rm -f /var/log/mysql.{log,err}{,.0,.[1234567].gz}
-  rm -rf /var/log/mysql
-
-  db_input high mysql-cluster-server-sql-7.2/postrm_remove_databases || true
-  db_go || true
-  db_get mysql-cluster-server-sql-7.2/postrm_remove_databases || true
-  if [ "$RET" = "true" ]; then
-    # never remove the debian.cnf when the databases are still existing
-    # else we ran into big trouble on the next install!
-    rm -f /etc/mysql/debian.cnf
-    rm -rf /var/lib/mysql
-    rm -rf /var/run/mysqld
-  fi
+if [ "$1" = "purge" -a ! \( -x /usr/sbin/ndbmgmd -o -L /usr/sbin/ndbmgmd \) ]; then
+  rm -rf /var/lib/mysql-cluster-mgmt
 
   # (normally) Automatically added by dh_installinit
   if [ "$1" = "purge" ] ; then
-        update-rc.d mysql remove >/dev/null || exit 0
+        update-rc.d mysql-ndb-mgm remove >/dev/null || exit 0
   fi
   # (normally) End automatically added section
 fi
@@ -76,6 +62,6 @@ if [ "$1" = purge ] && [ -e /usr/share/debconf/confmodule ]; then
 fi
 # (normally) End automatically added section
 
-# no DEBHELPER here, "update-rc.d remove" fails if mysql-cluster-server-sql-7.2 is installed
+# no DEBHELPER here, "update-rc.d remove" fails if mysql-cluster-server-mgmt-7.2 is installed
 
 exit 0
