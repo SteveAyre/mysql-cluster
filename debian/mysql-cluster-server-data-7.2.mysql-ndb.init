@@ -16,6 +16,14 @@ set -e
 set -u
 ${DEBIAN_SCRIPT_DEBUG:+ set -v -x}
 
+is_true()
+{
+  case "${1:-}" in
+    [Yy]es|[Yy]|1|[Tt]|[Tt]rue) return 0;;
+    *) return 1;
+  esac
+}
+
 # Defaults
 START_DAEMON=false
 MULTI_THREADED=false
