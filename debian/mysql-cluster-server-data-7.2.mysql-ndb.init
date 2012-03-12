@@ -34,9 +34,9 @@ MULTI_THREADED=false
 # Variables
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
 if is_true $MULTI_THREADED; then
-	DAEMON=/usr/sbin/ndbd
-else
 	DAEMON=/usr/sbin/ndbmtd
+else
+	DAEMON=/usr/sbin/ndbd
 fi
 CONF=/etc/mysql/my.cnf
 export HOME=/etc/mysql/
