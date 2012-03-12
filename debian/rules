@@ -80,11 +80,9 @@ endif
 	    cmake \
 	        -DINSTALL_LAYOUT=RPM \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
-		-DINSTALL_SBINDIR=/usr/sbin \
 	        -DINSTALL_LIBDIR=lib \
 	        -DINSTALL_PLUGINDIR=lib/mysql/plugin \
 		-DMYSQL_DATADIR=/var/lib/mysql \
-		-DINSTALL_INCLUDEDIR=/usr/include/mysql \
 		-DINSTALL_INFODIR=/usr/share/info \
 		-DINSTALL_MANDIR=/usr/share/man \
 		\
@@ -338,6 +336,8 @@ binary-arch: build install
 	# Start mysql in runlevel 19 before 20 where apache, proftpd etc gets
 	# started which might depend on a running database server.
 	dh_installinit -a --name=mysql -- defaults 19 21
+	dh_installinit -a --name=mysql-ndb -- defaults 19 21
+	dh_installinit -a --name=mysql-ndb-mgm -- defaults 19 21
 	dh_installcron -a --name mysql-server
 	dh_installman -a
 	dh_installinfo -a
