@@ -58,10 +58,9 @@ if your database looks normal, and this is not a symlink to your database, you
 should be able to blow this all away.
 
 EOF
-            fi
         fi
-	rmdir $mysql_upgradedir 2>/dev/null || true
-    done
+    fi
+    rmdir $mysql_upgradedir 2>/dev/null || true
     
     # Ensure the existence and right permissions for the database files.
     if [ ! -d "$mysql_statedir" -a ! -L "$mysql_statedir" ]; then mkdir "$mysql_statedir"; fi
