@@ -348,8 +348,8 @@ binary-arch: build install
 	dh_compress -a
 	dh_fixperms -a
 	#dh_makeshlibs -a
-	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.4-0.1)'
-	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.4-0.1)'
+	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.4-0.2)'
+	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.4-0.2)'
 	dh_installdeb -a
 	dh_perl -a
 	#dh_shlibdeps -a -l debian/libmysqlclient18/usr/lib -L libmysqlclient18

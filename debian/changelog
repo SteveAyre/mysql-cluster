@@ -1,5 +1,12 @@
+mysql-cluster-7.2 (7.2.4-0.2) stable; urgency=low
+
+  * Working proof of concept.
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 12 Mar 2012 16:25:00 +0000
+
 mysql-cluster-7.2 (7.2.4-0.1) stable; urgency=low
 
   * Initial Release.
 
- -- Steven Ayre <steveayre@gmail.com>  Sun, 19 Feb 2011 20:38:00 +0000
+ -- Steven Ayre <steveayre@gmail.com>  Sun, 19 Feb 2012 20:38:00 +0000
+
