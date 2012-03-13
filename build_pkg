@@ -6,12 +6,19 @@ TARBALL=.mysql-cluster-${VERSION}.tar.gz
 URL=http://dev.mysql.com/get/Downloads/MySQL-Cluster-${VERSION_MAJOR}/mysql-cluster-gpl-${VERSION}.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
 DIR=mysql-cluster-${VERSION}
 
-# Build options to speed up build for development
-# TODO Don't use these when building/testing final package
-export MYSQL_BUILD_CC="ccache gcc"
-export MYSQL_BUILD_CXX="ccache g++"
-export DEB_BUILD_OPTIONS=nocheck
-# export DEB_BUILD_OPTIONS=fulltest
+# Use ccache if available
+if [ `which ccache` ]
+then
+	export MYSQL_BUILD_CC="ccache gcc"
+	export MYSQL_BUILD_CXX="ccache g++"
+fi
+
+# Build test options
+# nocheck - skip testing (faster build)
+# fulltest - very long testsuite
+# leave both commented out for the normal test
+#export DEB_BUILD_OPTIONS=nocheck
+#export DEB_BUILD_OPTIONS=fulltest
 
 # Download original source code
 if [ ! -f ${TARBALL} ]
