@@ -8,11 +8,11 @@ URL=http://dev.mysql.com/get/Downloads/MySQL-Cluster-${VERSION_MAJOR}/mysql-clus
 DIR=mysql-cluster-${VERSION}
 
 # Use ccache if available
-#if [ `which ccache` ]
-#then
-#	export MYSQL_BUILD_CC="ccache gcc"
-#	export MYSQL_BUILD_CXX="ccache g++"
-#fi
+if [ `which ccache` ]
+then
+	export MYSQL_BUILD_CC="ccache gcc"
+	export MYSQL_BUILD_CXX="ccache g++"
+fi
 
 # Build test options
 # nocheck - skip testing (faster build)
