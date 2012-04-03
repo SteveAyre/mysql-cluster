@@ -65,6 +65,7 @@ case "${1:-''}" in
 		--exec $DAEMON \
 		--user mysql \
 		-- \
+                --reload \
 		-f $CONF
 	  then
 	    log_end_msg 0
@@ -72,8 +73,29 @@ case "${1:-''}" in
 	    log_end_msg 1
 	    log_warning_msg "Please take a look at the syslog."
 	    exit 1
-	  fi			  
-	fi			  
+	  fi
+	fi
+	;;
+
+  'start-initial')
+	# Perform an initial start of ndbmgmd
+	if is_true $START_DAEMON; then
+  	log_daemon_msg "IStarting MySQL NDB Management Node" "ndb_mgmd"
+	  if start-stop-daemon \
+	        --start \
+	        --exec $DAEMON \
+	        --user mysql \
+	        -- \
+                --initial \
+		-f $CONF
+	  then
+	    log_end_msg 0
+	  else
+	    log_end_msg 1
+	    log_warning_msg "Please take a look at the syslog."
+	    exit 1
+	  fi
+	fi
 	;;
 
   'stop')
@@ -96,7 +118,8 @@ case "${1:-''}" in
 	;;
 
   *)
-	echo "Usage: $SELF start|stop|restart|force-reload"
+	echo "Usage: $SELF start|start-initial|stop|restart|force-reload"
+	echo " * start-initial starts ndbmgmd with '--initial'"
 	exit 1
 	;;
 esac

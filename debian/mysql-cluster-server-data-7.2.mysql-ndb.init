@@ -9,7 +9,7 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Start and stop the mysql database cluster server daemon
-# Description:       Controls the MySQL NDB Data Node daemon "ndbd".
+# Description:       Controls the MySQL NDB Data Node daemon "ndbd" or "ndbmtd".
 ### END INIT INFO
 #
 set -e
@@ -38,6 +38,7 @@ if is_true $MULTI_THREADED; then
 else
 	DAEMON=/usr/sbin/ndbd
 fi
+DAEMON_NAME=`basename $DAEMON`
 CONF=/etc/mysql/my.cnf
 export HOME=/etc/mysql/
 
@@ -63,11 +64,11 @@ case "${1:-''}" in
 	# Start daemon
         # Creating a PID file does not work as the master process forks
         # a child with different PID and then terminates itself.
-        if is_true $START_DAEMON; then
-	  log_daemon_msg "Starting MySQL NDB Data Node" "ndbd"
+	if is_true $START_DAEMON; then
+	  log_daemon_msg "Starting MySQL NDB Data Node" "$DAEMON_NAME"
 	  if start-stop-daemon \
 		--start \
-	 	--exec $DAEMON \
+		--exec $DAEMON \
 		--user mysql
 	  then
 	    log_end_msg 0
@@ -80,24 +81,27 @@ case "${1:-''}" in
 	;;
 
   'start-initial')
-        # Perform an initial start of ndbd
-        log_daemon_msg "Initial start of MySQL NDB Data Node" "ndbd"
-        if start-stop-daemon \
-                --start \
-                --exec $DAEMON \
-                --user mysql \
-                -- --initial
-        then
-          log_end_msg 0
-        else
-          log_end_msg 1
-          log_warning_msg "Please take a look at the syslog."
-          exit 1
-        fi  
-        ;;
+	# Perform an initial start of ndbd/ndbmtd
+	if is_true $START_DAEMON; then
+	  log_daemon_msg "Initial start of MySQL NDB Data Node" "$DAEMON_NAME"
+	  if start-stop-daemon \
+	        --start \
+	        --exec $DAEMON \
+	        --user mysql \
+	        -- \
+	        --initial
+	  then
+	    log_end_msg 0
+	  else
+	    log_end_msg 1
+	    log_warning_msg "Please take a look at the syslog."
+	    exit 1
+	  fi
+	fi
+	;;
 
   'stop')
-	log_daemon_msg "Stopping MySQL NDB Data Node" "ndbd"	
+	log_daemon_msg "Stopping MySQL NDB Data Node" "$DAEMON_NAME"	
 	if start-stop-daemon \
 		--stop \
 		--oknodo \
@@ -117,7 +121,7 @@ case "${1:-''}" in
 
   *)
 	echo "Usage: $SELF start|start-initial|stop|restart|force-reload"
-	echo " * start-initial starts ndbd with '--initial'"
+	echo " * start-initial starts $DAEMON_NAME with '--initial'"
 	exit 1
 	;;
 esac

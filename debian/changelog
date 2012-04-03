@@ -1,3 +1,13 @@
+mysql-cluster-7.2 (7.2.4-0.3) stable; urgency=low
+
+  * Tweaks to debian/additions/my.cnf
+      * log_slow_queries deprecated, replaced with slow_query_log & slow_query_log_file
+      * added example of [mysqld] section ndbcluster plugin options
+      * added example of [mysql_cluster] section for data nodes
+  * Start ndbmgmd with --reload option so it picks up configuration changes
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 12:50:00 +0100
+
 mysql-cluster-7.2 (7.2.4-0.2) stable; urgency=low
 
   * Working proof of concept.
