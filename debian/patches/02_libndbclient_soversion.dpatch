@@ -2,9 +2,9 @@
 # Description: libndbclient.so.6.0.0 has the wrong soname version (triggering package-name-doesnt-match-sonames)
 
 @DPATCH@
-diff -urNad mysql-cluster-7.2.4.orig/storage/ndb/src/CMakeLists.txt mysql-cluster-7.2.4/storage/ndb/src/CMakeLists.txt
---- mysql-cluster-7.2.4.orig/storage/ndb/src/CMakeLists.txt	2012-01-30 17:47:59.000000000 +0000
-+++ mysql-cluster-7.2.4/storage/ndb/src/CMakeLists.txt	2012-02-22 18:51:36.000000000 +0000
+diff -urNad mysql-cluster-7.2.5.orig/storage/ndb/src/CMakeLists.txt mysql-cluster-7.2.5/storage/ndb/src/CMakeLists.txt
+--- mysql-cluster-7.2.5.orig/storage/ndb/src/CMakeLists.txt	2012-01-30 17:47:59.000000000 +0000
++++ mysql-cluster-7.2.5/storage/ndb/src/CMakeLists.txt	2012-02-22 18:51:36.000000000 +0000
 @@ -67,11 +67,7 @@
  #
  # Version

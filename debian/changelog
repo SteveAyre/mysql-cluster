@@ -1,3 +1,10 @@
+mysql-cluster-7.2 (7.2.5-0.1) stable; urgency=low
+
+  * Newer upstream version 7.2.5
+    See http://dev.mysql.com/doc/refman/5.5/en/mysql-cluster-news-5-5-20-ndb-7-2-5.html
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 14:40:00 +0100
+
 mysql-cluster-7.2 (7.2.4-0.3) stable; urgency=low
 
   * Tweaks to debian/additions/my.cnf

@@ -2,9 +2,9 @@
 # Description: Fix some compile warnings that prevent building on Wheezy
 
 @DPATCH@
-diff -urNad mysql-cluster-7.2.4.orig/storage/ndb/test/src/CpcClient.cpp mysql-cluster-7.2.4/storage/ndb/test/src/CpcClient.cpp
---- mysql-cluster-7.2.4.orig/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:00:32.521230852 +0000
-+++ mysql-cluster-7.2.4/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:06:05.735767614 +0000
+diff -urNad mysql-cluster-7.2.5.orig/storage/ndb/test/src/CpcClient.cpp mysql-cluster-7.2.5/storage/ndb/test/src/CpcClient.cpp
+--- mysql-cluster-7.2.5.orig/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:00:32.521230852 +0000
++++ mysql-cluster-7.2.5/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:06:05.735767614 +0000
 @@ -424,7 +424,7 @@
  			  const Properties &args) {
    SocketOutputStream cpc_out(cpc_sock);

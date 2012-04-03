@@ -2,9 +2,9 @@
 # Description: Fix some compile warnings that prevent building on Wheezy
 
 @DPATCH@
-diff -urNad mysql-cluster-7.2.4.orig/scripts/mysqld_safe.sh mysql-cluster-7.2.4/scripts/mysqld_safe.sh
---- mysql-cluster-7.2.4.orig/scripts/mysqld_safe.sh	2012-02-27 12:49:47.651525268 +0000
-+++ mysql-cluster-7.2.4/scripts/mysqld_safe.sh	2012-02-27 12:50:31.531526764 +0000
+diff -urNad mysql-cluster-7.2.5.orig/scripts/mysqld_safe.sh mysql-cluster-7.2.5/scripts/mysqld_safe.sh
+--- mysql-cluster-7.2.5.orig/scripts/mysqld_safe.sh	2012-02-27 12:49:47.651525268 +0000
++++ mysql-cluster-7.2.5/scripts/mysqld_safe.sh	2012-02-27 12:50:31.531526764 +0000
 @@ -29,9 +29,8 @@
  syslog_tag_mysqld=mysqld
  syslog_tag_mysqld_safe=mysqld_safe
