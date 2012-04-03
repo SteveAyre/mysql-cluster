@@ -17,7 +17,6 @@ usr/bin/mysqld_multi
 usr/bin/mysqld_safe
 usr/bin/mysqlhotcopy
 usr/bin/mysqltest
-usr/bin/perror
 usr/bin/replace
 usr/bin/resolve_stack_dump
 usr/bin/resolveip
@@ -37,7 +36,6 @@ usr/share/man/man1/mysqld_multi.1
 usr/share/man/man1/mysqld_safe.1
 usr/share/man/man1/mysqlhotcopy.1
 usr/share/man/man1/mysqltest.1
-usr/share/man/man1/perror.1
 usr/share/man/man1/replace.1
 usr/share/man/man1/resolve_stack_dump.1
 usr/share/man/man1/resolveip.1
