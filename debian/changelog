@@ -1,3 +1,9 @@
+mysql-cluster-7.2 (7.2.5-0.2) stable; urgency=low
+
+  * Fix some package conflits with mysql-client-5.1
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 18:58:00 +0100
+
 mysql-cluster-7.2 (7.2.5-0.1) stable; urgency=low
 
   * Newer upstream version 7.2.5
