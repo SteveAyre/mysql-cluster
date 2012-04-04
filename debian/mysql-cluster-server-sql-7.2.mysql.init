@@ -21,6 +21,21 @@ test -x /usr/bin/mysqld_safe || exit 0
 
 . /lib/lsb/init-functions
 
+is_true()
+{
+  case "${1:-}" in
+    [Yy]es|[Yy]|1|[Tt]|[Tt]rue) return 0;;
+    *) return 1;
+  esac
+}
+
+# Defaults
+START_DAEMON=false
+STARTUP_WAIT_FOREVER=false
+
+# Reads config file (will override defaults above)
+[ -r /etc/default/mysql ] && . /etc/default/mysql
+
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
 CONF=/etc/mysql/my.cnf
 MYADMIN="/usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf"
@@ -97,31 +112,44 @@ case "${1:-''}" in
   'start')
 	sanity_checks;
 	# Start daemon
-	log_daemon_msg "Starting MySQL database server" "mysqld"
-	if mysqld_status check_alive nowarn; then
-	   log_progress_msg "already running"
-	   log_end_msg 0
-	else
-	    # Could be removed during boot
-	    test -e /var/run/mysqld || install -m 755 -o mysql -g root -d /var/run/mysqld
-
-	    # Start MySQL! 
-  	    /usr/bin/mysqld_safe > /dev/null 2>&1 &
-
-	    # 6s was reported in #352070 to be too few when using ndbcluster
-	    for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-                sleep 1
-	        if mysqld_status check_alive nowarn ; then break; fi
-		log_progress_msg "."
-	    done
-	    if mysqld_status check_alive warn; then
-                log_end_msg 0
-	        # Now start mysqlcheck or whatever the admin wants.
-	        output=$(/etc/mysql/debian-start)
-		[ -n "$output" ] && log_action_msg "$output"
+	if is_true $START_DAEMON; then
+	    log_daemon_msg "Starting MySQL database server" "mysqld"
+	    if mysqld_status check_alive nowarn; then
+	        log_progress_msg "already running"
+	        log_end_msg 0
 	    else
-	        log_end_msg 1
-		log_failure_msg "Please take a look at the syslog"
+	        # Could be removed during boot
+	        test -e /var/run/mysqld || install -m 755 -o mysql -g root -d /var/run/mysqld
+
+	        # Start MySQL! 
+  	        /usr/bin/mysqld_safe > /dev/null 2>&1 &
+
+	        # 6s was reported in #352070 to be too few when using ndbcluster
+	        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+                    sleep 1
+	            if mysqld_status check_alive nowarn ; then break; fi
+	            log_progress_msg "."
+	        done
+	        # if STARTUP_WAIT_FOREVER is true mysqld should have started by now,
+	        # wait until we can connect or mysql is no longer running
+	        if is_true $STARTUP_WAIT_FOREVER; then
+		    while true; do
+		        sleep 1
+		        ps -C mysqld
+		        if [ ! "$?" = "0" ]; then break; fi
+		        if mysqld_status check_alive nowarn ; then break; fi
+		        log_progress_msg "."
+		    done
+	        fi
+	        if mysqld_status check_alive warn; then
+                    log_end_msg 0
+	            # Now start mysqlcheck or whatever the admin wants.
+	            output=$(/etc/mysql/debian-start)
+		    [ -n "$output" ] && log_action_msg "$output"
+	        else
+	            log_end_msg 1
+		    log_failure_msg "Please take a look at the syslog"
+	        fi
 	    fi
 	fi
 	;;
