@@ -31,7 +31,6 @@ is_true()
 
 # Defaults
 START_DAEMON=false
-STARTUP_WAIT_FOREVER=false
 
 # Reads config file (will override defaults above)
 [ -r /etc/default/mysql ] && . /etc/default/mysql
@@ -130,18 +129,6 @@ case "${1:-''}" in
 	            if mysqld_status check_alive nowarn ; then break; fi
 	            log_progress_msg "."
 	        done
-	        # if STARTUP_WAIT_FOREVER is true mysqld should started starting up by now
-	        # wait until it's either ready (pingable) or dead (on startup errors)
-	        # this gives MySQL much longer to startup, eg for creating large InnoDB files
-	        # and connecting to NDB clusters
-	        if is_true $STARTUP_WAIT_FOREVER; then
-		    while true; do
-		        sleep 1
-		        if mysqld_status check_alive nowarn ; then break; fi
-		        if mysqld_status check_dead nowarn ; then break; fi
-		        log_progress_msg "."
-		    done
-	        fi
 	        if mysqld_status check_alive warn; then
                     log_end_msg 0
 	            # Now start mysqlcheck or whatever the admin wants.
