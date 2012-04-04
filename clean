@@ -1,0 +1,1 @@
+rm -rf mysql-cluster-7.2.* *.deb *.changes
