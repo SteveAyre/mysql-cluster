@@ -11,6 +11,7 @@ Vcs-Git: git://github.com/SteveAyre/mysql-cluster-7.2.git
 
 # libmysqlclient18 gets supplied by the source package mysql-5.5, and is ABI compatible,
 # so the cluster variant is optional. We provide it anyway but under another package name.
+#
 Package: libmysqlclient18-cluster
 Section: libs
 Architecture: any
@@ -27,6 +28,7 @@ Description: MySQL Cluster database client library
 
 # libmysqlclient-dev gets supplied by the source package mysql-5.5, and is ABI compatible,
 # so the cluster variant is optional. We provide it anyway but under another package name.
+#
 Package: libmysqlclient-cluster-dev
 Architecture: any
 Section: libdevel
@@ -93,6 +95,11 @@ Description: MySQL Cluster database development files
  This package includes development libraries and header files.
 
 # mysql-common provides the mysql-common but with a version that keeps the cluster packages happy
+# We don't generate it here for 2 reasons - 1) it would conflict with a binary package produced by
+# mysql-5.1 or mysql-5.5 and 2) it would affect other packages where their dependancies depend on
+# a specific version of mysql-common (which also means we can't have a a mysql-cluster-common
+# providing it as a virtual package as version number dependancies only consider real packages.
+# 
 #Package: mysql-common
 #Architecture: all
 #Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -107,6 +114,9 @@ Description: MySQL Cluster database development files
 # This package includes files needed by all versions of the client library,
 # e.g. /etc/mysql/my.cnf.
 
+# Contains the NDB-specific client programs, this complements any mysql-client which
+# can be provided by mysql-client-cluster-7.2, mysql-client-5.1, mysql-client-5.5 or others
+#
 Package: mysql-cluster-client-7.2
 Architecture: any
 Depends: debianutils (>=1.6), mysql-common, libmysqlclient18, libndbclient6 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
@@ -247,7 +257,7 @@ Package: mysql-cluster-testsuite-7.2
 Architecture: any
 Depends: mysql-cluster-server, mysql-cluster-client, ${misc:Depends},  ${shlibs:Depends}
 Provides: mysql-testsuite
-Conflicts: mysql-testsuite (<< ${source:Version})
+Conflicts: mysql-testsuite
 Description: MySQL Cluster testsuite
  MySQL is a fast, stable, and true multi-user, multi-threaded SQL database
  server.  SQL (Structured Query Language) is the most popular database query
@@ -273,8 +283,8 @@ Package: mysql-client-cluster-7.2
 Architecture: any
 Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-common, ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: virtual-mysql-client, mysql-client, mysql-client-4.1
-Conflicts: mysql-client (<< ${source:Version}), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
-Replaces: mysql-client (<< ${source:Version}), mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
+Conflicts: mysql-client, mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
+Replaces: mysql-client, mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
 Suggests: libterm-readkey-perl
 Description: MySQL database client binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -286,6 +296,9 @@ Description: MySQL database client binaries
  innotop and mysqlreport.
 
 # mysql-client gets supplied by the source package mysql-5.1 or mysql-5.5
+# It is commented out here to avoid multiple source packages providing the same binary package name
+# However mysql-client-cluster-7.2 (above) does provide it as a virtual package
+#
 #Package: mysql-client
 #Section: database
 #Architecture: all

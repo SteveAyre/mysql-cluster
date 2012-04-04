@@ -1,15 +1,21 @@
+mysql-cluster-7.2 (7.2.5-0.3) stable; urgency=low
+
+  * Fix for mysql-client virtual package provided by mysql-client-cluster-7.2
+
+ -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 12:53:00 +0100
+
 mysql-cluster-7.2 (7.2.5-0.2) stable; urgency=low
 
   * Fix some package conflits with mysql-client-5.1
 
- -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 18:58:00 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 18:58:00 +0100
 
 mysql-cluster-7.2 (7.2.5-0.1) stable; urgency=low
 
   * Newer upstream version 7.2.5
     See http://dev.mysql.com/doc/refman/5.5/en/mysql-cluster-news-5-5-20-ndb-7-2-5.html
 
- -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 14:40:00 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 14:40:00 +0100
 
 mysql-cluster-7.2 (7.2.4-0.3) stable; urgency=low
 
@@ -19,7 +25,7 @@ mysql-cluster-7.2 (7.2.4-0.3) stable; urgency=low
       * added example of [mysql_cluster] section for data nodes
   * Start ndbmgmd with --reload option so it picks up configuration changes
 
- -- Steven Ayre <steveayre@gmail.com>  Mon, 03 Apr 2012 12:50:00 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 12:50:00 +0100
 
 mysql-cluster-7.2 (7.2.4-0.2) stable; urgency=low
 
