@@ -65,7 +65,7 @@ case "${1:-''}" in
 		--exec $DAEMON \
 		--user mysql \
 		-- \
-                --reload \
+		--reload \
 		-f $CONF
 	  then
 	    log_end_msg 0
@@ -80,13 +80,13 @@ case "${1:-''}" in
   'start-initial')
 	# Perform an initial start of ndbmgmd
 	if is_true $START_DAEMON; then
-  	log_daemon_msg "IStarting MySQL NDB Management Node" "ndb_mgmd"
+  	  log_daemon_msg "IStarting MySQL NDB Management Node" "ndb_mgmd"
 	  if start-stop-daemon \
 	        --start \
 	        --exec $DAEMON \
 	        --user mysql \
 	        -- \
-                --initial \
+		--initial \
 		-f $CONF
 	  then
 	    log_end_msg 0
