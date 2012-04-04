@@ -31,6 +31,8 @@ is_true()
 
 # Defaults
 START_DAEMON=false
+STARTUP_TIMEOUT=14
+SHUTDOWN_TIMEOUT=10
 
 # Reads config file (will override defaults above)
 [ -r /etc/default/mysql ] && . /etc/default/mysql
@@ -124,7 +126,7 @@ case "${1:-''}" in
   	        /usr/bin/mysqld_safe > /dev/null 2>&1 &
 
 	        # 6s was reported in #352070 to be too few when using ndbcluster
-	        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+	        for i in `seq 1 $STARTUP_TIMEOUT`; do
                     sleep 1
 	            if mysqld_status check_alive nowarn ; then break; fi
 	            log_progress_msg "."
@@ -158,11 +160,11 @@ case "${1:-''}" in
 	    log_daemon_msg "Killing MySQL database server by signal" "mysqld"
 	    killall -15 mysqld
             server_down=
-	    for i in 1 2 3 4 5 6 7 8 9 10; do
+	    for i in `seq 1 $SHUTDOWN_TIMEOUT`; do
               sleep 1
               if mysqld_status check_dead nowarn; then server_down=1; break; fi
             done
-          if test -z "$server_down"; then killall -9 mysqld; fi
+            if test -z "$server_down"; then killall -9 mysqld; fi
 	  fi
         fi
 

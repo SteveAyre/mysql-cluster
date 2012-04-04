@@ -1,3 +1,10 @@
+mysql-cluster-7.2 (7.2.5-0.6) stable; urgency=low
+
+  * Allow customisation of mysql init.d timeouts through defaults file
+    (STARTUP_TIMEOUT and SHUTDOWN_TIMEOUT)
+
+ -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 23:46:00 +0100
+
 mysql-cluster-7.2 (7.2.5-0.5) stable; urgency=low
 
   * Revert STARTUP_WAIT_FOREVER (remove option)
