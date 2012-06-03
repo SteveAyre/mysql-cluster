@@ -165,7 +165,7 @@ Architecture: any
 Suggests: tinyca
 Recommends: mailx, libhtml-template-perl
 Pre-Depends: mysql-common, adduser (>= 3.40), debconf
-Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sql-core-7.2 (= ${binary:Version})
+Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sql-core-7.2 (= ${binary:Version}), tzdata
 Conflicts: mysql-cluster-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1, mysql-server-5.5
 Provides: mysql-cluster-server, virtual-mysql-cluster-server, mysql-server, virtual-mysql-server, 
 Replaces: mysql-cluster-server (<< ${source:Version})
