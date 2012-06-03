@@ -235,11 +235,22 @@ EOF
         password_error="yes"
     fi
 
+    # Run the above actions
     echo "$fix_privs"                                        | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     echo "$replace_query"                                    | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set +e
     echo "$install_plugins"                                  | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set -e
+
+    # Load timezone information
+    mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
+
+  ;;
+
+  triggered)
+    # Currently the only trigger is on /usr/share/zoneinfo
+    dc=$mysql_cfgdir/debian.cnf; 
+    mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
   ;;
 
   abort-upgrade|abort-remove|abort-configure)
