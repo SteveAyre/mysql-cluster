@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+dpkg -P \
+	mysql-common \
+	libdbi-perl \
+	libdbd-mysql-perl \
+	libmysqlclient16 \
+	libmysqlclient18-cluster \
+	libmysqlclient-cluster-dev \
+	libmysqld-cluster-dev \
+	libmysqld-cluster-pic \
+	libndbclient6 \
+	libndbclient-dev \
+	mysql-client-cluster-7.2 \
+	mysql-cluster-client \
+	mysql-cluster-client-7.2 \
+	mysql-cluster-server-data \
+	mysql-cluster-server-data-7.2 \
+	mysql-cluster-server-mgmt \
+	mysql-cluster-server-mgmt-7.2 \
+	mysql-cluster-server-sql \
+	mysql-cluster-server-sql-7.2 \
+	mysql-cluster-server-sql-core-7.2 \
+	mysql-cluster-source-7.2 \
+	mysql-cluster-testsuite-7.2
+
+rm -rf /etc/mysql /var/lib/mysql /var/log/mysql
+
