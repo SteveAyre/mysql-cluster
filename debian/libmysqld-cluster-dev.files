@@ -1,2 +1,2 @@
-usr/lib/libmysqld.a
-usr/lib/libmysqlservices.a
+usr/lib/*/libmysqld.a
+usr/lib/*/libmysqlservices.a

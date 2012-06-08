@@ -23,6 +23,7 @@ DEB_VERSION ?= $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' '
 DEB_NOEPOCH_VERSION ?= $(shell echo $(DEB_VERSION) | cut -d: -f2-)
 DEB_UPSTREAM_VERSION ?= $(shell echo $(DEB_NOEPOCH_VERSION) | sed 's/-[^-]*$$//')
 DEB_UPSTREAM_VERSION_MAJOR_MINOR := $(shell echo $(DEB_UPSTREAM_VERSION) | sed -r -n 's/^([0-9]+\.[0-9]+).*/\1/p')
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 EXPORTED_SOURCE_TARBALL = debian/mysql-cluster-source-7.2.tar.gz
 
@@ -80,8 +81,8 @@ endif
 	    cmake \
 	        -DINSTALL_LAYOUT=RPM \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
-	        -DINSTALL_LIBDIR=lib \
-	        -DINSTALL_PLUGINDIR=lib/mysql/plugin \
+	        -DINSTALL_LIBDIR=lib/$(DEB_HOST_MULTIARCH) \
+	        -DINSTALL_PLUGINDIR=lib/$(DEB_HOST_MULTIARCH)/mysql/plugin \
 		-DMYSQL_DATADIR=/var/lib/mysql \
 		-DINSTALL_INFODIR=/usr/share/info \
 		-DINSTALL_MANDIR=/usr/share/man \

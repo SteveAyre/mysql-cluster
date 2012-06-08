@@ -2,5 +2,5 @@ usr/include/mysql/storage/ndb/*.h
 usr/include/mysql/storage/ndb/mgmapi/*.h
 usr/include/mysql/storage/ndb/ndbapi/*.h
 usr/include/mysql/storage/ndb/ndbapi/*.hpp
-usr/lib/libndbclient_static.a
-usr/lib/libndbclient.so
+usr/lib/*/libndbclient_static.a
+usr/lib/*/libndbclient.so

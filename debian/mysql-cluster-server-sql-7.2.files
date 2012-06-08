@@ -1,5 +1,5 @@
-usr/lib/mysql/*.so*
-usr/lib/mysql/plugin/*.so*
+usr/lib/*/mysql/*.so*
+usr/lib/*/mysql/plugin/*.so*
 etc/mysql/debian-start
 etc/mysql/conf.d/mysqld_safe_syslog.cnf
 usr/bin/msql2mysql

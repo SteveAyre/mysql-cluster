@@ -1,1 +1,1 @@
-usr/lib/libndbclient*.so.*
+usr/lib/*/libndbclient*.so.*

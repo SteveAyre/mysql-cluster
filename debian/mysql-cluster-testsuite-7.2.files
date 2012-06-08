@@ -1,3 +1,3 @@
-/usr/lib/mysql-testsuite/*
+/usr/lib/*/mysql-testsuite/*
 /usr/share/man/man1/mysql-test-run.pl.1
 /usr/share/man/man1/mysql-stress-test.pl.1
