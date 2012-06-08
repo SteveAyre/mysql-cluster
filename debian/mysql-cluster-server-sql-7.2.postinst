@@ -243,7 +243,7 @@ EOF
     set -e
 
     # Load timezone information
-    mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
+    mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
 
   ;;
 
