@@ -58,7 +58,9 @@ EOF
 # and because changed configuration options should take effect immediately.
 # In case the server wasn't running at all it should be ok if the stop
 # script fails. I can't tell at this point because of the cleaned /var/run.
-set +e; invoke stop; set -e
+if [ "$1" != "triggered" ]; then
+    set +e; invoke stop; set -e
+fi
     
 case "$1" in
   configure)
@@ -236,10 +238,10 @@ EOF
     fi
 
     # Run the above actions
-    echo "$fix_privs"                                        | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
-    echo "$replace_query"                                    | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$fix_privs"       | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$replace_query"   | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set +e
-    echo "$install_plugins"                                  | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$install_plugins" | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set -e
 
     # Load timezone information
@@ -251,7 +253,18 @@ EOF
     # Currently the only trigger is on /usr/share/zoneinfo
     mysql_cfgdir=/etc/mysql
     dc=$mysql_cfgdir/debian.cnf; 
-    mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
+
+    # Load the timezones, either by connecting if mysqld is running or using bootstrap command if it is not
+    set +e
+    mysqladmin ping >/dev/null 2>&1
+    ping_alive=$?
+    set -e
+    if [ $ping_alive = 0 ]; then
+        mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
+    else
+        mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    fi
+    
   ;;
 
   abort-upgrade|abort-remove|abort-configure)
@@ -287,6 +300,13 @@ fi
 
 db_stop # in case invoke failes
 
-#DEBHELPER#
+# Start mysqld (except after triggered)
+if [ "$1" != "triggered" ]; then
+    if [ -x "/etc/init.d/mysql" ]; then
+        update-rc.d mysql defaults 19 21 >/dev/null
+        invoke-rc.d mysql start || exit $?
+    fi
+fi
+
 
 exit 0
