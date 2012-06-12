@@ -3,20 +3,22 @@
 export DH_VERBOSE=1
 export DEB_BUILD_HARDENING=1
 
-PACKAGE=mysql-cluster-7.2
+PACKAGE:=mysql-cluster-7.2
 
-include /usr/share/dpatch/dpatch.make
+TMP:=$(CURDIR)/debian/tmp/
 
-TMP=$(CURDIR)/debian/tmp/
-
-ARCH = $(shell dpkg-architecture -qDEB_BUILD_ARCH)
-ARCH_OS = $(shell dpkg-architecture -qDEB_BUILD_ARCH_OS)
+ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+ARCH_OS := $(shell dpkg-architecture -qDEB_BUILD_ARCH_OS)
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEBVERSION = $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed 's/^.*-//' )
+DEBVERSION := $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed 's/^.*-//' )
 
-#export MYSQL_BUILD_CC=$(DEB_HOST_GNU_TYPE)-gcc-4.5
-#export MYSQL_BUILD_CXX=$(DEB_HOST_GNU_TYPE)-g++-4.5
+ifneq ($(findstring ccache,$(DEB_BUILD_OPTIONS)),)
+	export MYSQL_BUILD_PATH:=/usr/lib/ccache/:/bin:/usr/bin
+endif
+
+export MYSQL_BUILD_CC:=$(DEB_HOST_GNU_TYPE)-gcc
+export MYSQL_BUILD_CXX:=$(DEB_HOST_GNU_TYPE)-g++
 
 DEB_SOURCE_PACKAGE ?= $(strip $(shell egrep '^Source: ' debian/control | cut -f 2 -d ':'))
 DEB_VERSION ?= $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
@@ -25,53 +27,66 @@ DEB_UPSTREAM_VERSION ?= $(shell echo $(DEB_NOEPOCH_VERSION) | sed 's/-[^-]*$$//'
 DEB_UPSTREAM_VERSION_MAJOR_MINOR := $(shell echo $(DEB_UPSTREAM_VERSION) | sed -r -n 's/^([0-9]+\.[0-9]+).*/\1/p')
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
-EXPORTED_SOURCE_TARBALL = debian/mysql-cluster-source-7.2.tar.gz
+EXPORTED_SOURCE_TARBALL := debian/mysql-cluster-source-7.2.tar.gz
 
-DISTRIBUTION = $(shell lsb_release -i -s)
+DISTRIBUTION := $(shell lsb_release -i -s)
 
-MAKE_J = -j$(shell if [ -f /proc/cpuinfo ] ; then grep -c processor.* /proc/cpuinfo ; else echo 1 ; fi)
-ifeq (${MAKE_J}, -j0)
-  MAKE_J = -j1
-endif
-
-MAKE_TEST_TARGET=test-force
+MAKE_TEST_TARGET:=test-force
 ifneq ($(findstring fulltest,$(DEB_BUILD_OPTIONS)),)
 # make test-bt is the testsuite run by the MySQL build team 
 # before a release, but it is long
-    MAKE_TEST_TARGET=test-bt
+    MAKE_TEST_TARGET:=test-bt
+endif
+ifeq ($(ARCH_OS),hurd)
+# Tests not fully working under Hurd
+# See http://bugs.mysql.com/bug.php?id=64685
+    MAKE_TEST_TARGET:=test
 endif
 
 ifneq (,$(filter $(ARCH), amd64 i386))
-    TESTSUITE_FAIL_CMD=exit 1
+    TESTSUITE_FAIL_CMD:=exit 1
 else
-    TESTSUITE_FAIL_CMD=true
+    TESTSUITE_FAIL_CMD:=true
 endif
 
-BUILDDIR = builddir
-BUILDDIR_PIC = builddir-pic
+BUILDDIR := builddir
+BUILDDIR_PIC := builddir-pic
 builddir = $(if $(findstring -pic,$@),$(BUILDDIR_PIC),$(BUILDDIR))
 
 # This causes seg11 crashes if LDAP is used for groups in /etc/nsswitch.conf
 # so it is disabled by default although, according to MySQL, it brings >10%
 # performance gain if enabled. See #299382.
 ifeq ($(STATIC_MYSQLD), 1)
-    USE_STATIC_MYSQLD=WITH_MYSQLD_LDFLAGS=-all-static
+    USE_STATIC_MYSQLD:=WITH_MYSQLD_LDFLAGS=-all-static
 endif
-		
 
-configure-stamp-pic: FORCE_FPIC_CFLAGS=-fPIC
-configure-stamp-pic: FORCE_FPIC=-DWITH_PIC=On -DINSTALL_LIBDIR=lib/mysql
+# See http://blogs.innodb.com/wp/2010/04/innodb-performance-aio-linux/
+# Also #659565
+ifneq (,$(findstring linux-gnu,$(DEB_HOST_GNU_TYPE)))
+    USE_LINUX_NATIVE_AIO:=-DLINUX_NATIVE_AIO=ON
+endif
 
-configure: patch configure-stamp
-configure-pic: patch configure-stamp-pic
-configure-stamp configure-stamp-pic:
+override_dh_auto_clean:
+	@echo "RULES.$@"
+	@echo " MYSQL_BUILD_CC = $(MYSQL_BUILD_CC) "
+	@echo " MYSQL_BUILD_CXX = $(MYSQL_BUILD_CXX) "
+	dh_testdir 
+	dh_testroot
+	[ ! -d mysql-test/var ] || rm -rf mysql-test/var
+	rm -rf $(BUILDDIR) $(BUILDDIR_PIC)
+	#debconf-updatepo
+	rm -f $(EXPORTED_SOURCE_TARBALL)
+
+override_dh_prep:
+
+override_dh_auto_configure: configure-stamp configure-pic-stamp
+
+configure-pic-stamp: FORCE_FPIC_CFLAGS=-fPIC
+configure-pic-stamp: FORCE_FPIC=-DWITH_PIC=On
+
+configure-stamp configure-pic-stamp:
 	@echo "RULES.$@"
 	dh_testdir
-
-ifneq ($(ARCH_OS),hurd)
-	if [ ! -d /proc/self ]; then echo "/proc IS NEEDED" 1>&2; exit 1; fi 
-endif
-
 	( test -d $(builddir) || mkdir $(builddir) ) && cd $(builddir) && \
 	sh -c  'PATH=$${MYSQL_BUILD_PATH:-"/bin:/usr/bin"} \
 	    	CC=$${MYSQL_BUILD_CC:-gcc} \
@@ -80,6 +95,7 @@ endif
 	    	CXXFLAGS=$${MYSQL_BUILD_CXXFLAGS:-"-O3 -DBIG_JOINS=1 -felide-constructors -fno-exceptions -fno-rtti ${FORCE_FPIC_CFLAGS} -fno-strict-aliasing"} \
 	    cmake \
 	        -DINSTALL_LAYOUT=RPM \
+	        -DCMAKE_VERBOSE_MAKEFILE=ON \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DINSTALL_LIBDIR=lib/$(DEB_HOST_MULTIARCH) \
 	        -DINSTALL_PLUGINDIR=lib/$(DEB_HOST_MULTIARCH)/mysql/plugin \
@@ -87,8 +103,8 @@ endif
 		-DINSTALL_INFODIR=/usr/share/info \
 		-DINSTALL_MANDIR=/usr/share/man \
 		\
+		-DCOMPILATION_COMMENT="($(DISTRIBUTION))" \
 		-DMYSQL_SERVER_SUFFIX="-$(DEBVERSION)" \
-	        -DWITH_COMMENT="($(DISTRIBUTION))" \
 	        -DSYSTEM_TYPE="debian-linux-gnu" \
 		\
 		-DDISABLE_SHARED=Off \
@@ -98,120 +114,72 @@ endif
 		$(FORCE_FPIC) \
 		-DWITH_FAST_MUTEXES=On \
 	        -DBIG_TABLES=On \
-		-DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock \
+		-DMYSQL_UNIX_ADDR=/run/mysqld/mysqld.sock \
 	       	-DMYSQL_USER=mysql \
-		-DWITH_LIBWRAP=On \
-		-DWITH_READLINE=Off \
+		-DWITH_LIBWRAP=ON \
+		-DWITH_READLINE=OFF \
 		$(USE_STATIC_MYSQLD) \
 		-DWITH_SSL=bundled \
 		-DWITH_EXTRA_CHARSETS=all \
-		-DWITH_MAX=On \
+		-DWITH_MAX=ON \
 		\
-		-DHAVE_NDB_SCI=Off \
-		-DWITH_NDB_TEST=Off \
-		-DWITH_NDBMTD=On \
+		-DHAVE_NDB_SCI=OFF \
+		-DWITH_NDB_TEST=OFF \
+		-DWITH_NDBMTD=ON \
 		\
-		-DWITH_BUNDLED_MEMCACHED=Off \
+		-DWITH_BUNDLED_MEMCACHED=OFF \
 		\
-		-DWITH_EMBEDDED_SERVER=On \
-		-DHAVE_EMBEDDED_PRIVILEGE_CONTROL=On \
+		-DWITH_EMBEDDED_SERVER=ON \
+		-DHAVE_EMBEDDED_PRIVILEGE_CONTROL=ON \
 		    ..'
 	
 	touch $@
 
 
-build: build-stamp build-stamp-pic
+override_dh_auto_build: build-stamp build-pic-stamp
 
-build-stamp: configure
+build-stamp:
 	@echo "RULES.$@"
-	dh_testdir
-	
 	[ -f $(EXPORTED_SOURCE_TARBALL) ] || tar -zcf $(EXPORTED_SOURCE_TARBALL) \
 	--exclude=debian . \
 	--transform="s,^\./,mysql-cluster-7.2/,"
+	cd $(builddir) && $(MAKE)
+	touch $@
 
-	cd $(builddir) && $(MAKE) $(MAKE_J)
+build-pic-stamp:
+	@echo "RULES.$@"
+	cd $(builddir) && $(MAKE) -C scripts
+	cd $(builddir) && $(MAKE) -C libmysqld
+	touch $@
 
+override_dh_auto_test:
+	@echo "RULES.$@"
 ifeq ($(findstring nocheck,$(DEB_BUILD_OPTIONS)),)
-	# Don't know why the following is necessary...
 	cp unittest/unit.pl $(builddir)/unittest/
 	cp -r mysql-test/* $(builddir)/mysql-test/
 	cp -r sql/share/* $(builddir)/sql/share/
 	cp -r scripts/*sql $(builddir)/scripts/
 	cp -r storage/ndb/ndbapi-examples $(builddir)/storage/ndb/
-	if [ ! -f testsuite-stamp ] ; then \
-	  cd $(builddir) && $(MAKE) $(MAKE_TEST_TARGET) || $(TESTSUITE_FAIL_CMD) ; \
-	fi
+	cd $(builddir) && $(MAKE) $(MAKE_TEST_TARGET) || $(TESTSUITE_FAIL_CMD) ;
 endif
 
-	touch testsuite-stamp
+override_dh_auto_install: auto_install-stamp
 
-	touch build-stamp
-
-MAKE_PIC = cd $(builddir) && $(MAKE) $(MAKE_J)
-
-build-stamp-pic: configure-pic
-	@echo "RULES.$@"
-	# Build libmysqld dependencies
-	#(MAKE_PIC) -C include
-	#(MAKE_PIC) -C sql link_sources
-	#(MAKE_PIC) -C libmysql link_sources
-	#(MAKE_PIC) -C strings
-	#(MAKE_PIC) -C regex
-	#(MAKE_PIC) -C mysys
-	#(MAKE_PIC) -C dbug
-	#(MAKE_PIC) -C vio
-	#(MAKE_PIC) -C storage
-	#(MAKE_PIC) -C extra/yassl
-	#(MAKE_PIC) -C cmd-line-utils
-	#(MAKE_PIC) -C sql lex_hash.h
-	$(MAKE_PIC) -C scripts
-	# Build libmysqld itself
-	$(MAKE_PIC) -C libmysqld
-	
-	touch $@
-
-clean: clean-patched unpatch
-	rm -rf debian/patched
-clean-patched:
-	@echo "RULES.clean-patched"
-	dh_testdir 
-	dh_testroot
-	rm -f configure-stamp*
-	rm -f build-stamp*
-	rm -f testsuite-stamp
-	
-	[ ! -f Makefile ] || $(MAKE) clean
-	[ ! -d mysql-test/var ] || rm -rf mysql-test/var
-	
-	rm -rf $(BUILDDIR) $(BUILDDIR_PIC)
-
-	#debconf-updatepo
-	rm -f $(EXPORTED_SOURCE_TARBALL)
-	dh_clean -v
-
-
-install:
-install install-pic: build
+auto_install-stamp:
 	@echo "RULES.$@"
 	dh_testdir
 	dh_testroot
 	dh_prep
-	dh_installdirs
-
 	# some self written manpages which hopefully
 	# gets overwritten sooner or later with upstreams
 	mkdir -p $(TMP)/usr/share/man/man1/
 	mkdir -p $(TMP)/usr/share/man/man8/
 	cp debian/additions/*.1 $(TMP)/usr/share/man/man1/
-
-	# mysqld_safe config
 	mkdir -p $(TMP)/etc/mysql/conf.d/
+	touch $(TMP)/etc/mysql/conf.d/.keepme
 	cp debian/additions/mysqld_safe_syslog.cnf $(TMP)/etc/mysql/conf.d/
-
 	# make install (trailing slash needed for innobase)
 	cd $(builddir) && $(MAKE) install DESTDIR=$(TMP)/
-		
 	# After installing, remove rpath to make lintian happy.
 	set +e; \
 	find ./debian/tmp/ -type f -print0 \
@@ -222,7 +190,15 @@ install install-pic: build
 	set -e
 
 	# libmysqlclient
+	# libmysqlclient_r is now a symlink to libmysqlclient. But it is
+	# created wrong by the cmake build system and points at
+	# libmysqlclient.so instead of the corresponding versioned lib.
+	for i in `ls $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient.so*` ; do \
+		rlib=`basename $$i | sed -e 's/libmysqlclient\./libmysqlclient_r./'` ;\
+		ln -sf `basename $$i` $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/$$rlib ;\
+	done
 	# Check if our beloved versioned symbols are really there
+	# TODO 5.5 lost these when moving to cmake, they should get readded at some point
 	#if [ "`objdump -T $(TMP)/usr/lib/libmysqlclient.so.18.0.0 | grep -c libmysqlclient_18`" -lt 500 ]; then \
 	#  echo "ERROR: versioned symbols are absent"; \
 	#  exit 1; \
@@ -232,6 +208,7 @@ install install-pic: build
 
 	# libndbclient
 	# Check if our beloved versioned symbols are really there
+	# TODO 5.5 lost these when moving to cmake, they should get readded at some point
 	#if [ "`objdump -T $(TMP)/usr/lib/libndbclient.so.6.0.0 | grep -c libndbclient_6`" -lt 500 ]; then \
 	#  echo "ERROR: versioned symbols are absent"; \
 	#  exit 1; \
@@ -246,9 +223,7 @@ install install-pic: build
 	# mysql_config won't report the -fPIC, so give libmysqld-pic users a way to get their flags
 	install -m 0755 -o root -g root $(BUILDDIR_PIC)/scripts/mysql_config $(TMP)/usr/bin/mysql_config_pic
 
-	# mysql-common: We now provide our own config file.
-	install -d $(TMP)/etc/mysql
-	install -m 0644 debian/additions/my.cnf $(TMP)/etc/mysql/my.cnf
+	# mysql-common
 
 	# mysql-client
 	install -m 0755 debian/additions/mysqlreport $(TMP)/usr/bin/
@@ -277,106 +252,44 @@ install install-pic: build
 	       $(TMP)/usr/share/mysql/mysql-log-rotate \
 	       $(TMP)/usr/share/mysql/mysql.server \
 	       $(TMP)/usr/share/mysql/binary-configure
-	nm -n $(BUILDDIR)/sql/mysqld | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.2/mysqld.sym.gz
+	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.2/mysqld.sym.gz
 	install -m 0755 debian/additions/echo_stderr $(TMP)/usr/share/mysql/
 	install -m 0755 debian/additions/debian-start $(TMP)/etc/mysql/
 	install -m 0755 debian/additions/debian-start.inc.sh $(TMP)/usr/share/mysql/
-	# lintian overrides
-	#mkdir -p $(TMP)/usr/share/lintian/overrides/
-	#cp debian/mysql-common.lintian-overrides     $(TMP)/usr/share/lintian/overrides/mysql-common
-	#cp debian/mysql-server-5.5.lintian-overrides $(TMP)/usr/share/lintian/overrides/mysql-server-5.5
-	#cp debian/mysql-client-5.5.lintian-overrides $(TMP)/usr/share/lintian/overrides/mysql-client-5.5
+	touch $@
 
-	# For 5.0 -> 5.1 transition
-	#d=$(TMP)/usr/share/mysql-common/internal-use-only/; \
-	#mkdir -p $$d; \
-	#cp debian/mysql-server-5.1.mysql.init $$d/_etc_init.d_mysql; \
-	#cp debian/mysql-server-5.1.mysql-cluster-server-sql.logrotate $$d/_etc_logrotate.d_mysql-cluster-server-sql; \
-	#cp debian/additions/debian-start $$d/_etc_mysql_debian-start;
-
-	install -D -m 0644 $(EXPORTED_SOURCE_TARBALL) $(TMP)/usr/src/mysql-cluster/`basename $(EXPORTED_SOURCE_TARBALL)`
-
+override_dh_install:
 	dh_movefiles
-	
-# Build architecture-independent files here.
-binary-indep: build install
-	@echo "RULES.binary-indep"
-	dh_testdir -i
-	dh_testroot -i
-	dh_installdebconf -i
-	dh_installdocs -i
-	dh_installexamples -i
-	dh_installmenu -i
-	dh_installlogrotate -i
-	dh_installinit -i
-	dh_installcron -i 
-	dh_installman -i
-	dh_installinfo -i
-	dh_installlogcheck -i
-	dh_installchangelogs -i
-	dh_link -i
-	dh_compress -i
-	dh_fixperms -i
-	dh_installdeb -i
-	dh_perl -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
-	
-# Build architecture-dependent files here.
-binary-arch: build install
-	@echo "RULES.binary-arch"
-	dh_testdir 
-	dh_testroot
+	dh_install
 
-	dh_installdebconf -a
-	dh_installdocs -a
-	dh_installexamples -a
-	dh_installmenu -a
-	dh_installlogrotate -a --name mysql-server
-	# Start mysql in runlevel 19 before 20 where apache, proftpd etc gets
-	# started which might depend on a running database server.
-	dh_installinit -a --name=mysql -- defaults 19 21
-	dh_installinit -a --name=mysql-ndb -- defaults 19 21
-	dh_installinit -a --name=mysql-ndb-mgm -- defaults 19 21
-	dh_installcron -a --name mysql-server
-	dh_installman -a
-	dh_installinfo -a
-	dh_installlogcheck -a
-	dh_installchangelogs -a
-	dh_strip -a
-	dh_link -a	# .so muss nach .so.1.2.3 installier werden!
-	dh_compress -a
-	dh_fixperms -a
-	#dh_makeshlibs -a
-	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.5-0.1)'
-	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.5-0.1)'
-	dh_installdeb -a
-	dh_perl -a
-	#dh_shlibdeps -a -l debian/libmysqlclient18/usr/lib -L libmysqlclient18
-	#dh_shlibdeps -a -l debian/libndbclient6/usr/lib -L libndbclient6
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
+override_dh_installchangelogs:
+	dh_installchangelogs Docs/ChangeLog
 
-source diff:
-	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+override_dh_installlogrotate-arch:
+	dh_installlogrotate --name mysql-server
+	if [ "$(DISTRIBUTION)" = "Ubuntu" ]; then \
+	  dh_apparmor -pmysql-cluster-server-sql-7.2 --profile-name=usr.sbin.mysqld; \
+	fi
+
+# Start mysql in runlevel 19 before 20 where apache, proftpd etc gets
+# started which might depend on a running database server.
+override_dh_installinit-arch:
+	dh_installinit --name=mysql -- defaults 19 21
+	dh_installinit --name=mysql-ndb -- defaults 19 21
+	dh_installinit --name=mysql-ndb-mgm -- defaults 19 21
+
+override_dh_installcron-arch:
+	dh_installcron --name mysql-server
+
+override_dh_makeshlibs-arch:
+	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.6-0.1)'
+	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.6-0.1)'
 
 binary:	binary-indep binary-arch
 
 get-orig-source:
-	@wget -nv -T10 -t3 \
-	  -O /tmp/mysql-$(DEB_UPSTREAM_VERSION).tar.gz \
-	  http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-$(DEB_UPSTREAM_VERSION_MAJOR_MINOR)/mysql-$(DEB_UPSTREAM_VERSION).tar.gz
-	@tar xfz /tmp/mysql-$(DEB_UPSTREAM_VERSION).tar.gz -C /tmp
-	@rm -rf /tmp/mysql-$(DEB_UPSTREAM_VERSION)/Docs
-	@rm -rf /tmp/mysql-$(DEB_UPSTREAM_VERSION)/debian
-	@mv /tmp/mysql-$(DEB_UPSTREAM_VERSION) /tmp/$(DEB_SOURCE_PACKAGE)-$(DEB_UPSTREAM_VERSION).orig
-	@cd /tmp ; tar czf $(DEB_SOURCE_PACKAGE)_$(DEB_UPSTREAM_VERSION).orig.tar.gz $(DEB_SOURCE_PACKAGE)-$(DEB_UPSTREAM_VERSION).orig
-	@rm -f /tmp/mysql-$(DEB_UPSTREAM_VERSION).tar.gz
-	@rm -rf /tmp/$(DEB_SOURCE_PACKAGE)-$(DEB_UPSTREAM_VERSION).orig
+	uscan --force-download --verbose --download-current-version
 
-.PHONY: clean clean-patched configure build binary binary-indep binary-arch install patch unpatch
+%:
+	dh $@ --parallel
 
-# vim: ts=8

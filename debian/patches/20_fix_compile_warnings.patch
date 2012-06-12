@@ -1,0 +1,15 @@
+Author: Steven Ayre <steveayre@gmail.com>
+Subject: Fix some compile warnings that prevent building on Wheezy
+Last-Update: 2012-06-11
+
+--- a/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:00:32.521230852 +0000
++++ b/storage/ndb/test/src/CpcClient.cpp	2012-02-27 12:06:05.735767614 +0000
+@@ -424,7 +424,7 @@
+ 			  const Properties &args) {
+   SocketOutputStream cpc_out(cpc_sock);
+ 
+-  cpc_out.println(cmd);
++  cpc_out.println("%s", cmd);
+ 
+   Properties::Iterator iter(&args);
+   const char *name;

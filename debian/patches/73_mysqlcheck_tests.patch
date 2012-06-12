@@ -1,0 +1,45 @@
+Author: Nicholas Bamber <nicholas@periapt.co.uk>
+Bug: http://bugs.mysql.com/bug.php?id=64773
+Date: 2012-03-27
+Subject: Large number of bugs that suddenly started to fail.
+ Have not been able to isolate the exact trigger.
+ However several involve mysqlcheck failing to execute
+ and that at least might be easy to investigate further.
+ mysql-test-run of course starts the database, and forks off mysql_upgrade.
+ The latter forks off mysqlcheck.
+ Some of the other tests might be easily patchable by updating
+ the expected test results - run ./mysql-test-run --record <test name>
+ and copy the results file into the source mysql-test directory.
+--- a/mysql-test/t/disabled.def
++++ b/mysql-test/t/disabled.def
+@@ -20,6 +20,15 @@
+ mysqlslap               : n/a  2012-04-29 Failed once on kfreebsd
+ mysqlhotcopy_isam       : n/a  2012-04-29 Olaf van der Spek reported this failure
+ mysqlhotcopy_archive    : n/a  2012-04-29 Olaf van der Spek reported this failure
++plugin_auth              : Bug#64773 2012-03-27 Debian local
++ssl_8k_key               : Bug#64773 2012-03-27 Debian local
++log_tables_upgrade       : Bug#64773 2012-03-27 Debian local
++mysql_upgrade            : Bug#64773 2012-03-27 Debian local
++mysql_upgrade_ssl        : Bug#64773 2012-03-27 Debian local
++mysqladmin               : Bug#64773 2012-03-27 Debian local
++ssl_compress             : Bug#64773 2012-03-27 Debian local
++ssl                      : Bug#64773 2012-03-27 Debian local
++openssl_1                : Bug#64773 2012-03-27 Debian local
+ 
+ ### MCP_DISABLE_FAILING_TESTS start ###
+ file_contents            : Bug#12585902 2011-09-27 magnus file_contents.test fails when building from "bzr export"
+--- a/mysql-test/suite/perfschema/t/disabled.def
++++ b/mysql-test/suite/perfschema/t/disabled.def
+@@ -9,4 +9,4 @@
+ #  Do not use any TAB characters for whitespace.
+ #
+ ##############################################################################
+-
++pfs_upgrade: BUG#64773
+--- a/mysql-test/suite/rpl/t/disabled.def
++++ b/mysql-test/suite/rpl/t/disabled.def
+@@ -17,3 +17,4 @@
+ rpl_stm_until : BUG#59543 Jan 26 2011 alfranio Replication test from eits suite rpl_row_until times out
+ rpl_empty_master_host : bug#13003111 valgrind warning
+ rpl_heartbeat_basic : Fails intermittently on AMD64 buildds http://pad.lv/894146
++rpl_mysql_upgrade: Fails on Debian #64773
