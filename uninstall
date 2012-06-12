@@ -2,11 +2,14 @@
 
 dpkg -P \
 	mysql-common \
+	mysql-cluster-common \
 	libdbi-perl \
 	libdbd-mysql-perl \
 	libmysqlclient16 \
+	libmysqlclient18 \
 	libmysqlclient18-cluster \
 	libmysqlclient-cluster-dev \
+	libmysqlclient-dev \
 	libmysqld-cluster-dev \
 	libmysqld-cluster-pic \
 	libndbclient6 \
@@ -22,7 +25,17 @@ dpkg -P \
 	mysql-cluster-server-sql-7.2 \
 	mysql-cluster-server-sql-core-7.2 \
 	mysql-cluster-source-7.2 \
-	mysql-cluster-testsuite-7.2
+	mysql-cluster-testsuite-7.2 \
+	mysql-client-5.5 \
+	mysql-server \
+	mysql-server-5.5 \
+	mysql-server-core-5.5
+
+apt-get -y autoremove
+
+killall -9 -w mysqld_safe mysqld
 
 rm -rf /etc/mysql /var/lib/mysql /var/log/mysql
+
+echo Uninstalled OK
 

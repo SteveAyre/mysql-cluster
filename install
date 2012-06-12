@@ -1,24 +1,43 @@
 #!/bin/sh -e
 
-apt-get -y install mysql-common libdbi-perl libdbd-mysql-perl
+VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
+if [ `uname -m` = "x86_64" ]; then ARCH=amd64; else ARCH=i386; fi
+
+apt-get -y install \
+	mysql-common \
+	libmysqlclient18 \
+	libmysqlclient-dev \
+	libdbi-perl \
+	libdbd-mysql-perl \
+
+# Install Pre-Depends packages
+dpkg -i \
+	mysql-cluster-common_${VERSION}_all.deb
 
 dpkg -i \
-	libmysqlclient18-cluster_7.2.5-0.8_amd64.deb \
-	libmysqlclient-cluster-dev_7.2.5-0.8_amd64.deb \
-	libmysqld-cluster-dev_7.2.5-0.8_amd64.deb \
-	libmysqld-cluster-pic_7.2.5-0.8_amd64.deb \
-	libndbclient6_7.2.5-0.8_amd64.deb \
-	libndbclient-dev_7.2.5-0.8_amd64.deb \
-	mysql-client-cluster-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-client_7.2.5-0.8_all.deb \
-	mysql-cluster-client-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-server-data_7.2.5-0.8_all.deb \
-	mysql-cluster-server-data-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-server-mgmt_7.2.5-0.8_all.deb \
-	mysql-cluster-server-mgmt-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-server-sql_7.2.5-0.8_all.deb \
-	mysql-cluster-server-sql-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-server-sql-core-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-source-7.2_7.2.5-0.8_amd64.deb \
-	mysql-cluster-testsuite-7.2_7.2.5-0.8_amd64.deb
+	libmysqld-cluster-pic_${VERSION}_${ARCH}.deb \
+	libmysqld-cluster-dev_${VERSION}_${ARCH}.deb \
+	libndbclient6_${VERSION}_${ARCH}.deb \
+	libndbclient-dev_${VERSION}_${ARCH}.deb \
+	mysql-client-cluster-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-client_${VERSION}_all.deb \
+	mysql-cluster-client-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-server-data_${VERSION}_all.deb \
+	mysql-cluster-server-data-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-server-mgmt_${VERSION}_all.deb \
+	mysql-cluster-server-mgmt-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-server-sql_${VERSION}_all.deb \
+	mysql-cluster-server-sql-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-server-sql-core-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-source-7.2_${VERSION}_${ARCH}.deb \
+	mysql-cluster-testsuite-7.2_${VERSION}_${ARCH}.deb
+
+echo Installed OK
+
+# libdbd-mysql-perl has been updated to libmysqlclient18, but limited to a version
+# so can't use libmysqlclient18-cluster. this means to install the client package
+# or on most real world systems (almost anything with perl) we can't install
+# the following packages:
+# 	libmysqlclient18-cluster
+# 	libmysqlclient-cluster-dev
 
