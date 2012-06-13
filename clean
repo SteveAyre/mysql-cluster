@@ -1,1 +1,1 @@
-rm -rf mysql-cluster-7.2.* *.deb *.changes *.dsc *.debian.tar.gz *.upload *.log
+rm -rf mysql-cluster-7.2.* *.deb *.changes *.dsc *.asc *.debian.tar.gz *.upload *.log
