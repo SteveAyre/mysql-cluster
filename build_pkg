@@ -3,7 +3,7 @@
 PACKAGE_VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
 VERSION=`echo $PACKAGE_VERSION | cut -d- -f1`
 VERSION_MAJOR=`echo $VERSION | cut -d. -f1-2`
-TARBALL=.mysql-cluster-${VERSION}.tar.gz
+TARBALL=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
 URL=http://dev.mysql.com/get/Downloads/MySQL-Cluster-${VERSION_MAJOR}/mysql-cluster-gpl-${VERSION}.tar.gz/from/http://www.mirrorservice.org/sites/ftp.mysql.com/
 DIR=mysql-cluster-${VERSION}
 
@@ -25,22 +25,24 @@ then
 	wget -O ${TARBALL} ${URL}
 fi
 
-# Remove any old copies of packages
-rm -rf *.deb *.changes *.log
+# Remove any old built files
+./clean
 
 # Extract archive, add debian files
-rm -rf ${DIR}
 mkdir ${DIR}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL}
 cp -arv debian ${DIR}
 
 # Compile packages
 cd ${DIR}
-dpkg-buildpackage -b 2>&1 | tee build.log
+dpkg-buildpackage 2>&1 | tee ../build.log
 cd ..
 
 # Lintian checks
-#lintian -c *.deb 2>&1 | tee lintian.log
+#lintian -c *.deb 2>&1 | tee ../lintian.log
+
+# Upload packages to local repository
+dput -u local *.changes
 
 # Cleanup and done
 echo Done
