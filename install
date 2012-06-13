@@ -1,36 +1,21 @@
 #!/bin/sh -e
 
-VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
-if [ `uname -m` = "x86_64" ]; then ARCH=amd64; else ARCH=i386; fi
+apt-get update
 
 apt-get -y install \
-	mysql-common \
+	libmysqld-cluster-pic \
+	libmysqld-cluster-dev \
 	libmysqlclient18 \
-	libmysqlclient-dev \
-	libdbi-perl \
-	libdbd-mysql-perl \
-
-# Install Pre-Depends packages
-dpkg -i \
-	mysql-cluster-common_${VERSION}_all.deb
-
-dpkg -i \
-	libmysqld-cluster-pic_${VERSION}_${ARCH}.deb \
-	libmysqld-cluster-dev_${VERSION}_${ARCH}.deb \
-	libndbclient6_${VERSION}_${ARCH}.deb \
-	libndbclient-dev_${VERSION}_${ARCH}.deb \
-	mysql-client-cluster-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-client_${VERSION}_all.deb \
-	mysql-cluster-client-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-server-data_${VERSION}_all.deb \
-	mysql-cluster-server-data-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-server-mgmt_${VERSION}_all.deb \
-	mysql-cluster-server-mgmt-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-server-sql_${VERSION}_all.deb \
-	mysql-cluster-server-sql-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-server-sql-core-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-source-7.2_${VERSION}_${ARCH}.deb \
-	mysql-cluster-testsuite-7.2_${VERSION}_${ARCH}.deb
+	libmysqlclient18-dev \
+	libndbclient6 \
+	libndbclient-dev \
+	mysql-client-cluster \
+	mysql-cluster-client \
+	mysql-cluster-server-data \
+	mysql-cluster-server-mgmt \
+	mysql-cluster-server-sql \
+	mysql-cluster-source \
+	mysql-cluster-testsuite
 
 echo Installed OK
 
