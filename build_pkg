@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+SIGN_KEY=888012DD
+
 PACKAGE_VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
 VERSION=`echo $PACKAGE_VERSION | cut -d- -f1`
 VERSION_MAJOR=`echo $VERSION | cut -d. -f1-2`
@@ -31,18 +33,18 @@ fi
 # Extract archive, add debian files
 mkdir ${DIR}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL}
-cp -arv debian ${DIR}
+cp -ar debian ${DIR}
 
 # Compile packages
 cd ${DIR}
-dpkg-buildpackage 2>&1 | tee ../build.log
+dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log
 cd ..
 
 # Lintian checks
 #lintian -c *.deb 2>&1 | tee ../lintian.log
 
 # Upload packages to local repository
-dput -u local *.changes
+dput local *.changes
 
 # Cleanup and done
 echo Done
