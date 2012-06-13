@@ -17,15 +17,16 @@ dpkg -P \
 	mysql-client-cluster-7.2 \
 	mysql-cluster-client \
 	mysql-cluster-client-7.2 \
-	mysql-cluster-server-data \
-	mysql-cluster-server-data-7.2 \
-	mysql-cluster-server-mgmt \
-	mysql-cluster-server-mgmt-7.2 \
-	mysql-cluster-server-sql \
-	mysql-cluster-server-sql-7.2 \
-	mysql-cluster-server-sql-core-7.2 \
+	mysql-cluster-server-datanode \
+	mysql-cluster-server-datanode-7.2 \
+	mysql-cluster-server-mgmtnode \
+	mysql-cluster-server-mgmtnode-7.2 \
+	mysql-cluster-server-sqlnode \
+	mysql-cluster-server-sqlnode-7.2 \
+	mysql-cluster-server-sqlnode-core-7.2 \
 	mysql-cluster-source-7.2 \
 	mysql-cluster-testsuite-7.2 \
+	mysql-client \
 	mysql-client-5.5 \
 	mysql-server \
 	mysql-server-5.5 \

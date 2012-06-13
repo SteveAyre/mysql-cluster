@@ -5,15 +5,13 @@ apt-get update
 apt-get -y install \
 	libmysqld-cluster-pic \
 	libmysqld-cluster-dev \
-	libmysqlclient18 \
 	libmysqlclient18-dev \
-	libndbclient6 \
 	libndbclient-dev \
 	mysql-client-cluster \
 	mysql-cluster-client \
-	mysql-cluster-server-data \
-	mysql-cluster-server-mgmt \
-	mysql-cluster-server-sql \
+	mysql-cluster-server-datanode \
+	mysql-cluster-server-mgmtnode \
+	mysql-cluster-server-sqlnode \
 	mysql-cluster-source \
 	mysql-cluster-testsuite
 
