@@ -4,4 +4,5 @@ mysql-cluster-7.2.*
 *.deb
 *.changes
 *.dsc
+*.asc
 *.upload
