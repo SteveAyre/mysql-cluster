@@ -1,16 +1,16 @@
-Template: mysql-cluster-server-sql-7.2/really_downgrade
+Template: mysql-cluster-server-sqlnode-7.2/really_downgrade
 Type: boolean
 Default: false
 Description: Really proceed with downgrade?
  A file named /var/lib/mysql/debian-*.flag exists on this system.
  .
- Such a file is an indication that a mysql-cluster-server-sql package with a higher
+ Such a file is an indication that a mysql-cluster-server-sqlnode package with a higher
  version has been installed previously.
  .
  There is no guarantee that the version you're currently installing
  will be able to use the current databases.
 
-Template: mysql-cluster-server-sql-7.2/nis_warning
+Template: mysql-cluster-server-sqlnode-7.2/nis_warning
 Type: note
 Description: Important note for NIS/YP users
  Using MySQL under NIS/YP requires a mysql user account to be added on
@@ -23,7 +23,7 @@ Description: Important note for NIS/YP users
  .
   /var/lib/mysql: drwxr-xr-x   mysql    mysql
 
-Template: mysql-cluster-server-sql-7.2/postrm_remove_databases
+Template: mysql-cluster-server-sqlnode-7.2/postrm_remove_databases
 Type: boolean
 Default: false
 Description: Remove all MySQL databases?
@@ -31,10 +31,10 @@ Description: Remove all MySQL databases?
  to be removed.
  .
  If you're removing the MySQL package in order to later install a more
- recent version or if a different mysql-cluster-server-sql package is already
+ recent version or if a different mysql-cluster-server-sqlnode package is already
  using it, the data should be kept.
 
-Template: mysql-cluster-server-sql-7.2/start_on_boot
+Template: mysql-cluster-server-sqlnode-7.2/start_on_boot
 Type: boolean
 Default: true
 Description: Start the MySQL server on boot?
@@ -63,7 +63,7 @@ Description: Unable to set password for the MySQL "root" user
  .
  You should check the account's password after the package installation.
  .
- Please read the /usr/share/doc/mysql-cluster-server-sql-7.2/README.Debian file
+ Please read the /usr/share/doc/mysql-cluster-server-sqlnode-7.2/README.Debian file
  for more information.
 
 Template: mysql-server/password_mismatch

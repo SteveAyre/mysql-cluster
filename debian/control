@@ -143,7 +143,7 @@ Description: MySQL Cluster database client (metapackage depending on the latest 
  language in the world. The main goals of MySQL are speed, robustness and
  ease of use.
 
-Package: mysql-cluster-server-sql-core-7.2
+Package: mysql-cluster-server-sqlnode-core-7.2
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: mysql-server-5.5, mysql-server-5.1, mysql-server-5.0
@@ -157,12 +157,12 @@ Description: MySQL Cluster database server sql node binaries
  This package includes the server binaries for the SQL node, but doesn't
  contain all the infrastructure needed to setup system databases.
 
-Package: mysql-cluster-server-sql-7.2
+Package: mysql-cluster-server-sqlnode-7.2
 Architecture: any
 Suggests: tinyca
 Recommends: mailx, libhtml-template-perl
 Pre-Depends: mysql-cluster-common (= ${binary:Version}), adduser (>= 3.40), debconf
-Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sql-core-7.2 (= ${binary:Version}), tzdata
+Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sqlnode-core-7.2 (= ${binary:Version}), tzdata
 Conflicts: mysql-cluster-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1, mysql-server-5.5
 Provides: mysql-cluster-server, virtual-mysql-cluster-server, mysql-server, virtual-mysql-server, 
 Replaces: mysql-cluster-server (<< ${source:Version})
@@ -175,13 +175,13 @@ Description: MySQL Cluster database server sql node binaries and system database
  This package contains all the infrastructure needed to setup system
  databases.
 
-Package: mysql-cluster-server-sql
+Package: mysql-cluster-server-sqlnode
 Section: database
 Architecture: all
-Depends: mysql-cluster-server-sql-7.2, ${misc:Depends}
+Depends: mysql-cluster-server-sqlnode-7.2, ${misc:Depends}
 Description: MySQL Cluster database sql node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-server-sql (currently mysql-server-sql-7.2), as determined
+ mysql-cluster-server-sqlnode (currently mysql-server-sql-7.2), as determined
  by the MySQL maintainers. Install this package if in doubt about which MySQL
  version you need. That will install the version recommended by the
  package maintainers.
@@ -191,11 +191,11 @@ Description: MySQL Cluster database sql node (metapackage depending on the lates
  language in the world. The main goals of MySQL are speed, robustness and
  ease of use.
 
-Package: mysql-cluster-server-mgmt-7.2
+Package: mysql-cluster-server-mgmtnode-7.2
 Architecture: any
 Pre-Depends: mysql-cluster-common (= ${binary:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
-Provides: mysql-cluster-server-mgmt
+Provides: mysql-cluster-server-mgmtnode
 Description: MySQL Cluster database server management node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -204,14 +204,14 @@ Description: MySQL Cluster database server management node binaries
  .
  This package includes the server binaries for the management node.
 
-Package: mysql-cluster-server-mgmt
+Package: mysql-cluster-server-mgmtnode
 Section: database
 Architecture: all
 Pre-Depends: mysql-cluster-common (= ${binary:Version}), adduser (>= 3.40), debconf
-Depends: mysql-cluster-server-mgmt-7.2, ${misc:Depends}
+Depends: mysql-cluster-server-mgmtnode-7.2, ${misc:Depends}
 Description: MySQL Cluster server mgmt node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-server-mgmt (currently mysql-cluster-server-mgmt-7.2), as
+ mysql-cluster-server-mgmtnode (currently mysql-cluster-server-mgmtnode-7.2), as
  determined by the MySQL maintainers. Install this package if in doubt about
  which MySQL version you need. That will install the version recommended by the
  package maintainers.
@@ -221,11 +221,11 @@ Description: MySQL Cluster server mgmt node (metapackage depending on the latest
  language in the world. The main goals of MySQL are speed, robustness and
  ease of use.
 
-Package: mysql-cluster-server-data-7.2
+Package: mysql-cluster-server-datanode-7.2
 Architecture: any
 Pre-Depends: mysql-cluster-common (= ${binary:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
-Provides: mysql-cluster-server-data
+Provides: mysql-cluster-server-datanode
 Description: MySQL Cluster database server data node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -234,13 +234,13 @@ Description: MySQL Cluster database server data node binaries
  .
  This package includes the server binaries for the data node.
 
-Package: mysql-cluster-server-data
+Package: mysql-cluster-server-datanode
 Section: database
 Architecture: all
-Depends: mysql-cluster-server-data-7.2, ${misc:Depends}
+Depends: mysql-cluster-server-datanode-7.2, ${misc:Depends}
 Description: MySQL Cluster server data node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
- mysql-cluster-server-data (currently mysql-cluster-server-data-7.2), as
+ mysql-cluster-server-datanode (currently mysql-cluster-server-datanode-7.2), as
  determined by the MySQL maintainers. Install this package if in doubt about
  which MySQL version you need. That will install the version recommended by the
  package maintainers.

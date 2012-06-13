@@ -19,7 +19,7 @@ usr/bin/mysqltest
 usr/bin/replace
 usr/bin/resolve_stack_dump
 usr/bin/resolveip
-usr/share/doc/mysql-cluster-server-sql-7.2/
+usr/share/doc/mysql-cluster-server-sqlnode-7.2/
 usr/share/man/man1/msql2mysql.1
 usr/share/man/man1/myisamchk.1
 usr/share/man/man1/myisamlog.1
