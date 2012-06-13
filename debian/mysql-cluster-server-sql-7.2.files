@@ -7,7 +7,6 @@ usr/bin/myisamchk
 usr/bin/myisamlog
 usr/bin/myisampack
 usr/bin/mysql_convert_table_format
-usr/bin/mysql_plugin
 usr/bin/mysql_secure_installation
 usr/bin/mysql_setpermission
 usr/bin/mysql_tzinfo_to_sql
@@ -26,7 +25,6 @@ usr/share/man/man1/myisamchk.1
 usr/share/man/man1/myisamlog.1
 usr/share/man/man1/myisampack.1
 usr/share/man/man1/mysql_convert_table_format.1
-usr/share/man/man1/mysql_plugin.1
 usr/share/man/man1/mysql_secure_installation.1
 usr/share/man/man1/mysql_setpermission.1
 usr/share/man/man1/mysql_tzinfo_to_sql.1

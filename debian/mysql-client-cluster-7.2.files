@@ -13,6 +13,7 @@ usr/bin/mysqlbug
 usr/bin/mysql_client_test
 usr/bin/mysql_find_rows
 usr/bin/mysql_fix_extensions
+usr/bin/mysql_plugin
 usr/bin/mysql_waitpid
 usr/bin/mysqldump
 usr/bin/mysqldumpslow
@@ -31,6 +32,7 @@ usr/share/man/man1/mysqlbug.1
 usr/share/man/man1/mysql_client_test.1
 usr/share/man/man1/mysql_find_rows.1
 usr/share/man/man1/mysql_fix_extensions.1
+usr/share/man/man1/mysql_plugin.1
 usr/share/man/man1/mysql_waitpid.1
 usr/share/man/man1/mysqldump.1
 usr/share/man/man1/mysqldumpslow.1
