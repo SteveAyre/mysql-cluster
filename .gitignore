@@ -1,12 +1,6 @@
-# Source files
-mysql-cluster-7.2_*.dsc
-mysql-cluster-7.2_*.orig.tar.gz
-mysql-cluster-7.2_*.debian.tar.gz
-
-# Build directories
-mysql-cluster-7.2.*
-
-# Built package files
+*.tar.gz
+*.log
 *.deb
 *.changes
-
+*.dsc
+*.upload
