@@ -1,0 +1,21 @@
+To build packages:
+	$ ./build
+This will build the packages.
+
+When built it'll upload them using dput to the 'local' repository.
+This assumes the local repository is configured in dput.cf.
+This means you can install using Apt, which will automatically
+pull in any dependancies, including mysql-common from mysql-5.5.
+
+To install packages:
+	$ ./install
+This assumes you have added the local repository to sources.list
+It will do the apt-get update for you, so you can:
+
+To build and install packages:
+	$ ./build_pkg && ./install
+
+To uninstall:
+	$ ./uninstall
+!!!WARNING!!! do NOT do this on a production system - it'll delete your entire datadir
+
