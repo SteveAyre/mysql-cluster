@@ -1,4 +1,4 @@
-mysql-cluster-7.2 (7.2.6-0.1) UNRELEASED; urgency=low
+mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
 
   * New upstream version
   * Changed patches to 3.0 (quilt) format
