@@ -1,1 +1,1 @@
-debian/mysql-source*.tar.gz usr/src/mysql-cluster/
+debian/mysql-cluster-source*.tar.gz usr/src/mysql-cluster/
