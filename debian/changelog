@@ -1,15 +1,23 @@
 mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
 
   * New upstream version
-  * Changed patches to 3.0 (quilt) format
-  * Merged patches from mysql-5.5 source package
-  * Add ccache DEB_BUILD_OPTIONS option
   * Add package mysql-common-cluster
-    (depends on mysql-common from mysql-5.5)
-  * Rewritten debian/rules (based on mysql-5.5)
-  * Uses /run not /var/run for UNIX socket
+    * Depends on mysql-common (mysql-5.5) for my.cnf, adds
+      cluster-specific options in /etc/mysql/conf.d/my-cluster.cnf
+  * Add package mysql-client-core-cluster-7.2
+  * Add package mysql-cluster-clusterj
+  * Packaging updates
+    * Changed to 3.0 (quilt) format
+    * Add ccache DEB_BUILD_OPTIONS option
+    * Move from dh_movefiles to dh_install
+    * Move manpage files from .files to .manpages
+    * Move some files between packages to avoid conflicting with
+    * Merged some changes from mysql-5.5 source package
+    * Reenabled libmysqlclient18 versioned symbols check
+      Missing symbols were fixed upstream - libndbclient6 still lacking.
+    * Updated debian/watch
 
- -- Steven Ayre <steveayre@gmail.com>  Mon, 11 Jun 2012 15:03:06 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Fri, 22 Jun 2012 19:53:00 +0100
 
 mysql-cluster-7.2 (7.2.5-0.8) unstable; urgency=low
 

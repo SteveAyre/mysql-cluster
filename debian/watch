@@ -1,3 +1,7 @@
 version=3
-opts="uversionmangle=s/-(rc|beta)/$1/" \
-  ftp://sunsite.informatik.rwth-aachen.de/pub/mirror/www.mysql.com/Downloads/MySQL-Cluster-7.2/mysql-cluster-gpl-([\d\.]*(?:-beta|-rc)?).tar.gz debian
+opts=dversionmangle=s/\+dfsg\d*$// \
+    http://mysql.linux.cz/Downloads/MySQL-Cluster-7.2/mysql-cluster-gpl-([\d\.]+).tar.gz \
+    debian sh debian/repack.stub
+opts=dversionmangle=s/\+dfsg\d*$// \
+    http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-Cluster-7.2/mysql-cluster-gpl-([\d\.]+).tar.gz \
+    debian sh debian/repack.stub

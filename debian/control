@@ -276,9 +276,23 @@ Description: MySQL Cluster source
 
 # The cluster variant of mysql-client, but optional since the 5.1/5.5 version should be compatible
 # NDB-specific client programs are split into the separate package mysql-cluster-client
+
+Package: mysql-client-core-cluster-7.2
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: mysql-client-cluster-7.2 (<< ${source:Version})
+Replaces: mysql-client-cluster-7.2 (<< ${source:Version})
+Description: MySQL database core client binaries
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the core client files.
+
 Package: mysql-client-cluster-7.2
 Architecture: any
-Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-cluster-common (= ${binary:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: debianutils (>=1.6), libdbi-perl, libdbd-mysql-perl (>= 1.2202), mysql-cluster-common (= ${binary:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}, mysql-client-core-cluster-7.2
 Provides: virtual-mysql-client, mysql-client, mysql-client-4.1
 Conflicts: mysql-client, mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
 Replaces: mysql-client, mysql-client-5.0, mysql-client-5.1, mysql-client-5.5
@@ -305,4 +319,16 @@ Description: MySQL database client binaries
 # mysql-client (currently mysql-client-cluster-7.2), as determined by the MySQL
 # maintainers.  Install this package if in doubt about which MySQL version
 # you want, as this is the one we consider to be in the best shape.
+
+Package: mysql-cluster-clusterj
+Section: database
+Architecture: all
+Depends: default-jre, ${misc:Depends}
+Description: MySQL ClusterJ API
+ MySQL is a fast, stable and true multi-user, multi-threaded SQL database
+ server. SQL (Structured Query Language) is the most popular database query
+ language in the world. The main goals of MySQL are speed, robustness and
+ ease of use.
+ .
+ This package includes the ClusterJ API java classes.
 

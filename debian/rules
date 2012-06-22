@@ -11,14 +11,19 @@ ARCH := $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 ARCH_OS := $(shell dpkg-architecture -qDEB_BUILD_ARCH_OS)
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_SYSTEM ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_SYSTEM)
 DEBVERSION := $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed 's/^.*-//' )
+
+ifneq (,$(filter $(ARCH), i386 kfreebsd-i386))
+    USE_THIS_GCC_VERSION:=-4.5
+endif
 
 ifneq ($(findstring ccache,$(DEB_BUILD_OPTIONS)),)
 	export MYSQL_BUILD_PATH:=/usr/lib/ccache/:/bin:/usr/bin
 endif
 
-export MYSQL_BUILD_CC:=$(DEB_HOST_GNU_TYPE)-gcc
-export MYSQL_BUILD_CXX:=$(DEB_HOST_GNU_TYPE)-g++
+export MYSQL_BUILD_CC=$(DEB_HOST_GNU_TYPE)-gcc$(USE_THIS_GCC_VERSION)
+export MYSQL_BUILD_CXX=$(DEB_HOST_GNU_TYPE)-g++$(USE_THIS_GCC_VERSION)
 
 DEB_SOURCE_PACKAGE ?= $(strip $(shell egrep '^Source: ' debian/control | cut -f 2 -d ':'))
 DEB_VERSION ?= $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
@@ -37,13 +42,8 @@ ifneq ($(findstring fulltest,$(DEB_BUILD_OPTIONS)),)
 # before a release, but it is long
     MAKE_TEST_TARGET:=test-bt
 endif
-ifeq ($(ARCH_OS),hurd)
-# Tests not fully working under Hurd
-# See http://bugs.mysql.com/bug.php?id=64685
-    MAKE_TEST_TARGET:=test
-endif
 
-ifneq (,$(filter $(ARCH), amd64 i386))
+ifneq (,$(filter $(ARCH), amd64 i386 kfreebsd-i386))
     TESTSUITE_FAIL_CMD:=exit 1
 else
     TESTSUITE_FAIL_CMD:=true
@@ -68,8 +68,6 @@ endif
 
 override_dh_auto_clean:
 	@echo "RULES.$@"
-	@echo " MYSQL_BUILD_CC = $(MYSQL_BUILD_CC) "
-	@echo " MYSQL_BUILD_CXX = $(MYSQL_BUILD_CXX) "
 	dh_testdir 
 	dh_testroot
 	[ ! -d mysql-test/var ] || rm -rf mysql-test/var
@@ -114,11 +112,12 @@ configure-stamp configure-pic-stamp:
 		$(FORCE_FPIC) \
 		-DWITH_FAST_MUTEXES=On \
 	        -DBIG_TABLES=On \
-		-DMYSQL_UNIX_ADDR=/run/mysqld/mysqld.sock \
+		-DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock \
 	       	-DMYSQL_USER=mysql \
 		-DWITH_LIBWRAP=ON \
 		-DWITH_READLINE=OFF \
 		$(USE_STATIC_MYSQLD) \
+		$(USE_LINUX_NATIVE_AIO) \
 		-DWITH_SSL=bundled \
 		-DWITH_EXTRA_CHARSETS=all \
 		-DWITH_MAX=ON \
@@ -169,15 +168,6 @@ auto_install-stamp:
 	@echo "RULES.$@"
 	dh_testdir
 	dh_testroot
-	dh_prep
-	# some self written manpages which hopefully
-	# gets overwritten sooner or later with upstreams
-	mkdir -p $(TMP)/usr/share/man/man1/
-	mkdir -p $(TMP)/usr/share/man/man8/
-	cp debian/additions/*.1 $(TMP)/usr/share/man/man1/
-	mkdir -p $(TMP)/etc/mysql/conf.d/
-	touch $(TMP)/etc/mysql/conf.d/.keepme
-	cp debian/additions/mysqld_safe_syslog.cnf $(TMP)/etc/mysql/conf.d/
 	# make install (trailing slash needed for innobase)
 	cd $(builddir) && $(MAKE) install DESTDIR=$(TMP)/
 	# After installing, remove rpath to make lintian happy.
@@ -190,26 +180,19 @@ auto_install-stamp:
 	set -e
 
 	# libmysqlclient
-	# libmysqlclient_r is now a symlink to libmysqlclient. But it is
-	# created wrong by the cmake build system and points at
-	# libmysqlclient.so instead of the corresponding versioned lib.
-	for i in `ls $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient.so*` ; do \
-		rlib=`basename $$i | sed -e 's/libmysqlclient\./libmysqlclient_r./'` ;\
-		ln -sf `basename $$i` $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/$$rlib ;\
-	done
 	# Check if our beloved versioned symbols are really there
-	# TODO 5.5 lost these when moving to cmake, they should get readded at some point
-	#if [ "`objdump -T $(TMP)/usr/lib/libmysqlclient.so.18.0.0 | grep -c libmysqlclient_18`" -lt 500 ]; then \
-	#  echo "ERROR: versioned symbols are absent"; \
-	#  exit 1; \
-	#fi
+	if [ "`objdump -T $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient.so.18.0.0 | grep -c libmysqlclient_18`" -lt 500 ]; then \
+	  echo "ERROR: versioned symbols are absent"; \
+	  exit 1; \
+	fi
 
 	# libmysqlclient-dev
 
 	# libndbclient
 	# Check if our beloved versioned symbols are really there
-	# TODO 5.5 lost these when moving to cmake, they should get readded at some point
-	#if [ "`objdump -T $(TMP)/usr/lib/libndbclient.so.6.0.0 | grep -c libndbclient_6`" -lt 500 ]; then \
+	# TODO 5.5 lost these when moving to cmake, they need to get readded
+	# (mysql fixed libmysqlclient but not libndbclient)
+	#if [ "`objdump -T $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libndbclient.so.6.0.0 | grep -c libndbclient_6`" -lt 500 ]; then \
 	#  echo "ERROR: versioned symbols are absent"; \
 	#  exit 1; \
 	#fi     
@@ -223,18 +206,13 @@ auto_install-stamp:
 	# mysql_config won't report the -fPIC, so give libmysqld-pic users a way to get their flags
 	install -m 0755 -o root -g root $(BUILDDIR_PIC)/scripts/mysql_config $(TMP)/usr/bin/mysql_config_pic
 
-	# mysql-common
+	# mysql-cluster-common
 
 	# mysql-client
-	install -m 0755 debian/additions/mysqlreport $(TMP)/usr/bin/
-	install -m 0755 debian/additions/innotop/innotop $(TMP)/usr/bin/
-	install -m 0644 debian/additions/innotop/innotop.1 $(TMP)/usr/share/man/man1/
 
 	# mysql-cluster-client
 
 	# mysql-cluster-testsuite
-	mkdir -p $(TMP)/usr/lib/mysql-testsuite
-	cp -rp $(TMP)/usr/share/mysql-test/* $(TMP)/usr/lib/mysql-testsuite
 
 	# mysql-cluster-server-mgmtnode
 	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2/examples
@@ -246,30 +224,65 @@ auto_install-stamp:
 	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/ndbd.sym.gz
 
 	# mysql-cluster-server-sqlnode
+	mkdir -p $(TMP)/etc/mysql
 	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-sqlnode-7.2/examples
-	mv $(TMP)/usr/share/mysql/*cnf $(TMP)/usr/share/doc/mysql-cluster-server-sqlnode-7.2/examples/
-	rm -vf $(TMP)/usr/share/mysql/mi_test_all* \
-	       $(TMP)/usr/share/mysql/mysql-log-rotate \
-	       $(TMP)/usr/share/mysql/mysql.server \
-	       $(TMP)/usr/share/mysql/binary-configure
 	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sqlnode-7.2/mysqld.sym.gz
 	install -m 0755 debian/additions/echo_stderr $(TMP)/usr/share/mysql/
 	install -m 0755 debian/additions/debian-start $(TMP)/etc/mysql/
 	install -m 0755 debian/additions/debian-start.inc.sh $(TMP)/usr/share/mysql/
+
+	# This seems to be the only safe place to fix permissions issues
+	# not handled by dh_fixperms.
+	chmod 0755 $(TMP)/usr/share/mysql-test/lib/My/SafeProcess/safe_process.pl
+	chmod 0755 $(TMP)/usr/share/mysql-test/std_data/checkDBI_DBD-mysql.pl
+	chmod 0644 $(TMP)/usr/share/mysql/*.ini
+	chmod 0644 $(TMP)/usr/share/mysql-test/[rt]/*
+	chmod 0644 $(TMP)/usr/share/mysql-test/collections/default.weekly
+	chmod 0644 $(TMP)/usr/share/mysql-test/suite/innodb/[rt]/*
+	chmod 0644 $(TMP)/usr/bin/mysqlaccess.conf
 	touch $@
 
+# Use the --fail-missing to check for stuff that we should be installing
+#       Exclusion                                       Package         Type
+#       todo                                            todo            todo
 override_dh_install:
-	dh_movefiles
-	dh_install
+	dh_install --fail-missing           \
+        -Xusr/share/man/                                \
+        -Xlibmysqlclient_r.so                           \
+        -Xusr/share/mysql/magic                         \
+        -Xmysql/plugin/daemon_example.ini               \
+        -Xusr/bin/mysqlaccess.conf                      \
+        -Xusr/share/mysql/mysql-log-rotate              \
+        -Xusr/share/mysql/mysql.server                  \
+        -Xusr/share/mysql/binary-configure              \
+        -Xusr/share/mysql/my-
 
-override_dh_installchangelogs:
-	dh_installchangelogs Docs/ChangeLog
+libmysqlclient-links-stamp: auto_install-stamp
+	@echo "RULES.$@"
+	# libmysqlclient_r is now a symlink to libmysqlclient. But it is
+	# created wrong by the cmake build system and points at
+	# libmysqlclient.so instead of the corresponding versioned lib.
+	echo usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient.so usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient_r.so > debian/libmysqlclient-dev.links
+	rm -f debian/libmysqlclient18.links
+	for i in `ls $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libmysqlclient.so.*`; \
+	do \
+	    source=`basename $$i`; \
+	    dest=`echo $$source | sed -e's/libmysqlclient/libmysqlclient_r/'`; \
+	    echo usr/lib/$(DEB_HOST_MULTIARCH)/$$source usr/lib/$(DEB_HOST_MULTIARCH)/$$dest >> debian/libmysqlclient18.links; \
+	done
+	touch $@
+
+override_dh_link-arch: libmysqlclient-links-stamp
+	dh_link
 
 override_dh_installlogrotate-arch:
 	dh_installlogrotate --name mysql-server
 	if [ "$(DISTRIBUTION)" = "Ubuntu" ]; then \
 	  dh_apparmor -pmysql-cluster-server-sqlnode-7.2 --profile-name=usr.sbin.mysqld; \
 	fi
+
+override_dh_installchangelogs:
+	dh_installchangelogs Docs/ChangeLog
 
 # Start mysql in runlevel 19 before 20 where apache, proftpd etc gets
 # started which might depend on a running database server.
@@ -288,7 +301,7 @@ override_dh_makeshlibs-arch:
 binary:	binary-indep binary-arch
 
 get-orig-source:
-	uscan --force-download --verbose --download-current-version
+	uscan --download-current-version --verbose
 
 %:
 	dh $@ --parallel
