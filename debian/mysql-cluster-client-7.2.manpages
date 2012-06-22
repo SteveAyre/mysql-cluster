@@ -1,0 +1,17 @@
+debian/tmp/usr/share/man/man1/ndb_mgm.1
+debian/tmp/usr/share/man/man1/ndb_config.1
+debian/tmp/usr/share/man/man1/ndb_delete_all.1
+debian/tmp/usr/share/man/man1/ndb_desc.1
+debian/tmp/usr/share/man/man1/ndbd_redo_log_reader.1
+debian/tmp/usr/share/man/man1/ndb_drop_index.1
+debian/tmp/usr/share/man/man1/ndb_drop_table.1
+debian/tmp/usr/share/man/man1/ndb_error_reporter.1
+debian/tmp/usr/share/man/man1/ndb_print_backup_file.1
+debian/tmp/usr/share/man/man1/ndb_print_schema_file.1
+debian/tmp/usr/share/man/man1/ndb_print_sys_file.1
+debian/tmp/usr/share/man/man1/ndb_restore.1
+debian/tmp/usr/share/man/man1/ndb_select_all.1
+debian/tmp/usr/share/man/man1/ndb_select_count.1
+debian/tmp/usr/share/man/man1/ndb_show_tables.1
+debian/tmp/usr/share/man/man1/ndb_size.pl.1
+debian/tmp/usr/share/man/man1/ndb_waiter.1

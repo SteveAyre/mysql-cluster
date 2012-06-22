@@ -1,9 +1,7 @@
+usr/bin/my_print_defaults
 usr/bin/mysql_install_db
 usr/bin/mysql_upgrade
 usr/sbin/mysqld
-usr/share/man/man1/mysql_install_db.1
-usr/share/man/man1/mysql_upgrade.1
-usr/share/man/man8/mysqld.8
 usr/share/mysql/charsets
 usr/share/mysql/czech
 usr/share/mysql/danish
@@ -20,6 +18,7 @@ usr/share/mysql/japanese
 usr/share/mysql/korean
 usr/share/mysql/mysql_system_tables_data.sql
 usr/share/mysql/mysql_system_tables.sql
+usr/share/mysql/ndb_dist_priv.sql
 usr/share/mysql/norwegian
 usr/share/mysql/norwegian-ny
 usr/share/mysql/polish
