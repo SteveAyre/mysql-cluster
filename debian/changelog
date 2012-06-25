@@ -1,3 +1,14 @@
+mysql-cluster-7.2 (7.2.6-0.2) unstable; urgency=low
+
+  * Removed packages from build which conflict
+    with mysql-5.5 because of versioned dependancies.
+     * libmysqlclient18-cluster
+     * libmysqlclient18-cluster-dev
+     * mysql-client-cluster-7.2
+     * mysql-client-core-cluster-7.2
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 16:58:57 +0100
+
 mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
 
   * New upstream version
