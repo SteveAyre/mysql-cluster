@@ -8,13 +8,14 @@ dpkg -P \
 	libmysqlclient16 \
 	libmysqlclient18 \
 	libmysqlclient18-cluster \
-	libmysqlclient-cluster-dev \
 	libmysqlclient-dev \
+	libmysqlclient-cluster-dev \
 	libmysqld-cluster-dev \
 	libmysqld-cluster-pic \
 	libndbclient6 \
 	libndbclient-dev \
 	mysql-client-cluster-7.2 \
+	mysql-client-core-cluster-7.2 \
 	mysql-cluster-client \
 	mysql-cluster-client-7.2 \
 	mysql-cluster-server-datanode \

@@ -1,4 +1,14 @@
 #!/bin/sh -e
+#
+# Because of versioned dependancies from other packages, we can't use our own
+# versions of mysql-client (mysql-client-cluster) and libmysqlclient18 (libmysqlclient18-cluster)
+# as versioned dependancies ignore virtual packages.
+# This means the following packages although built cannot be installed:
+# 	libmysqlclient18-cluster
+# 	libmysqlclient-cluster-dev
+#	mysql-client-cluster-7.2
+#	mysql-client-core-cluster-7.2
+#
 
 apt-get update
 
@@ -17,11 +27,4 @@ apt-get -y install \
 	mysql-cluster-clusterj
 
 echo Installed OK
-
-# libdbd-mysql-perl has been updated to libmysqlclient18, but limited to a version
-# so can't use libmysqlclient18-cluster. this means to install the client package
-# or on most real world systems (almost anything with perl) we can't install
-# the following packages:
-# 	libmysqlclient18-cluster
-# 	libmysqlclient-cluster-dev
 

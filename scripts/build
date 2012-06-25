@@ -13,7 +13,7 @@ DIR=mysql-cluster-${VERSION}
 # nocheck - skip testing (faster build)
 # fulltest - very long testsuite
 # leave both commented out for the normal test
-export DEB_BUILD_OPTIONS=nocheck
+#export DEB_BUILD_OPTIONS=nocheck
 #export DEB_BUILD_OPTIONS=fulltest
 
 # Use ccache if available
@@ -22,7 +22,7 @@ if [ `which ccache` ]; then
 fi
 
 # Remove any old built files
-./clean
+scripts/clean
 
 # Prepare build directory and compile
 mkdir ${DIR}
@@ -30,7 +30,7 @@ cp -ar debian ${DIR}
 (cd ${DIR} && REPACK_SH=../scripts/repack.sh debian/rules get-orig-source)
 ln -fs ${TARBALL} ${TARBALL_SYMLINK}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
-(cd ${DIR} && dpkg-buildpackage -nc -k${SIGN_KEY} 2>&1 | tee ../build.log)
+(cd ${DIR} && dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log)
 
 # Lintian checks
 #lintian -c *.deb 2>&1 | tee ../lintian.log
