@@ -242,10 +242,18 @@ auto_install-stamp:
 	chmod 0644 $(TMP)/usr/bin/mysqlaccess.conf
 	touch $@
 
+# First remove files for libmysqlclient and mysql-client, as we
+# do not build these packages but don't want to be warned about them.
+remove_excluded_package_files:
+	for f in libmysqlclient18-cluster libmysqlclient-cluster-dev mysql-client-cluster-7.2 mysql-client-core-cluster-7.2; \
+	do \
+		cat debian/$$f.install | grep -v ^debian | cut -d\  -f1 | sed -e "s:^:debian/tmp/:" | xargs rm -v; \
+	done
+
 # Use the --fail-missing to check for stuff that we should be installing
 #       Exclusion                                       Package         Type
 #       todo                                            todo            todo
-override_dh_install:
+override_dh_install: remove_excluded_package_files
 	dh_install --fail-missing           \
         -Xusr/share/man/                                \
         -Xlibmysqlclient_r.so                           \
