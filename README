@@ -1,5 +1,5 @@
 To build packages:
-	$ ./build
+	$ scripts/build
 This will build the packages.
 
 When built it'll upload them using dput to the 'local' repository.
@@ -8,14 +8,34 @@ This means you can install using Apt, which will automatically
 pull in any dependancies, including mysql-common from mysql-5.5.
 
 To install packages:
-	$ ./install
+	$ scripts/install
 This assumes you have added the local repository to sources.list
 It will do the apt-get update for you, so you can:
 
 To build and install packages:
-	$ ./build_pkg && ./install
+	$ scripts/build && scripts/install
+
+The following packages are built but not installed:
+ 	libmysqlclient18-cluster
+ 	libmysqlclient-cluster-dev
+	mysql-client-cluster-7.2
+	mysql-client-core-cluster-7.2
+This is because various packages have versioned dependancies
+on libmysqlclient18 & mysql-client, which ignore virtual packages
+so these packages can't replace them and will conflict with them.
+
+The mysql-5.5 packages are used instead, while is fine as they are
+ABI and protocol compatible.
+
+mysql-common presents a similar challenge, this is worked around by
+having mysql-cluster-common which depends on mysql-common from mysql-5.5
+
+This means my.cnf is taken from mysql-5.5 and the NDB-specific options
+are added in /etc/mysql/conf.d/my-cluster.cnf
 
 To uninstall:
-	$ ./uninstall
-!!!WARNING!!! do NOT do this on a production system - it'll delete your entire datadir
+	$ scripts/uninstall
+!!!WARNING!!! do NOT do this on a production system - it'll delete your entire datadir,
+it's intended for use on a testing system to ensure a 100% clean system to install
+the next build on
 
