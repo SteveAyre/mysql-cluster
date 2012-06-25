@@ -13,7 +13,8 @@ apt-get -y install \
 	mysql-cluster-server-mgmtnode \
 	mysql-cluster-server-sqlnode \
 	mysql-cluster-source \
-	mysql-cluster-testsuite
+	mysql-cluster-testsuite \
+	mysql-cluster-clusterj
 
 echo Installed OK
 

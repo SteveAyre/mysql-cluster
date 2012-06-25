@@ -26,6 +26,7 @@ dpkg -P \
 	mysql-cluster-server-sqlnode-core-7.2 \
 	mysql-cluster-source-7.2 \
 	mysql-cluster-testsuite-7.2 \
+	mysql-cluster-clusterj \
 	mysql-client \
 	mysql-client-5.5 \
 	mysql-server \
