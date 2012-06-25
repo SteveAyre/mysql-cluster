@@ -7,7 +7,7 @@ mysql-cluster-7.2 (7.2.6-0.2) unstable; urgency=low
      * mysql-client-cluster-7.2
      * mysql-client-core-cluster-7.2
 
- -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 16:58:57 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 22:03:33 +0100
 
 mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
 
