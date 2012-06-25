@@ -1,0 +1,3 @@
+#!/bin/sh -e
+dpkg -l | grep -iE "(mysql|ndb)"
+dpkg -l | grep -iE "(mysql|ndb)" | wc -l
