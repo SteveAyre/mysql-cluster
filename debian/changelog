@@ -17,7 +17,7 @@ mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
       Missing symbols were fixed upstream - libndbclient6 still lacking.
     * Updated debian/watch
 
- -- Steven Ayre <steveayre@gmail.com>  Fri, 22 Jun 2012 19:53:00 +0100
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 16:27:35 +0100
 
 mysql-cluster-7.2 (7.2.5-0.8) unstable; urgency=low
 
