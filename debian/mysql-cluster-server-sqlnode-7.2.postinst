@@ -18,6 +18,7 @@ invoke() {
   fi
 }
 
+MYSQL_MYSQLDB="/usr/bin/mysql --defaults-file=/etc/mysql/debian.cnf mysql"
 MYSQL_BOOTSTRAP="/usr/sbin/mysqld --bootstrap --user=mysql --skip-grant-tables"
 
 test_mysql_access() {
@@ -251,16 +252,13 @@ EOF
 
   triggered)
     # Currently the only trigger is on /usr/share/zoneinfo
-    mysql_cfgdir=/etc/mysql
-    dc=$mysql_cfgdir/debian.cnf; 
-
     # Load the timezones, either by connecting if mysqld is running or using bootstrap command if it is not
     set +e
     mysqladmin ping >/dev/null 2>&1
     ping_alive=$?
     set -e
     if [ $ping_alive = 0 ]; then
-        mysql_tzinfo_to_sql /usr/share/zoneinfo | /usr/bin/mysql --defaults-file=$dc mysql
+        mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_MYSQLDB
     else
         mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     fi
