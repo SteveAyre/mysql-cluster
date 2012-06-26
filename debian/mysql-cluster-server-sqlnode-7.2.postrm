@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -e
 
 # It is possible that Debconf has already been removed, too.
 if [ -f /usr/share/debconf/confmodule ]; then
@@ -45,7 +47,8 @@ esac
 
 #
 # - Do NOT purge logs or data if another mysql-server* package is installed (#307473)
-# - Do NOT remove the mysql user as it's shared by the sql/mgmt/data nodes (plus policy may be moving towards leaving them on the system #621833)
+# - Do NOT remove the mysql user as it's shared by the sql/mgmt/data nodes
+#   (plus policy may be moving towards leaving them on the system #621833)
 #   
 if [ "$1" = "purge" -a ! \( -x /usr/sbin/mysqld -o -L /usr/sbin/mysqld \) ]; then
   rm -f /var/log/mysql.{log,err}{,.0,.[1234567].gz}
