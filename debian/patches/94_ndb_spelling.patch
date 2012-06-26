@@ -1,0 +1,226 @@
+Author <steveayre@gmail.com>
+Subject: spelling errors
+Last-Update: 2012-06-25
+
+--- a/sql/ha_ndbcluster.cc
++++ b/sql/ha_ndbcluster.cc
+@@ -17214,7 +17214,7 @@
+   opt_ndb_log_update_as_write,       /* var */
+   PLUGIN_VAR_OPCMDARG,
+   "For efficiency log only after image as a write event. "
+-  "Ignore before image. This may cause compatability problems if "
++  "Ignore before image. This may cause compatibility problems if "
+   "replicating to other storage engines than ndbcluster.",
+   NULL,                              /* check func. */
+   NULL,                              /* update func. */
+@@ -17229,7 +17229,7 @@
+   PLUGIN_VAR_OPCMDARG,
+   "For efficiency log only updated columns. Columns are considered "
+   "as \"updated\" even if they are updated with the same value. "
+-  "This may cause compatability problems if "
++  "This may cause compatibility problems if "
+   "replicating to other storage engines than ndbcluster.",
+   NULL,                              /* check func. */
+   NULL,                              /* update func. */
+--- a/storage/ndb/src/common/transporter/basictest/basicTransporterTest.cpp
++++ b/storage/ndb/src/common/transporter/basictest/basicTransporterTest.cpp
+@@ -319,7 +319,7 @@
+ 	LinearSectionPtr ptr[3]){
+   const NodeId nodeId = refToNode(header->theSendersBlockRef);
+   
+-  ndbout << "Recieved prio " << (int)prio << " signal from node: " 
++  ndbout << "Received prio " << (int)prio << " signal from node: " 
+ 	 << nodeId
+ 	 << " gsn = " << header->theVerId_signalNumber << endl;
+   checkData(header, prio, theData, ptr);
+--- a/storage/ndb/src/kernel/blocks/dbdih/DbdihMain.cpp
++++ b/storage/ndb/src/kernel/blocks/dbdih/DbdihMain.cpp
+@@ -6574,7 +6574,7 @@
+ 
+   if (ERROR_INSERTED(7030))
+   {
+-    g_eventLogger->info("Reenable GCP_PREPARE");
++    g_eventLogger->info("Re-enable GCP_PREPARE");
+     CLEAR_ERROR_INSERT_VALUE;
+   }
+ 
+@@ -13118,7 +13118,7 @@
+   }
+   else if (ERROR_INSERTED(7021) && ((rand() % 10) > 4))
+   {
+-    infoEvent("Dont sent STARTLCPREQ to %u", nodeId);
++    infoEvent("Don't sent STARTLCPREQ to %u", nodeId);
+     return;
+   }
+   sendSignal(ref, GSN_START_LCP_REQ, signal, StartLcpReq::SignalLength, JBB);
+--- a/storage/ndb/src/kernel/blocks/dblqh/DblqhMain.cpp
++++ b/storage/ndb/src/kernel/blocks/dblqh/DblqhMain.cpp
+@@ -15121,7 +15121,7 @@
+     char buf[256];
+     BaseString::snprintf(buf, sizeof(buf),
+                          "Invalid file size for redo logfile, "
+-                         " size only changable with --initial");
++                         " size only changeable with --initial");
+     progError(__LINE__,
+               NDBD_EXIT_INVALID_CONFIG,
+               buf);
+@@ -22964,7 +22964,7 @@
+     {
+       progError(__LINE__, NDBD_EXIT_SYSTEM_ERROR, 
+ 		"Please report this as a bug. "
+-		"Provide as much info as possible, expecially all the "
++		"Provide as much info as possible, especially all the "
+ 		"ndb_*_out.log files, Thanks. "
+ 		"Shutting down node due to failed handling of GCP_SAVEREQ");
+       
+--- a/storage/ndb/src/kernel/blocks/qmgr/QmgrMain.cpp
++++ b/storage/ndb/src/kernel/blocks/qmgr/QmgrMain.cpp
+@@ -1941,7 +1941,7 @@
+     jam();
+     
+ #if 1
+-    warningEvent("Recieved request to incorperate node %u, "
++    warningEvent("Received request to incorperate node %u, "
+ 		 "while error handling has not yet completed",
+ 		 nodePtr.i);
+     
+--- a/storage/ndb/src/kernel/blocks/suma/Suma.cpp
++++ b/storage/ndb/src/kernel/blocks/suma/Suma.cpp
+@@ -323,7 +323,7 @@
+     
+     if (ERROR_INSERTED(13030))
+     {
+-      ndbout_c("Dont start handover");
++      ndbout_c("Don't start handover");
+       DBUG_VOID_RETURN;
+     }
+   }//if
+@@ -4911,7 +4911,7 @@
+   if(m_out_of_buffer_gci && gci > m_out_of_buffer_gci)
+   {
+     jam();
+-    infoEvent("Reenable event buffer");
++    infoEvent("Re-enable event buffer");
+     m_out_of_buffer_gci = 0;
+     m_missing_data = false;
+   }
+@@ -5842,7 +5842,7 @@
+         }
+         else if(m_switchover_buckets.get(i))
+         {
+-          ndbout_c("dont handover bucket: %d %d", i, nodeId);
++          ndbout_c("don't handover bucket: %d %d", i, nodeId);
+         }
+       }
+     }
+--- a/storage/ndb/src/kernel/vm/mt_thr_config.cpp
++++ b/storage/ndb/src/kernel/vm/mt_thr_config.cpp
+@@ -384,7 +384,7 @@
+ 
+       if (!allow_too_few_cpus)
+       {
+-        m_err_msg.assfmt("Too few CPU's specifed with LockExecuteThreadToCPU. "
++        m_err_msg.assfmt("Too few CPU's specified with LockExecuteThreadToCPU. "
+                          "This is not supported when using multiple TC threads");
+         return -1;
+       }
+@@ -1257,7 +1257,7 @@
+       "1-8",
+       "ldm={count=4,cpubind=1,4,5,6},tc,tc",
+       "FAIL",
+-      "Too few CPU's specifed with LockExecuteThreadToCPU. This is not supported when using multiple TC threads",
++      "Too few CPU's specified with LockExecuteThreadToCPU. This is not supported when using multiple TC threads",
+ 
+       // END
+       0
+--- a/storage/ndb/src/mgmsrv/ConfigManager.cpp
++++ b/storage/ndb/src/mgmsrv/ConfigManager.cpp
+@@ -590,7 +590,7 @@
+   }
+   m_config_name.clear();
+ 
+-  g_eventLogger->info("Configuration %d commited", m_config->getGeneration());
++  g_eventLogger->info("Configuration %d committed", m_config->getGeneration());
+ }
+ 
+ 
+--- a/storage/ndb/src/mgmsrv/MgmtSrvr.cpp
++++ b/storage/ndb/src/mgmsrv/MgmtSrvr.cpp
+@@ -320,7 +320,7 @@
+         return NULL;
+       }
+ 
+-      g_eventLogger->info("Sucessfully created config directory");
++      g_eventLogger->info("Successfully created config directory");
+     }
+     return MYSQLCLUSTERDIR;
+   }
+--- a/storage/ndb/test/ndbapi/testBasic.cpp
++++ b/storage/ndb/test/ndbapi/testBasic.cpp
+@@ -3429,14 +3429,14 @@
+   FINALIZER(runClearTable2);
+ }
+ TESTCASE("ImplicitRollbackDelete", 
+-	 "Test close transaction after a no commited delete\n"
++	 "Test close transaction after a no committed delete\n"
+ 	 "this would give an implicit rollback of the delete\n"){
+   INITIALIZER(runLoadTable);
+   INITIALIZER(runCheckImplicitRollbackDelete);
+   FINALIZER(runClearTable2);
+ }
+ TESTCASE("CommitDelete", 
+-	 "Test close transaction after a no commited delete\n"
++	 "Test close transaction after a no committed delete\n"
+ 	 "this would give an implicit rollback of the delete\n"){
+   INITIALIZER(runLoadTable);
+   INITIALIZER(runCheckCommitDelete);
+--- a/storage/ndb/test/ndbapi/testLcp.cpp
++++ b/storage/ndb/test/ndbapi/testLcp.cpp
+@@ -214,7 +214,7 @@
+     { "0", '0', arg_negative_flag, &g_one_op_at_a_time, "All ops at once", 0 },
+     { "cases", 'c', arg_string, &cases, "Cases [a-c]", 0 },
+     { 0, 't', arg_flag, &g_setup_tables, "Create table", 0 },
+-    { 0, 'u', arg_negative_flag, &g_setup_tables, "Dont create table", 0 }
++    { 0, 'u', arg_negative_flag, &g_setup_tables, "Don't create table", 0 }
+   };
+   
+   int optind= 0;
+--- a/storage/ndb/test/ndbapi/testScan.cpp
++++ b/storage/ndb/test/ndbapi/testScan.cpp
+@@ -1889,12 +1889,12 @@
+ }
+ TESTCASE("ScanRead40RandomNoTableCreate", 
+ 	 "Verify scan requirement: Scan with 40 simultaneous threads. "\
+-	 "Use random table for the scan. Dont create or load the tables."){
++	 "Use random table for the scan. Don't create or load the tables."){
+   STEPS(runScanReadRandomTableExceptTestTable, 40);
+ }
+ TESTCASE("ScanRead100RandomNoTableCreate", 
+ 	 "Verify scan requirement: Scan with 100 simultaneous threads. "\
+-	 "Use random table for the scan. Dont create or load the tables."){
++	 "Use random table for the scan. Don't create or load the tables."){
+   STEPS(runScanReadRandomTableExceptTestTable, 100);
+ }
+ TESTCASE("ScanWithLocksAndInserts", 
+--- a/storage/ndb/tools/restore/restore_main.cpp
++++ b/storage/ndb/tools/restore/restore_main.cpp
+@@ -164,7 +164,7 @@
+     (uchar**) &_preserve_trailing_spaces, (uchar**)_preserve_trailing_spaces , 0,
+     GET_BOOL, NO_ARG, 0, 0, 0, 0, 0, 0 },
+   { "no-restore-disk-objects", 'd',
+-    "Dont restore disk objects (tablespace/logfilegroups etc)",
++    "Don't restore disk objects (tablespace/logfilegroups etc)",
+     (uchar**) &_no_restore_disk, (uchar**) &_no_restore_disk,  0,
+     GET_BOOL, NO_ARG, 0, 0, 0, 0, 0, 0 },
+   { "restore_epoch", 'e', 
+--- a/storage/ndb/tools/select_all.cpp
++++ b/storage/ndb/tools/select_all.cpp
+@@ -97,7 +97,7 @@
+   { "tupscan", 't', "Scan in tup order",
+     (uchar**) &_tup, (uchar**) &_tup, 0,
+     GET_BOOL, NO_ARG, 0, 0, 0, 0, 0, 0 }, 
+-  { "nodata", NDB_OPT_NOSHORT, "Dont print data",
++  { "nodata", NDB_OPT_NOSHORT, "Don't print data",
+     (uchar**) &nodata, (uchar**) &nodata, 0,
+     GET_BOOL, NO_ARG, 0, 0, 0, 0, 0, 0 }, 
+   { 0, 0, 0, 0, 0, 0, GET_NO_ARG, NO_ARG, 0, 0, 0, 0, 0, 0}
