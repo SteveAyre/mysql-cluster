@@ -1,3 +1,14 @@
+mysql-cluster-7.2 (7.2.6+dfsg-1) unstable; urgency=low
+
+  * Added missing README.source
+  * Tagged dfsg
+  * Corrected various spelling errors in debian/changelog
+    and in scripts.
+  * Fix dh_makeshlibs versions
+  * Fix various lintian errors
+
+ -- Steven Ayre <steveayre@gmail.com>  Tue, 26 Jun 2012 11:45:32 +0100
+
 mysql-cluster-7.2 (7.2.6-0.2) unstable; urgency=low
 
   * Removed packages from build which conflict
@@ -24,7 +35,7 @@ mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
     * Move manpage files from .files to .manpages
     * Move some files between packages to avoid conflicting with
     * Merged some changes from mysql-5.5 source package
-    * Reenabled libmysqlclient18 versioned symbols check
+    * Re-enabled libmysqlclient18 versioned symbols check
       Missing symbols were fixed upstream - libndbclient6 still lacking.
     * Updated debian/watch
 
