@@ -3,7 +3,7 @@ Section: misc
 Priority: optional
 Maintainer: Steven Ayre <steveayre@gmail.com>
 Uploaders: Steven Ayre <steveayre@gmail.com>
-Build-Depends: procps | hurd,  debhelper (>= 7.0.15), dpatch, cmake, bison, file (>= 3.28), libaio-dev[linux-any], libncurses5-dev (>= 5.0-6), perl (>= 5.6.0), libwrap0-dev (>= 7.6-8.3), zlib1g-dev (>= 1:1.1.3-5), psmisc, chrpath, doxygen, texlive-latex-base, ghostscript, gawk, lsb-release, hardening-wrapper
+Build-Depends: procps | hurd,  debhelper (>= 7.0.15), cmake, bison, file (>= 3.28), libaio-dev[linux-any], libncurses5-dev (>= 5.0-6), perl (>= 5.6.0), libwrap0-dev (>= 7.6-8.3), zlib1g-dev (>= 1:1.1.3-5), psmisc, chrpath, doxygen, texlive-latex-base, ghostscript, gawk, lsb-release, hardening-wrapper
 Standards-Version: 3.9.1
 Homepage: http://dev.mysql.com/
 Vcs-Browser: https://github.com/SteveAyre/mysql-cluster-7.2
@@ -17,6 +17,7 @@ Vcs-Git: git://github.com/SteveAyre/mysql-cluster-7.2.git
 #Section: libs
 #Architecture: any
 #Depends: mysql-cluster-common (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+#Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 #Conflicts: libmysqlclient18
 #Provides: libmysqlclient18
 #Multi-Arch: same
@@ -52,7 +53,7 @@ Section: libdevel
 Depends: ${misc:Depends}
 Conflicts: libmysqld-pic
 Multi-Arch: same
-Description: MySQL Cluster database development files
+Description: PIC version of MySQL Cluster embedded server development files
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
  language in the world. The main goals of MySQL are speed, robustness and
@@ -77,6 +78,7 @@ Package: libndbclient6
 Section: libs
 Architecture: any
 Depends: mysql-cluster-common (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: multiarch-support, ${misc:Pre-Depends}
 Suggests: libmysqlclient18
 Multi-Arch: same
 Description: MySQL Cluster database client library
@@ -97,7 +99,8 @@ Description: MySQL Cluster database development files
  language in the world. The main goals of MySQL are speed, robustness and
  ease of use.
  .
- This package includes development libraries and header files.
+ This package includes NDB client library development libraries and header
+ files.
 
 # We use the mysql-common from mysql-5.5 to provide the /etc/mysql/my.cnf directory,
 # then add the NDB specific options in /etc/mysql/conf.d/my-cluster.cnf in this package
