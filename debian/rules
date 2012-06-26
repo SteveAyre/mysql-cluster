@@ -215,11 +215,11 @@ auto_install-stamp:
 	# mysql-cluster-testsuite
 
 	# mysql-cluster-server-mgmtnode
-	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2/examples
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2
 	nm -n $(BUILDDIR)/storage/ndb/src/mgmsrv/ndb_mgmd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2/ndb_mgmd.sym.gz
 
 	# mysql-cluster-server-datanode
-	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/examples
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2
 	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbmtd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/ndbmtd.sym.gz
 	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/ndbd.sym.gz
 
@@ -304,8 +304,8 @@ override_dh_installcron-arch:
 	dh_installcron --name mysql-server
 
 override_dh_makeshlibs-arch:
-	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.6-0.1)'
-	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.6-0.1)'
+	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.6+dfsg-0.3)'
+	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.6+dfsg-0.3)'
 
 binary:	binary-indep binary-arch
 
