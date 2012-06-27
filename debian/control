@@ -1,5 +1,5 @@
 Source: mysql-cluster-7.2
-Section: misc
+Section: database
 Priority: optional
 Maintainer: Steven Ayre <steveayre@gmail.com>
 Uploaders: Steven Ayre <steveayre@gmail.com>
