@@ -5,8 +5,7 @@ SIGN_KEY=888012DD
 PACKAGE_VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
 VERSION=`echo $PACKAGE_VERSION | cut -d- -f1`
 VERSION_MAJOR=`echo $VERSION | cut -d. -f1-2`
-TARBALL=mysql-cluster-${VERSION_MAJOR}_${VERSION}+dfsg.orig.tar.gz
-TARBALL_SYMLINK=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
+TARBALL=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
 DIR=mysql-cluster-${VERSION}
 
 # Build test options
@@ -28,12 +27,14 @@ scripts/clean
 mkdir ${DIR}
 cp -ar debian ${DIR}
 (cd ${DIR} && REPACK_SH=../scripts/repack.sh debian/rules get-orig-source)
-ln -fs ${TARBALL} ${TARBALL_SYMLINK}
-tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
+tar -C ${DIR} --strip-components=1 -zxf ${TARBALL}
 (cd ${DIR} && dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log)
 
 # Lintian checks
-#lintian -c *.deb 2>&1 | tee ../lintian.log
+# rm -rf lintian.log lintian.tmp
+# mkdir lintian.tmp
+# (TMPDIR=lintian.tmp lintian -cIE *.deb 2>&1 | tee lintian.log)
+# rm -rf lintian.tmp
 
 # Upload packages to local repository
 dput local *.changes
