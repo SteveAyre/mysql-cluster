@@ -15,7 +15,7 @@ DEB_BUILD_GNU_SYSTEM ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_SYSTEM)
 DEBVERSION := $(shell dpkg-parsechangelog | awk '/^Version: / { print $$2 }' | sed 's/^.*-//' )
 
 ifneq (,$(filter $(ARCH), i386 kfreebsd-i386))
-    USE_THIS_GCC_VERSION:=-4.5
+    USE_THIS_GCC_VERSION:=-4.4
 endif
 
 ifneq ($(findstring ccache,$(DEB_BUILD_OPTIONS)),)
