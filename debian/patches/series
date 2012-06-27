@@ -1,6 +1,7 @@
 1_hurd.patch
 2_main_openssl_1.patch
 20_fix_compile_warnings.patch
+20_fix_gcc47_compile_errors.patch
 38_scripts__mysqld_safe.sh__signals.patch
 62_disable_tests.patch
 63_disable_ndb_tests.patch
