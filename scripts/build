@@ -6,7 +6,7 @@ PACKAGE_VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
 VERSION=`echo $PACKAGE_VERSION | cut -d- -f1`
 VERSION_MAJOR=`echo $VERSION | cut -d. -f1-2`
 TARBALL=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
-TARBALL_SYMLINK=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
+TARBALL_SYMLINK=mysql-cluster-${VERSION_MAJOR}.orig.tar.gz
 DIR=mysql-cluster-${VERSION}
 
 # Build test options
