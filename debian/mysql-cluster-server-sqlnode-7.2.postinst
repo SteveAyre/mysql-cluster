@@ -20,7 +20,6 @@ invoke() {
   fi
 }
 
-MYSQL_MYSQLDB="/usr/bin/mysql --defaults-file=/etc/mysql/debian.cnf mysql"
 MYSQL_BOOTSTRAP="/usr/sbin/mysqld --bootstrap --user=mysql --skip-grant-tables"
 
 test_mysql_access() {
@@ -61,9 +60,7 @@ EOF
 # and because changed configuration options should take effect immediately.
 # In case the server wasn't running at all it should be ok if the stop
 # script fails. I can't tell at this point because of the cleaned /var/run.
-if [ "$1" != "triggered" ]; then
-    set +e; invoke stop; set -e
-fi
+set +e; invoke stop; set -e
     
 case "$1" in
   configure)
@@ -240,31 +237,11 @@ EOF
         password_error="yes"
     fi
 
-    # Run the above actions
-    echo "$fix_privs"       | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
-    echo "$replace_query"   | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$fix_privs"                                        | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$replace_query"                                    | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set +e
-    echo "$install_plugins" | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
+    echo "$install_plugins"                                  | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
     set -e
-
-    # Load timezone information
-    mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
-
-  ;;
-
-  triggered)
-    # Currently the only trigger is on /usr/share/zoneinfo
-    # Load the timezones, either by connecting if mysqld is running or using bootstrap command if it is not
-    set +e
-    mysqladmin ping >/dev/null 2>&1
-    ping_alive=$?
-    set -e
-    if [ $ping_alive = 0 ]; then
-        mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_MYSQLDB
-    else
-        mysql_tzinfo_to_sql /usr/share/zoneinfo | $MYSQL_BOOTSTRAP 2>&1 | $ERR_LOGGER
-    fi
-    
   ;;
 
   abort-upgrade|abort-remove|abort-configure)
@@ -300,13 +277,6 @@ fi
 
 db_stop # in case invoke failes
 
-# Start mysqld (except after triggered)
-if [ "$1" != "triggered" ]; then
-    if [ -x "/etc/init.d/mysql" ]; then
-        update-rc.d mysql defaults 19 21 >/dev/null
-        invoke-rc.d mysql start || exit $?
-    fi
-fi
-
+#DEBHELPER#
 
 exit 0
