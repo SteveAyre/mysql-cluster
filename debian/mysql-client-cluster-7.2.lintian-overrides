@@ -1,5 +1,0 @@
-mysql-client-cluster-7.2: package-has-a-duplicate-relation
-mysql-client-cluster-7.2: wrong-name-for-upstream-changelog usr/share/doc/mysql-client-cluster-7.2/changelog.innotop.gz
-mysql-client-cluster-7.2: pkg-not-in-package-test innotop
-mysql-client-cluster-7.2: binary-without-manpage usr/bin/innochecksum
-mysql-client-cluster-7.2: binary-without-manpage usr/bin/mysqltest_embedded
