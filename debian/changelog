@@ -1,120 +1,15 @@
+mysql-cluster-7.2 (7.2.6+dfsg-2) unstable; urgency=low
+
+  * Fix compile error with gcc-4.7
+  * Use gcc-4.4 on hurd
+  * Remove obsolete patches, additions, libmysqlclient and mysql-client
+    packages
+
+ -- Steven Ayre <steveayre@gmail.com>  Wed, 27 Jun 2012 12:58:23 +0100
+
 mysql-cluster-7.2 (7.2.6+dfsg-1) unstable; urgency=low
 
-  * Added missing README.source
-  * Tagged dfsg
-  * Corrected various spelling errors in debian/changelog
-    and in scripts.
-  * Fix dh_makeshlibs versions
-  * Fix various lintian errors
+  * Initial release
 
  -- Steven Ayre <steveayre@gmail.com>  Tue, 26 Jun 2012 11:45:32 +0100
-
-mysql-cluster-7.2 (7.2.6-0.2) unstable; urgency=low
-
-  * Removed packages from build which conflict
-    with mysql-5.5 because of versioned dependancies.
-     * libmysqlclient18-cluster
-     * libmysqlclient18-cluster-dev
-     * mysql-client-cluster-7.2
-     * mysql-client-core-cluster-7.2
-
- -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 22:03:33 +0100
-
-mysql-cluster-7.2 (7.2.6-0.1) unstable; urgency=low
-
-  * New upstream version
-  * Add package mysql-common-cluster
-    * Depends on mysql-common (mysql-5.5) for my.cnf, adds
-      cluster-specific options in /etc/mysql/conf.d/my-cluster.cnf
-  * Add package mysql-client-core-cluster-7.2
-  * Add package mysql-cluster-clusterj
-  * Packaging updates
-    * Changed to 3.0 (quilt) format
-    * Add ccache DEB_BUILD_OPTIONS option
-    * Move from dh_movefiles to dh_install
-    * Move manpage files from .files to .manpages
-    * Move some files between packages to avoid conflicting with
-    * Merged some changes from mysql-5.5 source package
-    * Re-enabled libmysqlclient18 versioned symbols check
-      Missing symbols were fixed upstream - libndbclient6 still lacking.
-    * Updated debian/watch
-
- -- Steven Ayre <steveayre@gmail.com>  Mon, 25 Jun 2012 16:27:35 +0100
-
-mysql-cluster-7.2 (7.2.5-0.8) unstable; urgency=low
-
-  * Updated for multi-arch support (Wheezy)
-  * Fixed tzdata load in configure and trigger
-
- -- Steven Ayre <steveayre@gmail.com>  Fri, 08 Jun 2012 08:48:07 +0100
-
-mysql-cluster-7.2 (7.2.5-0.7) stable; urgency=low
-
-  * Load timezone information in configure stage, and on trigger
-    (updates mysql timezone tables when tzdata is updated)
-
- -- Steven Ayre <steveayre@gmail.com>  Fri, 27 Apr 2012 15:00:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.6) stable; urgency=low
-
-  * Allow customisation of mysql init.d timeouts through defaults file
-    (STARTUP_TIMEOUT and SHUTDOWN_TIMEOUT)
-
- -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 23:46:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.5) stable; urgency=low
-
-  * Revert STARTUP_WAIT_FOREVER (remove option)
-
- -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 17:23:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.4) stable; urgency=low
-
-  * Updated mysql init.d script
-      * Added START_DAEMON option in defaults file (default is true)
-      * Added STARTUP_WAIT_FOREVER option in defaults (default is false),
-        on start init.d script waits for mysql to be ready or stop running
-
- -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 14:47:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.3) stable; urgency=low
-
-  * Fix for mysql-client virtual package provided by mysql-client-cluster-7.2
-
- -- Steven Ayre <steveayre@gmail.com>  Wed, 04 Apr 2012 12:53:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.2) stable; urgency=low
-
-  * Fix some package conflits with mysql-client-5.1
-
- -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 18:58:00 +0100
-
-mysql-cluster-7.2 (7.2.5-0.1) stable; urgency=low
-
-  * Newer upstream version 7.2.5
-    See http://dev.mysql.com/doc/refman/5.5/en/mysql-cluster-news-5-5-20-ndb-7-2-5.html
-
- -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 14:40:00 +0100
-
-mysql-cluster-7.2 (7.2.4-0.3) stable; urgency=low
-
-  * Tweaks to debian/additions/my.cnf
-      * log_slow_queries deprecated, replaced with slow_query_log & slow_query_log_file
-      * added example of [mysqld] section ndbcluster plugin options
-      * added example of [mysql_cluster] section for data nodes
-  * Start ndbmgmd with --reload option so it picks up configuration changes
-
- -- Steven Ayre <steveayre@gmail.com>  Tue, 03 Apr 2012 12:50:00 +0100
-
-mysql-cluster-7.2 (7.2.4-0.2) stable; urgency=low
-
-  * Working proof of concept.
-
- -- Steven Ayre <steveayre@gmail.com>  Mon, 12 Mar 2012 16:25:00 +0000
-
-mysql-cluster-7.2 (7.2.4-0.1) stable; urgency=low
-
-  * Initial Release.
-
- -- Steven Ayre <steveayre@gmail.com>  Sun, 19 Feb 2012 20:38:00 +0000
 
