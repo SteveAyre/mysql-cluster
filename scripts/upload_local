@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+# Upload packages to local repository
+dput local *.changes
+

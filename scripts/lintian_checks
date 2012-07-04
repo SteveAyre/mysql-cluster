@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+# Lintian checks
+rm -rf lintian.log lintian.tmp
+mkdir lintian.tmp
+(TMPDIR=lintian.tmp lintian --info -I -E --pedantic --color=auto *.changes 2>&1 | tee lintian.log)
+rm -rf lintian.tmp
+

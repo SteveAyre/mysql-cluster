@@ -13,7 +13,7 @@ DIR=mysql-cluster-${VERSION}
 # nocheck - skip testing (faster build)
 # fulltest - very long testsuite
 # leave both commented out for the normal test
-#export DEB_BUILD_OPTIONS=nocheck
+export DEB_BUILD_OPTIONS=nocheck
 #export DEB_BUILD_OPTIONS=fulltest
 
 # Use ccache if available
@@ -32,15 +32,6 @@ ln -fs ${TARBALL} ${TARBALL_SYMLINK}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
 (cd ${DIR} && dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log)
 
-# Lintian checks
-# rm -rf lintian.log lintian.tmp
-# mkdir lintian.tmp
-# (TMPDIR=lintian.tmp lintian -cIE *.deb 2>&1 | tee lintian.log)
-# rm -rf lintian.tmp
-
-# Upload packages to local repository
-dput local *.changes
-
 # Cleanup and done
-echo Done
+echo Built complete
 

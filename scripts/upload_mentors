@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+# Upload packages to mentors repository
+dput mentors *.changes
+
