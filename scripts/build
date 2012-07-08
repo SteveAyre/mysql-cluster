@@ -33,5 +33,5 @@ tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
 (cd ${DIR} && dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log)
 
 # Cleanup and done
-echo Built complete
+echo Build complete
 
