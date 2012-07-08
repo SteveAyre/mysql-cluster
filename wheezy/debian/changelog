@@ -4,12 +4,13 @@ mysql-cluster-7.2 (7.2.6+dfsg-2) unstable; urgency=low
   * Use gcc-4.4 on hurd
   * Remove obsolete patches, additions, libmysqlclient and mysql-client
     packages
+  * Revised the disabled test lists
 
  -- Steven Ayre <steveayre@gmail.com>  Wed, 27 Jun 2012 12:58:23 +0100
 
 mysql-cluster-7.2 (7.2.6+dfsg-1) unstable; urgency=low
 
-  * Initial release
+  * Initial release (Closes #560244)
 
  -- Steven Ayre <steveayre@gmail.com>  Tue, 26 Jun 2012 11:45:32 +0100
 
