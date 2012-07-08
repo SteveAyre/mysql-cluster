@@ -3,7 +3,6 @@ fix_compile_warnings.patch
 fix_gcc47_compile_errors.patch
 scripts__mysqld_safe.sh__signals.patch
 disable_tests.patch
-disable_ndb_tests.patch
 mysql_va_list.patch
 disable_rpl_tests.patch
 fix_standalone_tests.patch
