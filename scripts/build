@@ -1,19 +1,17 @@
 #!/bin/sh -e
 
-SIGN_KEY=888012DD
-
-PACKAGE_VERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
+PACKAGE_VERSION=`dpkg-parsechangelog -lwheezy/debian/changelog | grep ^Version: | cut -d\  -f2`
 VERSION=`echo $PACKAGE_VERSION | cut -d- -f1 | sed -e s/+dfsg//`
 VERSION_MAJOR=`echo $VERSION | cut -d. -f1-2`
 TARBALL=mysql-cluster-${VERSION_MAJOR}_${VERSION}+dfsg.orig.tar.gz
 TARBALL_SYMLINK=mysql-cluster-${VERSION_MAJOR}_${VERSION}.orig.tar.gz
-DIR=mysql-cluster-${VERSION}
+DIR=wheezy
 
 # Build test options
 # nocheck - skip testing (faster build)
 # fulltest - very long testsuite
 # leave both commented out for the normal test
-export DEB_BUILD_OPTIONS=nocheck
+#export DEB_BUILD_OPTIONS=nocheck
 #export DEB_BUILD_OPTIONS=fulltest
 
 # Use ccache if available
@@ -21,16 +19,16 @@ if [ `which ccache` ]; then
 	export DEB_BUILD_OPTIONS="${DEB_BUILD_OPTIONS} ccache"
 fi
 
-# Remove any old built files
+# Remove any files from old builds
 scripts/clean
 
-# Prepare build directory and compile
-mkdir ${DIR}
-cp -ar debian ${DIR}
+# Download and extract source
 (cd ${DIR} && debian/rules get-orig-source)
 ln -fs ${TARBALL} ${TARBALL_SYMLINK}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
-(cd ${DIR} && dpkg-buildpackage -k${SIGN_KEY} 2>&1 | tee ../build.log)
+
+# Build package
+(cd ${DIR} && dpkg-buildpackage -uc -us 2>&1 | tee ../build.log)
 
 # Cleanup and done
 echo Build complete

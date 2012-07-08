@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+REPOSITORY=$1
+SIGN_KEY=${2:-888012DD}
+
+# Sign packages
+debsign *.changes
+
+# Upload packages to repository
+dput $1 *.changes
+

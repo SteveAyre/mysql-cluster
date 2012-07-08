@@ -1,1 +1,7 @@
-rm -rf mysql-cluster-7.2.* *.deb *.changes *.dsc *.asc *.debian.tar.gz *.upload *.log
+#!/bin/sh -e
+
+DIR=wheezy
+
+(cd ${DIR} && fakeroot debian/rules clean)
+rm -rf *.deb *.changes *.dsc *.asc *.debian.tar.gz *.upload *.log
+
