@@ -1,0 +1,91 @@
+#!/bin/sh -e
+
+KEY=888012DD
+
+sudo apt-get -y install reprepro nginx
+
+# Configure repository
+
+for DIR in conf dists incoming indices logs pool project tmp; do
+	sudo mkdir -p /srv/reprepro/debian/${DIR}
+done
+
+sudo chown -R `id -u`:`id -g` /srv/reprepro
+
+cat > /srv/reprepro/debian/conf/distributions <<EOF
+Origin: Steven Ayre
+Label: Local repository
+Codename: unstable
+Architectures: i386 amd64 source
+Components: main
+Description: Local repository
+SignWith: ${KEY}
+EOF
+
+cat > /srv/reprepro/debian/conf/incoming <<EOF
+Name: incoming
+IncomingDir: incoming
+Allow: unstable
+Cleanup: on_deny on_error
+Tempdir: tmp
+EOF
+
+# Configure HTTP server
+
+sudo tee /etc/nginx/sites-available/default >/dev/null <<EOF
+server {
+  listen 80;
+  server_name localhost;
+
+  access_log /var/log/nginx/packages-access.log;
+  error_log /var/log/nginx/packages-error.log;
+
+  location / {
+    root /srv/reprepro;
+    index index.html;
+  }
+
+  location ~ /(.*)/conf {
+    deny all;
+  }
+
+  location ~ /(.*)/db {
+    deny all;
+  }
+}
+EOF
+
+sudo ln -fs ../sites-available/default /etc/nginx/sites-enabled/default
+
+sudo update-rc.d nginx defaults
+sudo invoke-rc.d nginx reload
+
+# Configure dput
+
+set +e
+grep "\[local\]" /etc/dput.cf >/dev/null
+if [ "$?" = 0 ]; then
+	echo "ERROR: local repository is already configured in dput.cf"
+	exit 1
+fi
+set -e
+
+sudo tee -a /etc/dput.cf >/dev/null <<EOF
+[local]
+fqdn                    = localhost
+method                  = local
+incoming                = /srv/reprepro/debian/incoming
+allow_unsigned_uploads  = 0
+run_dinstall            = 0
+post_upload_command     = reprepro -V -b /srv/reprepro/debian processincoming incoming
+
+EOF
+
+# Configure apt
+
+sudo tee /etc/apt/sources.list.d/local.list >/dev/null <<EOF
+deb http://localhost/debian/ unstable main
+EOF
+
+gpg -a --export ${KEY} | sudo apt-key add -
+
