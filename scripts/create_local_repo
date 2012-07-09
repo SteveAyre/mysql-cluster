@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-KEY=888012DD
+KEY=${1:-888012DD}
 
 sudo apt-get -y install reprepro nginx
 
