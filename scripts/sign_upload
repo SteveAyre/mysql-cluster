@@ -9,3 +9,8 @@ debsign -k${SIGN_KEY} *.changes
 # Upload packages to repository
 dput ${REPOSITORY} *.changes
 
+# If the upload was to the local repository update apt
+if [ "${REPOSITORY}" = "local" ]; then
+	sudo apt-get update
+fi
+
