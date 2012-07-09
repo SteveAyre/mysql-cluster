@@ -281,7 +281,8 @@ libmysqlclient-links-stamp: auto_install-stamp
 	done
 	touch $@
 
-override_dh_link-arch: libmysqlclient-links-stamp
+#override_dh_link-arch: libmysqlclient-links-stamp
+override_dh_link-arch:
 	dh_link
 
 override_dh_installlogrotate-arch:
