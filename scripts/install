@@ -10,9 +10,9 @@
 #	mysql-client-core-cluster-7.2
 #
 
-apt-get update
+sudo apt-get update
 
-apt-get -y install \
+sudo apt-get -y install \
 	libmysqld-cluster-pic \
 	libmysqld-cluster-dev \
 	libmysqlclient18-dev \

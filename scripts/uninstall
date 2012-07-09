@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-dpkg -P \
+sudo dpkg -P \
 	mysql-common \
 	mysql-cluster-common \
 	libdbi-perl \
@@ -34,11 +34,11 @@ dpkg -P \
 	mysql-server-5.5 \
 	mysql-server-core-5.5
 
-apt-get -y autoremove
+sudo apt-get -y autoremove
 
-killall -9 -w mysqld_safe mysqld
+sudo killall -9 -w mysqld_safe mysqld
 
-rm -rf /etc/mysql /var/lib/mysql /var/log/mysql
+sudo rm -rf /etc/mysql /var/lib/mysql /var/log/mysql
 
 echo Uninstalled OK
 
