@@ -1,5 +1,25 @@
 #!/bin/sh -e
 
+cat - <<EOF
+This uninstall script will purge all configurations and data directories, it
+will wipe your MySQL installation to return to a clean state to test a new
+installation.
+
+If there is any valuable data in your MySQL database this is NOT what you want.
+
+EOF
+while true; do
+	echo -n "Are you sure you want to purge your installation (yes/no)? "
+	read line
+	if [ "$line" = "no" ]; then
+		echo Aborting
+		exit 1
+	fi
+	if [ "$line" = "yes" ]; then
+		break
+	fi
+done
+
 sudo dpkg -P \
 	mysql-common \
 	mysql-cluster-common \
