@@ -11,7 +11,7 @@ DIR=wheezy
 # nocheck - skip testing (faster build)
 # fulltest - very long testsuite
 # leave both commented out for the normal test
-#export DEB_BUILD_OPTIONS=nocheck
+export DEB_BUILD_OPTIONS=nocheck
 #export DEB_BUILD_OPTIONS=fulltest
 
 # Use ccache if available
@@ -28,7 +28,7 @@ ln -fs ${TARBALL} ${TARBALL_SYMLINK}
 tar -C ${DIR} --strip-components=1 -zxf ${TARBALL_SYMLINK}
 
 # Build package
-(cd ${DIR} && dpkg-buildpackage -uc -us 2>&1 | tee ../build.log)
+(cd ${DIR} && dpkg-buildpackage -uc -us -sa 2>&1 | tee ../build.log)
 
 # Cleanup and done
 echo Build complete
