@@ -17,7 +17,7 @@ sudo apt-get -y install \
 	libmysqld-cluster-dev \
 	libmysqlclient18-dev \
 	libndbclient-dev \
-	mysql-client-cluster \
+	mysql-client \
 	mysql-cluster-client \
 	mysql-cluster-server-datanode \
 	mysql-cluster-server-mgmtnode \
