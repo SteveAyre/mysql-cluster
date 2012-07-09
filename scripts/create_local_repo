@@ -6,6 +6,11 @@ sudo apt-get -y install reprepro nginx
 
 # Configure repository
 
+if [ -d /srv/reprepro ]; then
+	echo "ERROR: /srv/reprepro/ already exists"
+	exit 1
+fi
+
 for DIR in conf dists incoming indices logs pool project tmp; do
 	sudo mkdir -p /srv/reprepro/debian/${DIR}
 done
