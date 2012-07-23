@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-lintian --info -I -E --pedantic --color=yes *.changes 2>&1 | tee lintian.log
-

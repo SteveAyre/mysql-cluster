@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-DIR=wheezy
-
-(cd ${DIR} && fakeroot debian/rules clean)
-rm -rf *.deb *.changes *.dsc *.asc *.debian.tar.gz *.upload *.log
-
