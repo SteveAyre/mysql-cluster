@@ -305,8 +305,8 @@ override_dh_installcron-arch:
 	dh_installcron --name mysql-server
 
 override_dh_makeshlibs-arch:
-	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.6+dfsg-0.3)'
-	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.6+dfsg-0.3)'
+	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.7+dfsg-1)'
+	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.7+dfsg-1)'
 
 binary:	binary-indep binary-arch
 
