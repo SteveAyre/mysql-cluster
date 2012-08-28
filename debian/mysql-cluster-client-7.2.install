@@ -1,4 +1,5 @@
 usr/bin/ndb_mgm
+usr/bin/ndb_blob_tool
 usr/bin/ndb_config
 usr/bin/ndb_desc
 usr/bin/ndb_config
