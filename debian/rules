@@ -255,16 +255,16 @@ remove_excluded_package_files:
 #       Exclusion                                       Package         Type
 #       todo                                            todo            todo
 override_dh_install: remove_excluded_package_files
-	dh_install --fail-missing           \
-        -Xusr/share/man/                                \
-        -Xlibmysqlclient_r.so                           \
-        -Xusr/share/mysql/magic                         \
-        -Xmysql/plugin/daemon_example.ini               \
-        -Xusr/bin/mysqlaccess.conf                      \
-        -Xusr/share/mysql/mysql-log-rotate              \
-        -Xusr/share/mysql/mysql.server                  \
-        -Xusr/share/mysql/binary-configure              \
-        -Xusr/share/mysql/my-
+	dh_install --fail-missing              \
+	    -Xusr/share/man/                   \
+	    -Xlibmysqlclient_r.so              \
+	    -Xusr/share/mysql/magic            \
+	    -Xmysql/plugin/daemon_example.ini  \
+	    -Xusr/bin/mysqlaccess.conf         \
+	    -Xusr/share/mysql/mysql-log-rotate \
+	    -Xusr/share/mysql/mysql.server     \
+	    -Xusr/share/mysql/binary-configure \
+	    -Xusr/share/mysql/my-
 
 libmysqlclient-links-stamp: auto_install-stamp
 	@echo "RULES.$@"
