@@ -1,6 +1,8 @@
 files
 *.substvars
 *.debhelper
+*.log
+*.tar.gz
 tmp
 libmysqld-cluster-dev
 libmysqld-cluster-pic
