@@ -306,7 +306,6 @@ override_dh_installcron-arch:
 
 override_dh_makeshlibs-arch:
 	PKGVERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
-	@echo "PKGVERSION = ${PKGVERSION}"
 	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= ${PKGVERSION})'
 	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= ${PKGVERSION})'
 
