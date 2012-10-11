@@ -305,8 +305,10 @@ override_dh_installcron-arch:
 	dh_installcron --name mysql-server
 
 override_dh_makeshlibs-arch:
-	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= 7.2.7+dfsg-1)'
-	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= 7.2.7+dfsg-1)'
+	PKGVERSION=`dpkg-parsechangelog | grep ^Version: | cut -d\  -f2`
+	@echo "PKGVERSION = ${PKGVERSION}"
+	dh_makeshlibs -plibmysqlclient18 -V'libmysqlclient18 (>= ${PKGVERSION})'
+	dh_makeshlibs -plibndbclient6 -V'libndbclient6 (>= ${PKGVERSION})'
 
 binary:	binary-indep binary-arch
 
