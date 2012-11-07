@@ -66,6 +66,12 @@ ifneq (,$(findstring linux-gnu,$(DEB_HOST_GNU_TYPE)))
     USE_LINUX_NATIVE_AIO:=-DLINUX_NATIVE_AIO=ON
 endif
 
+# consider parallel= DEB_BUILD_OPTIONS parameter
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+    MAKEFLAGS += -j$(NUMJOBS)
+endif
+
 override_dh_auto_clean:
 	@echo "RULES.$@"
 	dh_testdir 
