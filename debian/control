@@ -67,7 +67,7 @@ Description: MySQL Cluster database development files
 # then add the NDB specific options in /etc/mysql/conf.d/my-cluster.cnf in this package
 Package: mysql-cluster-common
 Architecture: all
-Depends: mysql-common (>= 5.5.24+dfsg-3), ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-common (>= 5.5.24+dfsg-9), ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: foreign
 Description: MySQL cluster database common files, e.g. /etc/mysql/conf.d/my-cluster.cnf
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
