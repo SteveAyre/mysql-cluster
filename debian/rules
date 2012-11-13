@@ -245,7 +245,6 @@ auto_install-stamp:
 # First remove files for libmysqlclient and mysql-client, as we
 # do not build these packages but don't want to be warned about them.
 remove_excluded_package_files:
-	pwd
 	for f in libmysqlclient18-cluster libmysqlclient-cluster-dev mysql-client-cluster-7.2 mysql-client-core-cluster-7.2; \
 	do \
 		rm -fv `cat debian/excluded/$$f | grep -v ^debian | cut -d\  -f1 | sed -e "s:^:debian/tmp/:"`; \
