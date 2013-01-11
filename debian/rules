@@ -67,10 +67,11 @@ ifneq (,$(findstring linux-gnu,$(DEB_HOST_GNU_TYPE)))
 endif
 
 # consider parallel= DEB_BUILD_OPTIONS parameter
-ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-    MAKEFLAGS += -j$(NUMJOBS)
-endif
+# TODO Disabled... the build fails if parallel is set, need to find the reason and report upstream
+#ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+#    NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+#    MAKEFLAGS += -j$(NUMJOBS)
+#endif
 
 override_dh_auto_clean:
 	@echo "RULES.$@"
