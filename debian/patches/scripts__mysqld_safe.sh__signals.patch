@@ -20,7 +20,7 @@ Reviewed-by: Nicholas Bamber <nicholas@periapt.co.uk>
 +trap '' 13                              # we shouldn't let SIGPIPE kill us, other signals are handled properly later
  # << MCP_BUG33984
  
- umask 007
+ # MySQL-specific environment variable. First off, it's not really a umask,
 @@ -135,7 +134,7 @@
        # sed buffers output (only GNU sed supports a -u (unbuffered) option)
        # which means that messages may not get sent to syslog until the
