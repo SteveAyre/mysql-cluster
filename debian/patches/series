@@ -8,7 +8,6 @@ mysqlcheck_tests.patch
 kfreebsd_tests.patch
 spelling.patch
 ndb_spelling.patch
-fix-mysqldump-test.patch
 hyphens-in-manpages.patch
 regex_plus.patch
 kfreebsd_fails.patch
