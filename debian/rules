@@ -240,7 +240,7 @@ auto_install-stamp:
 
 	# This seems to be the only safe place to fix permissions issues
 	# not handled by dh_fixperms.
-	chmod 0755 $(TMP)/usr/share/mysql-test/lib/My/SafeProcess/safe_process.pl
+	chmod 0755 $(TMP)/usr/share/mysql-test/lib/My/SafeProcess/my_safe_process
 	chmod 0755 $(TMP)/usr/share/mysql-test/std_data/checkDBI_DBD-mysql.pl
 	chmod 0644 $(TMP)/usr/share/mysql/*.ini
 	chmod 0644 $(TMP)/usr/share/mysql-test/[rt]/*
