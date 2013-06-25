@@ -206,7 +206,7 @@ EOF
         "  Create_tmp_table_priv='Y', Lock_tables_priv='Y', Execute_priv='Y', "\
         "  Repl_slave_priv='Y', Repl_client_priv='Y', Create_view_priv='Y', "\
         "  Show_view_priv='Y', Create_routine_priv='Y', Alter_routine_priv='Y', "\
-        "  Create_user_priv='Y', Event_priv='Y', Trigger_priv='Y' "`;
+        "  Create_user_priv='Y', Event_priv='Y', Trigger_priv='Y', Create_tablespace_priv='Y' "`;
     fix_privs=`echo -e \
         "USE mysql;\n" \
         "ALTER TABLE user ADD column Create_view_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " \
@@ -215,7 +215,8 @@ EOF
         "ALTER TABLE user ADD column Alter_routine_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " \
         "ALTER TABLE user ADD column Create_user_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " \
         "ALTER TABLE user ADD column Event_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " \
-        "ALTER TABLE user ADD column Trigger_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " `
+        "ALTER TABLE user ADD column Trigger_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " \
+        "ALTER TABLE user ADD column Create_tablespace_priv enum('N','Y') CHARACTER SET utf8 NOT NULL DEFAULT 'N'; " `
     # Engines supported by etch should be installed per default. The query sequence is supposed
     # to be aborted if the CREATE TABLE fails due to an already existent table in which case the
     # admin might already have chosen to remove one or more plugins. Newlines are necessary.
