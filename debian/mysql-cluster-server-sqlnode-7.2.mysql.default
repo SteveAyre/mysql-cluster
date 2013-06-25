@@ -1,6 +1,0 @@
-# This file controls the activity of mysql
-
-# Whether to start the MySQL server
-# By default this is true
-START_DAEMON=true
-
