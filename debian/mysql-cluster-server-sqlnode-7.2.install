@@ -1,4 +1,3 @@
-usr/lib/*/mysql/*so*
 usr/lib/*/mysql/plugin/*.so
 etc/mysql/debian-start
 debian/additions/mysqld_safe_syslog.cnf etc/mysql/conf.d/
