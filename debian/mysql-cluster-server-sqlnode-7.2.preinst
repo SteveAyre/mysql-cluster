@@ -48,7 +48,7 @@ stop_server() {
 
 ################################ main() ##########################
 
-# Although this is cluster 7.2 it's actually based on mysql 5.5
+# Although this is cluster 7.2 it's based on mysql 5.5
 this_version=5.5
 
 # Abort if skip-bdb option is enabled, required for 5.0 -> 5.1 upgrades.
