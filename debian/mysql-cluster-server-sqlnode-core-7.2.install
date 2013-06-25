@@ -18,7 +18,6 @@ usr/share/mysql/japanese
 usr/share/mysql/korean
 usr/share/mysql/mysql_system_tables_data.sql
 usr/share/mysql/mysql_system_tables.sql
-usr/share/mysql/ndb_dist_priv.sql
 usr/share/mysql/norwegian
 usr/share/mysql/norwegian-ny
 usr/share/mysql/polish
