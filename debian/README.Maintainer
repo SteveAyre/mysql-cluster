@@ -1,12 +1,5 @@
 
 ###########################
-## Note on failing tests ##
-###########################
-
-Some mysql test cases fail because of very long socket paths. To avoid this the package
-should be build at a relatively high level in the filesystem, eg in /home/username/m
-
-###########################
 ##	FIXME for 5.1    ##
 ###########################
 
