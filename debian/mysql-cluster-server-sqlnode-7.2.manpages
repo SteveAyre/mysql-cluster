@@ -15,4 +15,6 @@ debian/tmp/usr/share/man/man1/mysqltest.1
 debian/tmp/usr/share/man/man1/perror.1
 debian/tmp/usr/share/man/man1/replace.1
 debian/tmp/usr/share/man/man1/resolve_stack_dump.1
+debian/tmp/usr/share/man/man1/innochecksum.1
 debian/tmp/usr/share/man/man1/resolveip.1
+debian/tmp/usr/share/man/man1/mysqltest_embedded.1
