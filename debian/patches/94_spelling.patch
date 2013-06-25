@@ -1,10 +1,12 @@
 Author <nicholas@periapt.co.uk>
 Subject: spelling errors
  Preceeding -> preceding
-Last-Update: 2012-05-20
+Last-Update: 2012-10-24
 Forwarded: no
---- a/libmysql/errmsg.c
-+++ b/libmysql/errmsg.c
+Index: mysql-5.5-5.5.31+dfsg/libmysql/errmsg.c
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/libmysql/errmsg.c	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/libmysql/errmsg.c	2013-05-05 09:47:48.183185478 -0700
 @@ -81,7 +81,7 @@
    "Attempt to read a row while there is no result set associated with the statement",
    "This feature is not implemented yet",
@@ -14,8 +16,10 @@ Forwarded: no
    "The number of columns in the result set differs from the number of bound buffers. You must reset the statement, rebind the result set columns, and execute the statement again",
    "This handle is already connected. Use a separate handle for each connection.",
    "Authentication plugin '%s' cannot be loaded: %s",
---- a/mysql-test/extra/rpl_tests/rpl_ddl.test
-+++ b/mysql-test/extra/rpl_tests/rpl_ddl.test
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/extra/rpl_tests/rpl_ddl.test
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/extra/rpl_tests/rpl_ddl.test	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/extra/rpl_tests/rpl_ddl.test	2013-05-05 09:47:48.183185478 -0700
 @@ -98,8 +98,8 @@
  #       --> less switching of AUTOCOMMIT mode on master side.
  #
@@ -27,8 +31,10 @@ Forwarded: no
  #       because the sql error code of the statement might be 0) bug
  #       and these rules are ignored, a following test sequence might earn ugly
  #       effects like failing 'sync_slave_with_master', crashes of the slave or
---- a/mysql-test/extra/rpl_tests/rpl_row_basic.test
-+++ b/mysql-test/extra/rpl_tests/rpl_row_basic.test
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/extra/rpl_tests/rpl_row_basic.test
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/extra/rpl_tests/rpl_row_basic.test	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/extra/rpl_tests/rpl_row_basic.test	2013-05-05 09:47:48.183185478 -0700
 @@ -221,7 +221,7 @@
  SELECT * FROM t7 ORDER BY C1;
  
@@ -47,8 +53,10 @@ Forwarded: no
  # temprorarily
  set @@global.slave_exec_mode= 'IDEMPOTENT';
  
---- a/mysql-test/include/wait_until_count_sessions.inc
-+++ b/mysql-test/include/wait_until_count_sessions.inc
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/include/wait_until_count_sessions.inc
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/include/wait_until_count_sessions.inc	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/include/wait_until_count_sessions.inc	2013-05-05 09:47:48.183185478 -0700
 @@ -10,7 +10,7 @@
  #    1. We wait for $current_sessions <= $count_sessions because in the use case
  #       with count_sessions.inc before and wait_until_count_sessions.inc after
@@ -58,8 +66,10 @@ Forwarded: no
  #       sessions at test begin($count_sessions) =  m + n
  #       sessions of the previous test which will be soon disconnected = n (n >= 0)
  #       sessions at test end ($current sessions, assuming the test disconnects
---- a/mysql-test/suite/funcs_1/views/func_view.inc
-+++ b/mysql-test/suite/funcs_1/views/func_view.inc
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/suite/funcs_1/views/func_view.inc
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/suite/funcs_1/views/func_view.inc	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/suite/funcs_1/views/func_view.inc	2013-05-05 09:47:48.183185478 -0700
 @@ -282,7 +282,7 @@
  #               other interesting value
  #     numbers   -> 0
@@ -69,8 +79,10 @@ Forwarded: no
  #     FIXME enum, set ??
  INSERT INTO t1_values SET
         my_char_30 = ' ---äÖüß@µ*$-- ',
---- a/mysql-test/suite/funcs_1/views/views_master.inc
-+++ b/mysql-test/suite/funcs_1/views/views_master.inc
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/suite/funcs_1/views/views_master.inc
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/suite/funcs_1/views/views_master.inc	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/suite/funcs_1/views/views_master.inc	2013-05-05 09:47:48.187185245 -0700
 @@ -545,7 +545,7 @@
  #                   view names are accepted, at creation time, alteration time,
  #                   and drop time.
@@ -80,8 +92,10 @@ Forwarded: no
  #               database name
  --disable_warnings
  DROP VIEW  IF EXISTS v1 ;
---- a/mysql-test/suite/rpl/t/rpl_ddl.test
-+++ b/mysql-test/suite/rpl/t/rpl_ddl.test
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/suite/rpl/t/rpl_ddl.test
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/suite/rpl/t/rpl_ddl.test	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/suite/rpl/t/rpl_ddl.test	2013-05-05 09:47:48.187185245 -0700
 @@ -13,10 +13,10 @@
  #         sequences start.
  #
@@ -95,8 +109,10 @@ Forwarded: no
  #         because the sql error code of the statement might be 0) bug
  #         and these rules are ignored, a following test sequence might earn ugly
  #         effects like failing 'sync_slave_with_master', crashes of the slave or
---- a/mysql-test/suite/rpl/t/rpl_row_basic_11bugs.test
-+++ b/mysql-test/suite/rpl/t/rpl_row_basic_11bugs.test
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/suite/rpl/t/rpl_row_basic_11bugs.test
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/suite/rpl/t/rpl_row_basic_11bugs.test	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/suite/rpl/t/rpl_row_basic_11bugs.test	2013-05-05 09:47:48.187185245 -0700
 @@ -239,7 +239,7 @@
  UPDATE t1 SET a = 5, b = 'slave' WHERE a = 1;
  SELECT * FROM t1 ORDER BY a;
@@ -106,9 +122,11 @@ Forwarded: no
  # temprorarily
  set @@global.slave_exec_mode= 'IDEMPOTENT';
  --echo **** On Master ****
---- a/sql/log_event.cc
-+++ b/sql/log_event.cc
-@@ -3236,7 +3236,7 @@
+Index: mysql-5.5-5.5.31+dfsg/sql/log_event.cc
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/sql/log_event.cc	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/sql/log_event.cc	2013-05-05 09:47:48.000000000 -0700
+@@ -3312,7 +3312,7 @@
      if ((error= rows_event_stmt_cleanup(const_cast<Relay_log_info*>(rli), thd)))
      {
        const_cast<Relay_log_info*>(rli)->report(ERROR_LEVEL, error,
@@ -117,8 +135,10 @@ Forwarded: no
                    "the group log file/position: %s %s",
                    const_cast<Relay_log_info*>(rli)->group_master_log_name,
                    llstr(const_cast<Relay_log_info*>(rli)->group_master_log_pos,
---- a/storage/myisam/mi_rnext.c
-+++ b/storage/myisam/mi_rnext.c
+Index: mysql-5.5-5.5.31+dfsg/storage/myisam/mi_rnext.c
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/storage/myisam/mi_rnext.c	2013-05-05 09:47:48.243181980 -0700
++++ mysql-5.5-5.5.31+dfsg/storage/myisam/mi_rnext.c	2013-05-05 09:47:48.219183379 -0700
 @@ -64,7 +64,7 @@
        Normally SQL layer would never request "search next" if
        "search first" failed. But HANDLER may do anything.

@@ -4,8 +4,10 @@ Bug: http://bugs.mysql.com/bug.php?id=64685
 Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=651002
 Last-Update: 2012-03-18
 Reviewed-by: Nicholas Bamber <nicholas@periapt.co.uk>
---- /dev/null
-+++ b/cmake/os/GNU.cmake
+Index: mysql-5.5-5.5.31+dfsg/cmake/os/GNU.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ mysql-5.5-5.5.31+dfsg/cmake/os/GNU.cmake	2013-05-05 09:43:53.000000000 -0700
 @@ -0,0 +1,20 @@
 +# This file includes GNU/Hurd specific options and quirks, related to system checks
 +
@@ -27,8 +29,10 @@ Reviewed-by: Nicholas Bamber <nicholas@periapt.co.uk>
 +
 +# 64 bit file offset support flag
 +SET(_FILE_OFFSET_BITS 64)
---- a/mysql-test/lib/My/Platform.pm
-+++ b/mysql-test/lib/My/Platform.pm
+Index: mysql-5.5-5.5.31+dfsg/mysql-test/lib/My/Platform.pm
+===================================================================
+--- mysql-5.5-5.5.31+dfsg.orig/mysql-test/lib/My/Platform.pm	2013-03-25 06:14:58.000000000 -0700
++++ mysql-5.5-5.5.31+dfsg/mysql-test/lib/My/Platform.pm	2013-05-05 23:04:39.000000000 -0700
 @@ -110,6 +110,9 @@
    # This may not be true, but we can't test for it on AIX due to Perl bug
    # See Bug #45771
