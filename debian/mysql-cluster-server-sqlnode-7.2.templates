@@ -1,7 +1,7 @@
 Template: mysql-cluster-server-sqlnode-7.2/really_downgrade
 Type: boolean
 Default: false
-Description: Really proceed with downgrade?
+_Description: Really proceed with downgrade?
  A file named /var/lib/mysql/debian-*.flag exists on this system.
  .
  Such a file is an indication that a mysql-cluster-server-sqlnode package with a higher
@@ -12,7 +12,7 @@ Description: Really proceed with downgrade?
 
 Template: mysql-cluster-server-sqlnode-7.2/nis_warning
 Type: note
-Description: Important note for NIS/YP users
+_Description: Important note for NIS/YP users
  Using MySQL under NIS/YP requires a mysql user account to be added on
  the local system with:
  .
@@ -26,7 +26,7 @@ Description: Important note for NIS/YP users
 Template: mysql-cluster-server-sqlnode-7.2/postrm_remove_databases
 Type: boolean
 Default: false
-Description: Remove all MySQL databases?
+_Description: Remove all MySQL databases?
  The /var/lib/mysql directory which contains the MySQL databases is about
  to be removed.
  .
@@ -37,13 +37,13 @@ Description: Remove all MySQL databases?
 Template: mysql-cluster-server-sqlnode-7.2/start_on_boot
 Type: boolean
 Default: true
-Description: Start the MySQL server on boot?
+_Description: Start the MySQL server on boot?
  The MySQL server can be launched automatically at boot time or manually
  with the '/etc/init.d/mysql start' command.
 
 Template: mysql-server/root_password
 Type: password
-Description: New password for the MySQL "root" user:
+_Description: New password for the MySQL "root" user:
  While not mandatory, it is highly recommended that you set a password
  for the MySQL administrative "root" user.
  .
@@ -51,11 +51,11 @@ Description: New password for the MySQL "root" user:
 
 Template: mysql-server/root_password_again
 Type: password
-Description: Repeat password for the MySQL "root" user:
+_Description: Repeat password for the MySQL "root" user:
 
 Template: mysql-server/error_setting_password
 Type: error
-Description: Unable to set password for the MySQL "root" user
+_Description: Unable to set password for the MySQL "root" user
  An error occurred while setting the password for the MySQL
  administrative user. This may have happened because the account
  already has a password, or because of a communication problem with
@@ -68,6 +68,6 @@ Description: Unable to set password for the MySQL "root" user
 
 Template: mysql-server/password_mismatch
 Type: error
-Description: Password input error
+_Description: Password input error
  The two passwords you entered were not the same. Please try again.
 
