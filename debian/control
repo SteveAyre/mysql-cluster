@@ -25,7 +25,7 @@ Description: PIC version of MySQL Cluster embedded server development files
 Package: libmysqld-cluster-dev
 Architecture: any
 Section: libdevel
-Depends: libmysqld-cluster-pic (= ${binary:Version}), libmysqlclient-dev, ${misc:Depends}
+Depends: libmysqld-cluster-pic (= ${binary:Version}), libmysqlclient-dev (>= 5.5.31+dfsg-0+wheezy1), ${misc:Depends}
 Conflicts: libmysqld-dev
 Description: MySQL Cluster embedded database development files
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -67,7 +67,7 @@ Description: MySQL Cluster database development files
 # then add the NDB specific options in /etc/mysql/conf.d/my-cluster.cnf in this package
 Package: mysql-cluster-common
 Architecture: all
-Depends: mysql-common (>= 5.5.24+dfsg-9), ${shlibs:Depends}, ${misc:Depends}
+Depends: mysql-common (>= 5.5.31+dfsg-0+wheezy1), ${shlibs:Depends}, ${misc:Depends}
 Multi-Arch: foreign
 Description: MySQL cluster database common files, e.g. /etc/mysql/conf.d/my-cluster.cnf
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -79,11 +79,13 @@ Description: MySQL cluster database common files, e.g. /etc/mysql/conf.d/my-clus
  e.g. /etc/mysql/conf.d/my-cluster.cnf.
 
 # Contains the NDB-specific client programs, this complements any mysql-client which
-# can be provided by either mysql-client-cluster-7.2 or mysql-client-5.5 (or others)
+# is provided by mysql-client-5.5 from mysql-5.5
 Package: mysql-cluster-client-7.2
 Architecture: any
-Depends: debianutils (>=1.6), mysql-cluster-common (= ${source:Version}), libmysqlclient18, libndbclient6 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: debianutils (>=1.6), mysql-cluster-common (= ${source:Version}), libmysqlclient18 (>= 5.5.31+dfsg-0+wheezy1), libndbclient6 (>= ${source:Version}), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: virtual-mysql-cluster-client, mysql-cluster-client
+Breaks: mysql-cluster-client (<< ${source:Version})
+Replaces: mysql-cluster-client (<< ${source:Version})
 Suggests: mysql-client
 Description: MySQL Cluster database client binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
@@ -111,8 +113,9 @@ Description: MySQL Cluster database client (metapackage depending on the latest 
 Package: mysql-cluster-server-sqlnode-core-7.2
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Conflicts: mysql-server-5.5, mysql-server-5.1, mysql-server-5.0, mysql-client-5.1
+Breaks: mysql-server-5.1, mysql-server-5.0, mysql-server-core-5.1, mysql-client-5.1
 Provides: mysql-cluster-server-core
+Replaces: mysql-server-core-5.0, mysql-server-core-5.1, mysql-server-core-5.5, mysql-server-5.0, mysql-server-5.1, mysql-client-5.1
 Description: MySQL Cluster database server sql node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -127,10 +130,10 @@ Architecture: any
 Suggests: tinyca
 Recommends: mailx, libhtml-template-perl
 Pre-Depends: mysql-cluster-common (= ${source:Version}), adduser (>= 3.40), debconf
-Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client, libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sqlnode-core-7.2 (= ${binary:Version}), initscripts (>= 2.88dsf-13.3)
-Conflicts: mysql-cluster-server (<< ${source:Version}), mysql-server-4.1, mysql-server-5.0, mysql-server-5.1, mysql-server-5.5
-Provides: mysql-cluster-server, virtual-mysql-cluster-server, mysql-server, virtual-mysql-server, 
-Replaces: mysql-cluster-server (<< ${source:Version})
+Depends: mysql-cluster-client-7.2 (>= ${source:Version}), mysql-client (>= 5.5.31+dfsg-0+wheezy1), libdbi-perl, perl (>= 5.6), ${shlibs:Depends}, ${misc:Depends}, psmisc, passwd, lsb-base (>= 3.0-10), mysql-cluster-server-sqlnode-core-7.2 (>= ${source:Version}), initscripts (>= 2.88dsf-13.3)
+Conflicts: mysql-server-4.1, mysql-server-5.0, mysql-server-5.1, mysql-server-5.5
+Provides: mysql-cluster-server-sqlnode, virtual-mysql-cluster-server-sqlnode, mysql-server, virtual-mysql-server,
+Replaces: mysql-cluster-server-sqlnode (<< ${source:Version})
 Description: MySQL Cluster database server sql node binaries and system database setup
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -158,8 +161,8 @@ Description: MySQL Cluster database sql node (metapackage depending on the lates
 Package: mysql-cluster-server-mgmtnode-7.2
 Architecture: any
 Pre-Depends: mysql-cluster-common (= ${source:Version}), adduser (>= 3.40), debconf
-Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
-Provides: mysql-cluster-server-mgmtnode
+Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}, psmisc, lsb-base (>= 3.0-10), initscripts (>= 2.88dsf-13.3)
+Provides: virtual-mysql-cluster-server-mgmtnode, mysql-cluster-server-mgmtnode
 Description: MySQL Cluster database server management node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -170,7 +173,6 @@ Description: MySQL Cluster database server management node binaries
 
 Package: mysql-cluster-server-mgmtnode
 Architecture: all
-Pre-Depends: mysql-cluster-common (= ${source:Version}), adduser (>= 3.40), debconf
 Depends: mysql-cluster-server-mgmtnode-7.2, ${misc:Depends}
 Description: MySQL Cluster server mgmt node (metapackage depending on the latest version)
  This is an empty package that depends on the current "best" version of
@@ -187,8 +189,8 @@ Description: MySQL Cluster server mgmt node (metapackage depending on the latest
 Package: mysql-cluster-server-datanode-7.2
 Architecture: any
 Pre-Depends: mysql-cluster-common (= ${source:Version}), adduser (>= 3.40), debconf
-Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
-Provides: mysql-cluster-server-datanode
+Depends: mysql-cluster-client-7.2 (>= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}, psmisc, lsb-base (>= 3.0-10), initscripts (>= 2.88dsf-13.3)
+Provides: virtual-mysql-cluster-server-datanode, mysql-cluster-server-datanode
 Description: MySQL Cluster database server data node binaries
  MySQL is a fast, stable and true multi-user, multi-threaded SQL database
  server. SQL (Structured Query Language) is the most popular database query
@@ -214,9 +216,7 @@ Description: MySQL Cluster server data node (metapackage depending on the latest
 
 Package: mysql-cluster-testsuite-7.2
 Architecture: any
-Depends: mysql-cluster-server, mysql-cluster-client, ${misc:Depends},  ${shlibs:Depends}
-Provides: mysql-testsuite
-Conflicts: mysql-testsuite
+Depends: mysql-cluster-server (= ${source:Version}), mysql-cluster-client (= ${source:Version}), ${misc:Depends},  ${shlibs:Depends}
 Description: MySQL Cluster testsuite
  MySQL is a fast, stable, and true multi-user, multi-threaded SQL database
  server.  SQL (Structured Query Language) is the most popular database query
