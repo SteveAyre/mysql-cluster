@@ -2,14 +2,16 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: MySQL Cluster 7.2
 Upstream-Contact: http://bugs.mysql.com/
 Source: http://dev.mysql.com/downloads/cluster/7.2.html
-Comments:
+Comment:
  The file Docs/mysql.info is removed from the upstream source
  because it is incompatible with the Debian Free Software Guidelines.
  See debian/README.source for how this repacking was done.
  .
  Originally produced by a modified version of licensecheck2dep5
  from CDBS by Clint Byrum <clint@ubuntu.com>. Hand modified to reduce 
- redundancy in the output and add appropriate license text.
+ redundancy in the output and add appropriate license text. The file
+ has been rechecked against the source using the development version
+ of license-reconcile, see #686485.
  .
  Also, MySQL carries the "FOSS License Exception" specified in README
  .
@@ -124,6 +126,32 @@ Comments:
  The above text is subject to this copyright notice:
  © 2010, Oracle and/or its affiliates.
 
+Files: *
+Copyright: 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+License: GPL-2
+
+Files: debian/*
+Copyright: 
+ 1997-1998, Scott Hanson <shanson@debian.org>
+ 1997, Christian Schwarz <schwarz@debian.org>
+ 1999-2007, 2009, Christian Hammers <ch@debian.org>
+ 2000-2001, Christopher C. Chimelis <chris@debian.org>
+ 2001, Matthew Wilcox <willy@debian.org>
+ 2005-2007, sean finney <seanius@debian.org>
+ 2006, Adam Conrad <adconrad@0c3.net>
+ 2007-2011, Norbert Tretkowski <norbert@tretkowski.de>
+ 2007-2008, Monty Taylor <mordred@inaugust.com>
+ 2008, Devin Carraway <devin@debian.org>
+ 2008, Steffen Joeris <white@debian.org>
+ 2010, Xavier Oswald <xoswald@debian.org>
+ 2011, Clint Byrum <clint@ubuntu.com>
+ 2011, Ondřej Surý <ondrej@debian.org>
+ 2012, Nicholas Bamber <nicholas@periapt.co.uk>
+ 2012-2013, Steven Ayre <steveayre@gmail.com>
+ License: GPL-2+
+
+
+
 Files: cmd-line-utils/libedit/config.h
  dbug/example1.c
  dbug/example2.c
@@ -151,6 +179,7 @@ Files: cmd-line-utils/libedit/config.h
  support-files/mysqld_multi.server.sh
  support-files/mysql-log-rotate.sh
  support-files/mysql.server-sys5.sh
+ Docs/*
 Copyright: UNKNOWN
 Comment: These files fall under the blanket license specified in the file
  COPYING and README
@@ -165,7 +194,6 @@ License: GPL-2
  of which version of the GPL is applied is otherwise unspecified.
 
 Files: BUILD/*
- Docs/*
  client/*
  client/echo.c
  client/get_password.c
@@ -176,7 +204,6 @@ Files: BUILD/*
  libmysql/*
  libmysqld/*
  libservices/*
- mysql-test/include/have_perfschema.inc
  mysql-test/include/have_perfschema.inc
  mysql-test/lib/mtr_cases.pm
  mysql-test/lib/mtr_gcov.pl
@@ -189,7 +216,6 @@ Files: BUILD/*
  mysql-test/lib/mtr_results.pm
  mysql-test/lib/mtr_stress.pl
  mysql-test/lib/mtr_unique.pm
- mysql-test/lib/My/ConfigFactory.pm
  mysql-test/lib/My/Config.pm
  mysql-test/lib/My/CoreDump.pm
  mysql-test/lib/My/File/*
@@ -198,10 +224,9 @@ Files: BUILD/*
  mysql-test/lib/My/Options.pm
  mysql-test/lib/My/Platform.pm
  mysql-test/lib/My/SafeProcess/Base.pm
- mysql-test/lib/My/SafeProcess.pm
  mysql-test/lib/My/SafeProcess/safe_kill_win.cc
  mysql-test/lib/My/SafeProcess/safe_process.cc
- mysql-test/lib/My/SafeProcess/my_safe_process
+ mysql-test/lib/My/SafeProcess/safe_process.pl
  mysql-test/lib/My/SafeProcess/safe_process_win.cc
  mysql-test/lib/My/SysInfo.pm
  mysql-test/lib/My/Test.pm
@@ -219,13 +244,11 @@ Files: BUILD/*
  mysql-test/lib/v1/mtr_timer.pl
  mysql-test/lib/v1/mtr_unique.pl
  mysql-test/lib/v1/My/*
- mysql-test/lib/v1/My/*
  mysql-test/lib/v1/mysql-test-run.pl
  mysql-test/mysql-stress-test.pl
  mysql-test/mysql-test-run.pl
  mysql-test/std_data/*
  mysql-test/suite/perfschema/include/*
- mysql-test/suite/perfschema_stress/include/*
  mysql-test/suite/perfschema_stress/include/*
  mysys/*
  packaging/WiX/ca/*
@@ -269,6 +292,10 @@ Files: cmd-line-utils/libedit/*
 Copyright: 1989-1990,1992-1993 The Regents of the University of California.
 License: BSD (3 clause)
 
+Files: cmd-line-utils/libedit/chartype.* cmd-line-utils/libedit/eln.c
+Copyright: 2009, The NetBSD Foundation, Inc.
+License: BSD (4 clause)
+
 Files: cmd-line-utils/libedit/filecomplete.c
  cmd-line-utils/libedit/filecomplete.h
  cmd-line-utils/libedit/np/fgetln.c
@@ -308,18 +335,35 @@ Files: client/completion_hash.h
  sql-bench/*
  storage/myisam/ftbench/ft-test-run.sh
  storage/myisam/mi_test_all.sh
- storage/ndb/test/run-test/atrt-analyze-result.sh
- storage/ndb/test/run-test/atrt-clear-result.sh
- storage/ndb/test/run-test/atrt-gather-result.sh
- storage/ndb/test/run-test/atrt-setup.sh
+ storage/ndb/test/run-test/atrt-*
  storage/ndb/test/run-test/make-config.sh
  storage/ndb/test/run-test/make-html-reports.sh
  storage/ndb/test/run-test/make-index.sh
  storage/ndb/test/run-test/ndb-autotest.sh
  strings/strxmov.c
  strings/strxnmov.c
+ strings/ctype-uca.c
+ strings/ctype-ucs2.c
+ strings/strend.c
+ strings/ctype-utf8.c
  support-files/MacOSX/postflight.sh
  support-files/MacOSX/preflight.sh
+ mysql-test/lib/My/SafeProcess.pm
+ mysql-test/lib/My/ConfigFactory.pm
+ mysql-test/lib/mtr_misc.pl
+ mysql-test/mysql-stress-test.pl
+ BUILD/*.sh
+ BUILD/compile-amd64-debug-max-no-ndb
+ BUILD/compile-solaris-amd64
+ BUILD/compile-amd64-valgrind-max
+ BUILD/compile-pentium64-max
+ BUILD/compile-pentium64
+ BUILD/compile-pentium-valgrind-max-no-ndb
+ scripts/mysqlhotcopy.sh
+ scripts/mysqld_multi.sh
+ mysql-test/lib/mtr_misc.pl
+ mysql-test/mysql-stress-test.pl
+ mysql-test/std_data/checkDBI_DBD-mysql.pl
 Copyright: 2000-2009 MySQL AB Sun Microsystems Inc
            2000-2007 MySQL AB
 License: LGPL
@@ -553,50 +597,7 @@ License: BSD (3 clause)
 Files: storage/ndb/test/include/getarg.h
 Copyright: 2003 MySQL AB
  1997-1999 Kungliga Tekniska Högskolan
-License: BSD (3 clause) GPL-2
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; version 2 of the License.
- .
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- .
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
- .
- Copyright (c) 1997, 1999 Kungliga Tekniska Högskolan
- (Royal Institute of Technology, Stockholm, Sweden). 
- All rights reserved. 
- .
- Redistribution and use in source and binary forms, with or without 
- modification, are permitted provided that the following conditions 
- are met: 
- .
- 1. Redistributions of source code must retain the above copyright 
-    notice, this list of conditions and the following disclaimer. 
- .
- 2. Redistributions in binary form must reproduce the above copyright 
-    notice, this list of conditions and the following disclaimer in the 
-    documentation and/or other materials provided with the distribution. 
- .
- 3. Neither the name of the Institute nor the names of its contributors 
-    may be used to endorse or promote products derived from this software 
-    without specific prior written permission. 
- .
- THIS SOFTWARE IS PROVIDED BY THE INSTITUTE AND CONTRIBUTORS ``AS IS'' AND 
- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- ARE DISCLAIMED.  IN NO EVENT SHALL THE INSTITUTE OR CONTRIBUTORS BE LIABLE 
- FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS 
- OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
- LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
- OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
- SUCH DAMAGE. 
+License: BSD (3 clause) or GPL-2
 
 Files: storage/innobase/handler/ha_innodb.cc
 Copyright: 2008-2009 Google Inc
@@ -687,6 +688,13 @@ License: BSD-like
  3. Altered versions must be plainly marked as such, and must not
     be misrepresented as being the original software.
 
+License: Artistic
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the Artistic License, which comes with Perl.
+ .
+ On Debian systems, the complete text of the Artistic License can be
+ found in `/usr/share/common-licenses/Artistic'.
+
 License: GPL-2
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -771,3 +779,32 @@ License: BSD (3 clause)
  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  SUCH DAMAGE.
+
+License: BSD (4 clause)
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. All advertising materials mentioning features or use of this software
+    must display the following acknowledgement:
+        This product includes software developed by the NetBSD
+        Foundation, Inc. and its contributors.
+ 4. Neither the name of The NetBSD Foundation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
+ ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
