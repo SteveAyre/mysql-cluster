@@ -296,7 +296,7 @@ override_dh_builddeb:
 binary:	binary-indep binary-arch
 
 get-orig-source:
-	uscan --download-current-version --verbose
+	uscan --force-download --verbose --download-current-version
 
 %:
 	dh $@ --parallel
