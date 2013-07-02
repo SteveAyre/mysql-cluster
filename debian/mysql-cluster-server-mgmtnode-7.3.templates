@@ -1,4 +1,4 @@
-Template: mysql-cluster-server-mgmtnode-7.2/start_on_boot
+Template: mysql-cluster-server-mgmtnode-7.3/start_on_boot
 Type: boolean
 Default: true
 Description: Start the MySQL NDB mgmt node server on boot?

@@ -1,3 +1,9 @@
+mysql-cluster-7.3 (7.3.2+dfsg-1) unstable; urgency=low
+
+  * New upstream version
+
+ -- Steven Ayre <steveayre@gmail.com>  Tue, 02 Jul 2013 19:16:12 +0100
+
 mysql-cluster-7.2 (7.2.13+dfsg-2) unstable; urgency=low
 
   * Updated debian/control dependancy fields

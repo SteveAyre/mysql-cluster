@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: MySQL Cluster 7.2
+Upstream-Name: MySQL Cluster 7.3
 Upstream-Contact: http://bugs.mysql.com/
-Source: http://dev.mysql.com/downloads/cluster/7.2.html
+Source: http://dev.mysql.com/downloads/cluster/7.3.html
 Comment:
  The file Docs/mysql.info is removed from the upstream source
  because it is incompatible with the Debian Free Software Guidelines.

@@ -1,8 +1,8 @@
 # See debian/README.source for more information about the DFSG repacking here.
 version=3
 opts=dversionmangle=s/\+dfsg\d*$// \
-    http://mysql.linux.cz/Downloads/MySQL-Cluster-7.2/mysql-cluster-gpl-([\d\.]+).tar.gz \
+    http://mysql.linux.cz/Downloads/MySQL-Cluster-7.3/mysql-cluster-gpl-([\d\.]+).tar.gz \
     debian sh debian/repack.sh
 opts=dversionmangle=s/\+dfsg\d*$// \
-    http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-Cluster-7.2/mysql-cluster-gpl-([\d\.]+).tar.gz \
+    http://ftp.gwdg.de/pub/misc/mysql/Downloads/MySQL-Cluster-7.3/mysql-cluster-gpl-([\d\.]+).tar.gz \
     debian sh debian/repack.sh
