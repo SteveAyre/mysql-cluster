@@ -75,16 +75,6 @@ Subject: child process picking up external config files
  --source include/have_plugin_auth.inc
  --source include/not_embedded.inc
  --source include/mysql_upgrade_preparation.inc
---- a/mysql-test/suite/perfschema/t/pfs_upgrade.test
-+++ b/mysql-test/suite/perfschema/t/pfs_upgrade.test
-@@ -3,6 +3,7 @@
- # database.
- # 
- 
-+-- source include/debian-fail-local_my_cnf.inc
- --source include/not_embedded.inc
- --source include/have_perfschema.inc
- --source include/have_lowercase0.inc
 --- a/mysql-test/suite/rpl/t/rpl_mysql_upgrade.test
 +++ b/mysql-test/suite/rpl/t/rpl_mysql_upgrade.test
 @@ -5,6 +5,7 @@

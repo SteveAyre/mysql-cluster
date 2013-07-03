@@ -126,15 +126,15 @@ Index: mysql-5.5-5.5.31+dfsg/sql/log_event.cc
 ===================================================================
 --- mysql-5.5-5.5.31+dfsg.orig/sql/log_event.cc	2013-05-05 09:47:48.243181980 -0700
 +++ mysql-5.5-5.5.31+dfsg/sql/log_event.cc	2013-05-05 09:47:48.000000000 -0700
-@@ -3312,7 +3312,7 @@
+@@ -4573,7 +4573,7 @@
      if ((error= rows_event_stmt_cleanup(const_cast<Relay_log_info*>(rli), thd)))
      {
        const_cast<Relay_log_info*>(rli)->report(ERROR_LEVEL, error,
 -                  "Error in cleaning up after an event preceeding the commit; "
 +                  "Error in cleaning up after an event preceding the commit; "
                    "the group log file/position: %s %s",
-                   const_cast<Relay_log_info*>(rli)->group_master_log_name,
-                   llstr(const_cast<Relay_log_info*>(rli)->group_master_log_pos,
+                   const_cast<Relay_log_info*>(rli)->get_group_master_log_name(),
+                   llstr(const_cast<Relay_log_info*>(rli)->get_group_master_log_pos(),
 Index: mysql-5.5-5.5.31+dfsg/storage/myisam/mi_rnext.c
 ===================================================================
 --- mysql-5.5-5.5.31+dfsg.orig/storage/myisam/mi_rnext.c	2013-05-05 09:47:48.243181980 -0700
