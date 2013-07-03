@@ -3,6 +3,7 @@ usr/bin/mysql_install_db
 usr/bin/mysql_upgrade
 usr/sbin/mysqld
 usr/share/mysql/charsets
+usr/share/mysql/bulgarian
 usr/share/mysql/czech
 usr/share/mysql/danish
 usr/share/mysql/dutch
