@@ -247,7 +247,7 @@ auto_install-stamp:
 remove_excluded_package_files:
 	for f in debian/excluded/*; \
 	do \
-		rm -fv `cat $$f | grep -v ^debian | cut -d\  -f1 | sed -e "s:^:debian/tmp/:"`; \
+		rm -rfv `cat $$f | grep -v ^debian | cut -d\  -f1 | sed -e "s:^:debian/tmp/:"`; \
 	done
 
 # Use the --fail-missing to check for stuff that we should be installing
