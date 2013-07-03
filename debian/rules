@@ -117,8 +117,8 @@ configure-stamp configure-pic-stamp:
 		-DMYSQL_UNIX_ADDR=/var/run/mysqld/mysqld.sock \
 	       	-DMYSQL_USER=mysql \
 		-DWITH_LIBWRAP=ON \
-		-DWITH_READLINE=OFF \
-		-DWITH_LIBEDIT=OFF \
+		-DWITH_READLINE=ON \
+		-DWITH_LIBEDIT=ON \
 		$(USE_STATIC_MYSQLD) \
 		$(USE_LINUX_NATIVE_AIO) \
 		-DWITH_SSL=bundled \
