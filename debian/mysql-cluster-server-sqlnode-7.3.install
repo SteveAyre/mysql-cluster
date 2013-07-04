@@ -25,4 +25,3 @@ usr/share/mysql/echo_stderr
 usr/share/mysql/errmsg-utf8.txt
 usr/share/mysql/mysqld_multi.server
 usr/share/mysql/mysql_test_data_timezone.sql
-usr/share/mysql/ndb-config-2-node.ini
