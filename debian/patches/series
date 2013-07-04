@@ -11,3 +11,4 @@ regex_plus.patch
 mysqlcheck_tests.patch
 hyphens-in-manpages.patch
 kfreebsd_fails.patch
+ndb_versioned_symbols.patch

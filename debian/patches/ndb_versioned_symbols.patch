@@ -1,0 +1,25 @@
+Author: Steven Ayre <steveayre@gmail.com>
+Bug: http://bugs.mysql.com/bug.php?id=64387
+Subject: versioned symbols got dropped from the build
+Last-Update: 2013-07-04
+
+--- a/storage/ndb/src/CMakeLists.txt
++++ b/storage/ndb/src/CMakeLists.txt
+@@ -135,9 +135,12 @@
+     ${NDBCLIENT_SYSTEM_LIBS})
+ ENDIF()
+ 
++CONFIGURE_FILE(libndbclient.ver.in ${CMAKE_CURRENT_BINARY_DIR}/libndbclient.ver)
+ SET_TARGET_PROPERTIES(ndbclient_so PROPERTIES
+   OUTPUT_NAME "ndbclient"
+-  SOVERSION ${NDB_SHARED_LIB_VERSION})
++  VERSION "${NDB_SHARED_LIB_VERSION}"
++  SOVERSION "${NDB_SHARED_LIB_VERSION_MAJOR}"
++  LINK_FLAGS "-Wl,--version-script=libmysql.ver")
+ MYSQL_INSTALL_TARGETS(ndbclient_so
+   DESTINATION "${INSTALL_LIBDIR}"
+   COMPONENT Developement)
+--- a/storage/ndb/src/ndbclient.ver.in
++++ b/storage/ndb/src/ndbclient.ver.in
+@@ -0,0 +1 @@
++libndbclient_@NDB_SHARED_LIB_VERSION_MAJOR@ { global: *; };
