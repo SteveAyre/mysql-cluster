@@ -15,11 +15,11 @@ Last-Update: 2013-07-04
 -  SOVERSION ${NDB_SHARED_LIB_VERSION})
 +  VERSION "${NDB_SHARED_LIB_VERSION}"
 +  SOVERSION "${NDB_SHARED_LIB_VERSION_MAJOR}"
-+  LINK_FLAGS "-Wl,--version-script=libmysql.ver")
++  LINK_FLAGS "-Wl,--version-script=libndbclient.ver")
  MYSQL_INSTALL_TARGETS(ndbclient_so
    DESTINATION "${INSTALL_LIBDIR}"
    COMPONENT Developement)
---- a/storage/ndb/src/ndbclient.ver.in
-+++ b/storage/ndb/src/ndbclient.ver.in
+--- a/storage/ndb/src/libndbclient.ver.in
++++ b/storage/ndb/src/libndbclient.ver.in
 @@ -0,0 +1 @@
 +libndbclient_@NDB_SHARED_LIB_VERSION_MAJOR@ { global: *; };
