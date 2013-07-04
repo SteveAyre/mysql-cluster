@@ -32,4 +32,4 @@ Last-Update: 2013-07-04
 --- a/storage/ndb/src/libndbclient.ver.in
 +++ b/storage/ndb/src/libndbclient.ver.in
 @@ -0,0 +1 @@
-+libndbclient_@NDB_SHARED_LIB_VERSION@ { global: *; };
++libndbclient_@NDB_SHARED_LIB_VERSION_MAJOR@ { global: *; };
