@@ -201,12 +201,10 @@ auto_install-stamp:
 
 	# libndbclient
 	# Check if our beloved versioned symbols are really there
-	# TODO 5.5 lost these when moving to cmake, they need to get readded
-	# (mysql fixed libmysqlclient but not libndbclient)
-	#if [ "`objdump -T $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libndbclient.so.6.0.0 | grep -c libndbclient_6`" -lt 500 ]; then \
-	#  echo "ERROR: versioned symbols are absent"; \
-	#  exit 1; \
-	#fi     
+	if [ "`objdump -T $(TMP)/usr/lib/$(DEB_HOST_MULTIARCH)/libndbclient.so.6.0.0 | grep -c libndbclient_6`" -lt 500 ]; then \
+	  echo "ERROR: versioned symbols are absent"; \
+	  exit 1; \
+	fi     
 
 	# libndbclient-dev
 

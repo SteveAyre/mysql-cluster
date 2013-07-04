@@ -1,0 +1,35 @@
+Author: Steven Ayre <steveayre@gmail.com>
+Bug: http://bugs.mysql.com/bug.php?id=64387
+Subject: versioned symbols got dropped from the build
+Last-Update: 2013-07-04
+
+--- a/storage/ndb/src/CMakeLists.txt
++++ b/storage/ndb/src/CMakeLists.txt
+@@ -61,6 +61,9 @@
+ NDB_GET_CONFIG_VALUE(NDB_SHARED_LIB_VERSION_MINOR minor)
+ NDB_GET_CONFIG_VALUE(NDB_SHARED_LIB_VERSION_BUILD build)
+ SET(NDB_SHARED_LIB_VERSION "${major}.${minor}.${build}")
++SET(NDB_SHARED_LIB_VERSION_MAJOR "${major}")
++SET(NDB_SHARED_LIB_VERSION_MINOR "${minor}")
++SET(NDB_SHARED_LIB_VERSION_BUILD "${build}")
+ 
+ ADD_LIBRARY(ndbclient_so SHARED ndbclient_exports.cpp)
+ TARGET_LINK_LIBRARIES(ndbclient_so ${NDBCLIENT_SO_LIBS})
+@@ -135,9 +138,12 @@
+     ${NDBCLIENT_SYSTEM_LIBS})
+ ENDIF()
+ 
++CONFIGURE_FILE(libndbclient.ver.in ${CMAKE_CURRENT_BINARY_DIR}/libndbclient.ver)
+ SET_TARGET_PROPERTIES(ndbclient_so PROPERTIES
+   OUTPUT_NAME "ndbclient"
+-  SOVERSION ${NDB_SHARED_LIB_VERSION})
++  VERSION "${NDB_SHARED_LIB_VERSION}"
++  SOVERSION "${NDB_SHARED_LIB_VERSION}"
++  LINK_FLAGS "-Wl,--version-script=libndbclient.ver")
+ MYSQL_INSTALL_TARGETS(ndbclient_so
+   DESTINATION "${INSTALL_LIBDIR}"
+   COMPONENT Developement)
+--- a/storage/ndb/src/libndbclient.ver.in
++++ b/storage/ndb/src/libndbclient.ver.in
+@@ -0,0 +1 @@
++libndbclient_@NDB_SHARED_LIB_VERSION_MAJOR@ { global: *; };

@@ -9,6 +9,7 @@
 95_ndb_spelling.patch
 regex_plus.patch
 versioned_symbols.patch
+ndb_versioned_symbols.patch
 mysqlcheck_tests.patch
 hyphens-in-manpages.patch
 kfreebsd_fails.patch
