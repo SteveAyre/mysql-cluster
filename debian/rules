@@ -266,6 +266,7 @@ override_dh_install: remove_excluded_package_files
 	    -Xusr/share/mysql/binary-configure            \
 	    -Xusr/share/mysql/my-                         \
 	    -Xusr/share/mysql/mysql_security_commands.sql \
+	    -Xusr/share/mysql/dictionary.txt              \
 	    -Xusr/share/mysql/solaris/
 
 override_dh_installchangelogs:
