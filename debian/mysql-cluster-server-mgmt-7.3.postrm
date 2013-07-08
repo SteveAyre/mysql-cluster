@@ -48,7 +48,10 @@ esac
 # - Do NOT remove the mysql user as it's shared by the sql/mgmt/data nodes (plus policy may be moving towards leaving them on the system #621833)
 #   
 if [ "$1" = "purge" -a ! \( -x /usr/sbin/ndbmgmd -o -L /usr/sbin/ndbmgmd \) ]; then
+  # we remove the mysql-ndb-mgm user only after all his owned files are purged
   rm -rf /var/lib/mysql-cluster-mgmt
+  rm -rf /var/run/mysql-cluster-mgmt
+  userdel mysql-ndb-mgm || true
 
   # (normally) Automatically added by dh_installinit
   if [ "$1" = "purge" ] ; then

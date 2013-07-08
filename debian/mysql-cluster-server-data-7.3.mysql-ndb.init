@@ -25,7 +25,6 @@ is_true()
 }
 
 # Defaults
-START_DAEMON=false
 MULTI_THREADED=false
 
 # Reads config file (will override defaults above)
@@ -64,39 +63,35 @@ case "${1:-''}" in
 	# Start daemon
         # Creating a PID file does not work as the master process forks
         # a child with different PID and then terminates itself.
-	if is_true $START_DAEMON; then
-	  log_daemon_msg "Starting MySQL NDB Data Node" "$DAEMON_NAME"
-	  if start-stop-daemon \
+	log_daemon_msg "Starting MySQL NDB Data Node" "$DAEMON_NAME"
+	if start-stop-daemon \
 		--start \
 		--exec $DAEMON \
 		--user mysql
-	  then
-	    log_end_msg 0
-	  else
-	    log_end_msg 1
-	    log_warning_msg "Please take a look at the syslog."
-	    exit 1
-	  fi
+	then
+	  log_end_msg 0
+	else
+	  log_end_msg 1
+	  log_warning_msg "Please take a look at the syslog."
+	  exit 1
 	fi
 	;;
 
   'start-initial')
 	# Perform an initial start of ndbd/ndbmtd
-	if is_true $START_DAEMON; then
-	  log_daemon_msg "Initial start of MySQL NDB Data Node" "$DAEMON_NAME"
-	  if start-stop-daemon \
+	log_daemon_msg "Initial start of MySQL NDB Data Node" "$DAEMON_NAME"
+	if start-stop-daemon \
 	        --start \
 	        --exec $DAEMON \
 	        --user mysql \
 	        -- \
 	        --initial
-	  then
-	    log_end_msg 0
-	  else
-	    log_end_msg 1
-	    log_warning_msg "Please take a look at the syslog."
-	    exit 1
-	  fi
+	then
+	  log_end_msg 0
+	else
+	  log_end_msg 1
+	  log_warning_msg "Please take a look at the syslog."
+	  exit 1
 	fi
 	;;
 

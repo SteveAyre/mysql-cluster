@@ -20,7 +20,7 @@ UPGRADEDIR=/var/lib/mysql-cluster-mgmt-upgrade
 
 # Try to stop the server in a sane way. If it does not succeed let the admin
 # do it himself. No database directories should be removed while the server
-# is running!
+# is running! Another ndbmgmd in e.g. a different chroot is fine for us.
 stop_server() {
     if [ ! -x /etc/init.d/mysql-ndb-mgm ]; then return; fi
 
@@ -73,7 +73,7 @@ if ! getent group mysql >/dev/null; then
 fi
 
 # creating mysql user if he isn't already there
-if ! getent passwd mysql >/dev/null; then
+if ! getent passwd mysql-ndb-mgm >/dev/null; then
 	# Adding system user: mysql.
 	adduser \
 	  --system \
@@ -83,7 +83,7 @@ if ! getent passwd mysql >/dev/null; then
 	  --home /nonexistent \
 	  --gecos "MySQL Server" \
 	  --shell /bin/false \
-	  mysql  >/dev/null
+	  mysql-ndb-mgm  >/dev/null
 fi
 
 # end of NIS tolerance zone
@@ -112,7 +112,7 @@ fi
 # The "set +e" is necessary as e.g. a ".journal" of a ext3 partition is
 # not chgrp'able (#318435).
 set +e
-chown mysql:mysql $DATADIR
+chown mysql-ndb-mgm:mysql $DATADIR
 find $DATADIR -follow -not -group mysql -print0 2>/dev/null \
   | xargs -0 --no-run-if-empty chgrp mysql
 set -e

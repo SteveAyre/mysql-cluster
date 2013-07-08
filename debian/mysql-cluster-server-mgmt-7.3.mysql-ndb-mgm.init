@@ -16,20 +16,6 @@ set -e
 set -u
 ${DEBIAN_SCRIPT_DEBUG:+ set -v -x}
 
-is_true()
-{
-  case "${1:-}" in
-    [Yy]es|[Yy]|1|[Tt]|[Tt]rue) return 0;;
-    *) return 1;
-  esac
-}
-
-# Defaults
-START_DAEMON=false
-
-# Reads config file (will override defaults above)
-[ -r /etc/default/mysql-ndb-mgm ] && . /etc/default/mysql-ndb-mgm
-
 # Variables
 SELF=$(cd $(dirname $0); pwd -P)/$(basename $0)
 DAEMON=/usr/sbin/ndb_mgmd
@@ -58,43 +44,39 @@ case "${1:-''}" in
 	# Start daemon
         # Creating a PID file does not work as the master process forks
         # a child with different PID and then terminates itself.
-	if is_true $START_DAEMON; then
-	  log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
-	  if start-stop-daemon \
+	log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
+	if start-stop-daemon \
 		--start \
 		--exec $DAEMON \
 		--user mysql \
 		-- \
 		--reload \
 		-f $CONF
-	  then
-	    log_end_msg 0
-	  else
-	    log_end_msg 1
-	    log_warning_msg "Please take a look at the syslog."
-	    exit 1
-	  fi
+	then
+	  log_end_msg 0
+	else
+	  log_end_msg 1
+	  log_warning_msg "Please take a look at the syslog."
+	  exit 1
 	fi
 	;;
 
   'start-initial')
 	# Perform an initial start of ndbmgmd
-	if is_true $START_DAEMON; then
-	  log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
-	  if start-stop-daemon \
+	log_daemon_msg "Starting MySQL NDB Management Node" "ndb_mgmd"
+	if start-stop-daemon \
 		--start \
 		--exec $DAEMON \
 		--user mysql \
 		-- \
 		--initial \
 		-f $CONF
-	  then
-	    log_end_msg 0
-	  else
-	    log_end_msg 1
-	    log_warning_msg "Please take a look at the syslog."
-	    exit 1
-	  fi
+	then
+	  log_end_msg 0
+	else
+	  log_end_msg 1
+	  log_warning_msg "Please take a look at the syslog."
+	  exit 1
 	fi
 	;;
 

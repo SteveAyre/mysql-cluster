@@ -1,3 +1,10 @@
+mysql-cluster-7.3 (7.3.2+dfsg-2) unstable; urgency=low
+
+  * separate users for sql/mgmt/data nodes
+  * tweaks to init.d script
+
+ -- Steven Ayre <steveayre@gmail.com>  Mon, 08 Jul 2013 22:50:12 +0100
+
 mysql-cluster-7.3 (7.3.2+dfsg-1) unstable; urgency=low
 
   * New upstream version
