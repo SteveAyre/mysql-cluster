@@ -47,10 +47,10 @@ esac
 
 #
 # - Do NOT purge logs or data if another mysql-server* package is installed (#307473)
-# - Do NOT remove the mysql user as it's shared by the sql/mgmt/data nodes
-#   (besides policy may be moving towards leaving them on the system? #621833)
+# - Remove the mysql user only after all his owned files are purged.
 #   
 if [ "$1" = "purge" -a ! \( -x /usr/sbin/mysqld -o -L /usr/sbin/mysqld \) ]; then
+  # we remove the mysql user only after all his owned files are purged
   rm -f /var/log/mysql.{log,err}{,.0,.[1234567].gz}
   rm -rf /var/log/mysql
 
@@ -63,6 +63,7 @@ if [ "$1" = "purge" -a ! \( -x /usr/sbin/mysqld -o -L /usr/sbin/mysqld \) ]; the
     rm -f /etc/mysql/debian.cnf
     rm -rf /var/lib/mysql
     rm -rf /var/run/mysqld
+    userdel mysql || true
   fi
 
   # (normally) Automatically added by dh_installinit

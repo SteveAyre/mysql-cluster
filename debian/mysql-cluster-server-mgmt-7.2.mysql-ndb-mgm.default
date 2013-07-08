@@ -1,6 +1,0 @@
-# This file controls the activity of ndbmtd
-
-# Whether to start the NDB mgmt node
-# By default this is not set, since the cluster needs to be configured
-START_DAEMON=false
-

@@ -1,9 +1,5 @@
 # This file controls the activity of ndbd or ndbmtd
 
-# Whether to start the NDB data node
-# By default this is not set, since the cluster needs to be configured
-START_DAEMON=false
-
 # Whether to use ndbmtd or ndbd (used by the mysql-ndb init.d script)
 # If changing this, you should stop the service first, change the value
 # then start the service again. This is because this changes which program
