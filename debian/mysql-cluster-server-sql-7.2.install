@@ -19,7 +19,7 @@ usr/bin/perror
 usr/bin/replace
 usr/bin/resolve_stack_dump
 usr/bin/resolveip
-usr/share/doc/mysql-cluster-server-sqlnode-7.2/
+usr/share/doc/mysql-cluster-server-sql-7.2/
 usr/share/mysql/debian-start.inc.sh
 usr/share/mysql/echo_stderr
 usr/share/mysql/errmsg-utf8.txt

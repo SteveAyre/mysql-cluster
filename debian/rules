@@ -221,19 +221,19 @@ auto_install-stamp:
 
 	# mysql-cluster-testsuite
 
-	# mysql-cluster-server-mgmtnode
-	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2
-	nm -n $(BUILDDIR)/storage/ndb/src/mgmsrv/ndb_mgmd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-mgmtnode-7.2/ndb_mgmd.sym.gz
+	# mysql-cluster-server-mgmt
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-mgmt-7.2
+	nm -n $(BUILDDIR)/storage/ndb/src/mgmsrv/ndb_mgmd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-mgmt-7.2/ndb_mgmd.sym.gz
 
-	# mysql-cluster-server-datanode
-	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2
-	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbmtd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/ndbmtd.sym.gz
-	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-datanode-7.2/ndbd.sym.gz
+	# mysql-cluster-server-data
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-data-7.2
+	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbmtd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-data-7.2/ndbmtd.sym.gz
+	nm -n $(BUILDDIR)/storage/ndb/src/kernel/ndbd | gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-data-7.2/ndbd.sym.gz
 
-	# mysql-cluster-server-sqlnode
+	# mysql-cluster-server-sql
 	mkdir -p $(TMP)/etc/mysql
-	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-sqlnode-7.2/examples
-	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sqlnode-7.2/mysqld.sym.gz
+	mkdir -p $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.2/examples
+	nm -n $(BUILDDIR)/sql/mysqld |gzip -9 > $(TMP)/usr/share/doc/mysql-cluster-server-sql-7.2/mysqld.sym.gz
 	install -m 0755 debian/additions/echo_stderr $(TMP)/usr/share/mysql/
 	install -m 0755 debian/additions/debian-start $(TMP)/etc/mysql/
 	install -m 0755 debian/additions/debian-start.inc.sh $(TMP)/usr/share/mysql/
@@ -270,7 +270,7 @@ override_dh_installchangelogs:
 override_dh_installlogrotate-arch:
 	dh_installlogrotate --name mysql-server
 	if [ "$(DISTRIBUTION)" = "Ubuntu" ]; then \
-	  dh_apparmor -pmysql-cluster-server-sqlnode-7.2 --profile-name=usr.sbin.mysqld; \
+	  dh_apparmor -pmysql-cluster-server-sql-7.2 --profile-name=usr.sbin.mysqld; \
 	fi
 
 # Start mysql in runlevel 19 before 20 where apache, proftpd etc gets
