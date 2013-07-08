@@ -1,11 +1,11 @@
-Template: mysql-cluster-server-datanode-7.3/start_on_boot
+Template: mysql-cluster-server-data-7.3/start_on_boot
 Type: boolean
 Default: true
 Description: Start the MySQL NDB data node server on boot?
  The MySQL NDB data node can be launched automatically at boot time or manually
  with the '/etc/init.d/mysql-ndb start' command.
 
-Template: mysql-cluster-server-datanode-7.3/multi_threaded
+Template: mysql-cluster-server-data-7.3/multi_threaded
 Type: boolean
 Default: true
 Description: Use multi-threaded ndbmtd daemon?
